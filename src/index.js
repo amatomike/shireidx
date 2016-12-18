@@ -28,7 +28,7 @@ let fbinit = fb.initializeApp({
 });
 
 let oauthData = {
-    client_id: '',
+    client_id: ' ',
     client_secret: '',
     access_token: '',
     refresh_token: '',
