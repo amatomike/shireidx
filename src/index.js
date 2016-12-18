@@ -2,6 +2,7 @@ import express from "express";
 import fb from 'firebase'
 import rp from 'request-promise';
 let app = express();
+import path from 'path';
 
 let server = require('https').Server(app);
 const Promise = require('bluebird'),
@@ -293,7 +294,7 @@ function getListings(req,res, filter) {
         })
     res.send('going!')
 
-} 
+}
 
 function makeUrl(args,zipcode=null,proptype=null,base='https://sparkapi.com/v1/listings?',status=null){
     let argfilter = args['_filter']?args['_filter']:''
