@@ -2,7 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9eea8871-1bc9-42ed-8d64-f6d0b78aeac7" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Generated_files.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/watcherTasks.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/dist/private/placesconfig.js" afterPath="$PROJECT_DIR$/dist/src/private/placesconfig.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/dist/private/placesconfig.js.map" afterPath="$PROJECT_DIR$/dist/src/private/placesconfig.js.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/searchidx.iml" afterPath="$PROJECT_DIR$/.idea/searchidx.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/src/index.js" afterPath="$PROJECT_DIR$/dist/src/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/src/index.js.map" afterPath="$PROJECT_DIR$/dist/src/index.js.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/index.js" afterPath="$PROJECT_DIR$/src/index.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -50,84 +58,9 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="11" lean-forward="false" selection-start-line="6" selection-start-column="11" selection-end-line="6" selection-end-column="11" />
-              <folding>
-                <marker date="1482058582096" expanded="true" signature="7:90" ph="..." />
-                <marker date="1482058582096" expanded="true" signature="196:367" ph="..." />
-                <marker date="1482058582096" expanded="true" signature="398:2853" ph="{&quot;databaseURL&quot;: &quot;https://sparkidxapi.firebaseio.com&quot;...}" />
-                <marker date="1482058582096" expanded="true" signature="420:2796" ph="{&quot;type&quot;: &quot;service_account&quot;...}" />
-                <marker date="1482058582096" expanded="true" signature="2873:3004" ph="{&quot;client_id&quot;: ''...}" />
-                <marker date="1482058582096" expanded="true" signature="3124:3547" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="3572:3632" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="3665:4148" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="3703:3888" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="3774:3852" ph="//..." />
-                <marker date="1482058582096" expanded="true" signature="3954:3985" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="3991:4146" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="4176:4355" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="4266:4352" ph="{&quot;access_token&quot;: od.access_token...}" />
-                <marker date="1482058582096" expanded="true" signature="4390:6273" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="4479:4559" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="4600:4680" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="4707:4774" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="4817:4874" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="4902:4946" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="5050:5146" ph="{&quot;X-SparkApi-User-Agent&quot;: 'Idx Agent'...}" />
-                <marker date="1482058582096" expanded="true" signature="5192:5586" ph="{&quot;url&quot;: 'https://sparkapi.com/v1/oauth2/grant'...}" />
-                <marker date="1482058582096" expanded="true" signature="5326:5579" ph="{&quot;client_id&quot;: oauthData.client_id...}" />
-                <marker date="1482058582096" expanded="true" signature="5678:5725" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="6146:6270" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="6297:6464" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="6310:6461" ph="{&quot;X-SparkApi-User-Agent&quot;: 'DevApp'...}" />
-                <marker date="1482058582096" expanded="true" signature="6503:11892" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="6548:7026" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="6966:7019" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="7057:7173" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="7112:7166" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="7262:7316" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="7356:7378" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="7397:7509" ph="{&quot;uplist&quot;: uplist...}" />
-                <marker date="1482058582096" expanded="true" signature="10282:10639" ph="//..." />
-                <marker date="1482058582096" expanded="true" signature="10714:11409" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="10791:11280" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="10889:11280" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="11481:11551" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="11763:11787" ph="{&quot;return&quot;: end...}" />
-                <marker date="1482058582096" expanded="true" signature="11913:12018" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="11977:12016" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="12040:12290" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="12148:12199" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="12329:14848" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="12436:12467" ph="{&quot;_filter&quot;: filter...}" />
-                <marker date="1482058582096" expanded="true" signature="12581:12690" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="12791:12863" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="13109:13378" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="13169:13377" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="13395:13548" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="13596:13794" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="13646:13675" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="13884:13909" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="14245:14473" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="14259:14339" ph="//..." />
-                <marker date="1482058582096" expanded="true" signature="14382:14463" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="14565:14698" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="14718:14823" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="14952:16422" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="15646:16080" ph="{&quot;_orderby&quot;: 'City'...}" />
-                <marker date="1482058582096" expanded="true" signature="16085:16177" ph="//..." />
-                <marker date="1482058582096" expanded="true" signature="16259:16389" ph="{&quot;return&quot;: entry...}" />
-                <marker date="1482058582096" expanded="true" signature="16450:16607" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="16549:16604" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="16631:17540" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="16698:16794" ph="{&quot;X-SparkApi-User-Agent&quot;: 'IDX Agent'...}" />
-                <marker date="1482058582096" expanded="true" signature="16803:17208" ph="{&quot;url&quot;: 'https://sparkapi.com/v1/oauth2/grant'...}" />
-                <marker date="1482058582096" expanded="true" signature="16920:17182" ph="{&quot;grant_type&quot;: &quot;refresh_token&quot;...}" />
-                <marker date="1482058582096" expanded="true" signature="17236:17243" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="17346:17459" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="17580:17625" ph="{...}" />
-                <marker date="1482058582096" expanded="true" signature="17670:17893" ph="{...}" />
-              </folding>
+            <state relative-caret-position="-4226">
+              <caret line="42" column="0" lean-forward="true" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -146,11 +79,15 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="PUSH_TAGS">
+      <GitPushTagMode />
+    </option>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/src/index.js" />
       </list>
     </option>
   </component>
@@ -173,10 +110,10 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="45" />
-    <option name="y" value="24" />
-    <option name="width" value="1875" />
-    <option name="height" value="1056" />
+    <option name="x" value="46" />
+    <option name="y" value="52" />
+    <option name="width" value="1863" />
+    <option name="height" value="997" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -230,7 +167,51 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="private" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="searchidx" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="searchidx" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="dist" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="searchidx" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="searchidx" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dist" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="private" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -248,9 +229,74 @@
     <property name="JavaScriptPreferStrict" value="false" />
     <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
     <property name="javascript.nodejs.core.library.configured.version" value="7.2.1" />
+    <property name="js.eslint.eslintPackage" value="" />
+    <property name="js-jscs-nodeInterpreter" value="/usr/local/bin/node" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/dist/src" />
+    </key>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="BashConfigurationType" factoryName="Bash">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="INTERPRETER_PATH" value="/bin/bash" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerProtractor" factoryName="Protractor">
+      <config-file value="" />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
     <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="project" working-dir="">
+      <method />
+    </configuration>
+    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpBehatConfigurationType" factoryName="Behat">
+      <BehatRunner />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpSpecConfigurationType" factoryName="PHPSpec">
+      <PhpTestRunnerSettings />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
+      <command value="run" />
+      <scripts />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="mocha-javascript-test-runner" factoryName="Mocha">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <working-directory />
+      <pass-parent-env>true</pass-parent-env>
+      <envs />
+      <ui />
+      <extra-mocha-options />
+      <test-kind>DIRECTORY</test-kind>
+      <test-directory />
+      <recursive>false</recursive>
       <method />
     </configuration>
   </component>
@@ -264,15 +310,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1482051088711</updated>
-      <workItem from="1482058896277" duration="59000" />
+      <workItem from="1482058896277" duration="538000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="59000" />
+    <option name="totallyTimeSpent" value="538000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="45" y="24" width="1875" height="1056" extended-state="6" />
+    <frame x="46" y="52" width="1863" height="997" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="eSnippet Pro" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -281,25 +327,25 @@
       <window_info id="GitLabIntegration" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329849" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24986301" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25151682" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="ReST Console" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Get Gist" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Compare Directories" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="CSS-X-Fire" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -323,84 +369,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="11" lean-forward="false" selection-start-line="6" selection-start-column="11" selection-end-line="6" selection-end-column="11" />
-          <folding>
-            <marker date="1482058582096" expanded="true" signature="7:90" ph="..." />
-            <marker date="1482058582096" expanded="true" signature="196:367" ph="..." />
-            <marker date="1482058582096" expanded="true" signature="398:2853" ph="{&quot;databaseURL&quot;: &quot;https://sparkidxapi.firebaseio.com&quot;...}" />
-            <marker date="1482058582096" expanded="true" signature="420:2796" ph="{&quot;type&quot;: &quot;service_account&quot;...}" />
-            <marker date="1482058582096" expanded="true" signature="2873:3004" ph="{&quot;client_id&quot;: ''...}" />
-            <marker date="1482058582096" expanded="true" signature="3124:3547" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="3572:3632" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="3665:4148" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="3703:3888" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="3774:3852" ph="//..." />
-            <marker date="1482058582096" expanded="true" signature="3954:3985" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="3991:4146" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="4176:4355" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="4266:4352" ph="{&quot;access_token&quot;: od.access_token...}" />
-            <marker date="1482058582096" expanded="true" signature="4390:6273" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="4479:4559" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="4600:4680" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="4707:4774" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="4817:4874" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="4902:4946" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="5050:5146" ph="{&quot;X-SparkApi-User-Agent&quot;: 'Idx Agent'...}" />
-            <marker date="1482058582096" expanded="true" signature="5192:5586" ph="{&quot;url&quot;: 'https://sparkapi.com/v1/oauth2/grant'...}" />
-            <marker date="1482058582096" expanded="true" signature="5326:5579" ph="{&quot;client_id&quot;: oauthData.client_id...}" />
-            <marker date="1482058582096" expanded="true" signature="5678:5725" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="6146:6270" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="6297:6464" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="6310:6461" ph="{&quot;X-SparkApi-User-Agent&quot;: 'DevApp'...}" />
-            <marker date="1482058582096" expanded="true" signature="6503:11892" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="6548:7026" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="6966:7019" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="7057:7173" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="7112:7166" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="7262:7316" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="7356:7378" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="7397:7509" ph="{&quot;uplist&quot;: uplist...}" />
-            <marker date="1482058582096" expanded="true" signature="10282:10639" ph="//..." />
-            <marker date="1482058582096" expanded="true" signature="10714:11409" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="10791:11280" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="10889:11280" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="11481:11551" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="11763:11787" ph="{&quot;return&quot;: end...}" />
-            <marker date="1482058582096" expanded="true" signature="11913:12018" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="11977:12016" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="12040:12290" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="12148:12199" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="12329:14848" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="12436:12467" ph="{&quot;_filter&quot;: filter...}" />
-            <marker date="1482058582096" expanded="true" signature="12581:12690" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="12791:12863" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="13109:13378" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="13169:13377" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="13395:13548" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="13596:13794" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="13646:13675" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="13884:13909" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="14245:14473" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="14259:14339" ph="//..." />
-            <marker date="1482058582096" expanded="true" signature="14382:14463" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="14565:14698" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="14718:14823" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="14952:16422" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="15646:16080" ph="{&quot;_orderby&quot;: 'City'...}" />
-            <marker date="1482058582096" expanded="true" signature="16085:16177" ph="//..." />
-            <marker date="1482058582096" expanded="true" signature="16259:16389" ph="{&quot;return&quot;: entry...}" />
-            <marker date="1482058582096" expanded="true" signature="16450:16607" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="16549:16604" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="16631:17540" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="16698:16794" ph="{&quot;X-SparkApi-User-Agent&quot;: 'IDX Agent'...}" />
-            <marker date="1482058582096" expanded="true" signature="16803:17208" ph="{&quot;url&quot;: 'https://sparkapi.com/v1/oauth2/grant'...}" />
-            <marker date="1482058582096" expanded="true" signature="16920:17182" ph="{&quot;grant_type&quot;: &quot;refresh_token&quot;...}" />
-            <marker date="1482058582096" expanded="true" signature="17236:17243" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="17346:17459" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="17580:17625" ph="{...}" />
-            <marker date="1482058582096" expanded="true" signature="17670:17893" ph="{...}" />
-          </folding>
+        <state relative-caret-position="-4226">
+          <caret line="42" column="0" lean-forward="true" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

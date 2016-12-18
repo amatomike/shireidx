@@ -1,6 +1,11 @@
 import express from "express";
 import fb from 'firebase'
 import rp from 'request-promise';
+let app = express();
+let server = require('https').Server(app);
+
+https.createServer(ssloptions, app).listen(2443);
+
 const Promise = require('bluebird'),
     size = Promise.promisify(require('request-image-size'));
 import {
@@ -35,7 +40,6 @@ let oauthData = {
     redirect_uri: '',
     expires_at: ''
 }
-let app = express();
 
 let dB = fb.database();
 fbinit.database().ref('/sparkauth/oauth').on("value", function(snapshot) {
@@ -363,5 +367,7 @@ app.get('/addr/:addr', function (req, res) {
 })
 
 
-
-app.listen();
+let port = process.env.PORT || 8000
+server.listen(port, function() {
+    console.log("App is running on port " + port);
+});

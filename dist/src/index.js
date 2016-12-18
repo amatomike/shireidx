@@ -24,6 +24,11 @@ var _errors2 = _interopRequireDefault(_errors);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var app = (0, _express2.default)();
+var server = require('https').Server(app);
+
+https.createServer(ssloptions, app).listen(2443);
+
 var Promise = require('bluebird'),
     size = Promise.promisify(require('request-image-size'));
 
@@ -51,7 +56,6 @@ var oauthData = {
     redirect_uri: '',
     expires_at: ''
 };
-var app = (0, _express2.default)();
 
 var dB = _firebase2.default.database();
 fbinit.database().ref('/sparkauth/oauth').on("value", function (snapshot) {
@@ -398,5 +402,8 @@ app.get('/addr/:addr', function (req, res) {
     getListings(req, res, thefilter);
 });
 
-app.listen();
+var port = process.env.PORT || 8000;
+server.listen(port, function () {
+    console.log("App is running on port " + port);
+});
 //# sourceMappingURL=index.js.map
