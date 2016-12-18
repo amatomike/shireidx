@@ -398,8 +398,5 @@ app.get('/addr/:addr', function (req, res) {
     getListings(req, res, thefilter);
 });
 
-app.listen(4444, function () {
-
-    console.log('Express server listening on port ' + 4444);
-});
+app.listen();
 //# sourceMappingURL=index.js.map
