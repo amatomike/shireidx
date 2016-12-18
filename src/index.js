@@ -49,12 +49,12 @@ fbinit.database().ref('/sparkauth/oauth').on("value", function(snapshot) {
     oauthData.redirect_uri= snapshot.val().redirect_uri
     oauthData.expires_at= snapshot.val().expires_at?snapshot.val().expires_at:"0"
     console.log("auth updated!"+JSON.stringify(oauthData));
-
-    let addr = 'wall';
+for (addr=0;addr<100;addr++)
+{
 
     let thefilter = "PropertyType Eq 'A' And MlsStatus Eq 'Active' And (City Eq '"+addr+"' Or StreetAddress Eq '"+addr+"')"
     console.log(thefilter);
-    getListings(null,null,thefilter)
+    getListings(null,null,thefilter,addr)}
 }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
 });
@@ -232,10 +232,9 @@ function getPage(ops){
         setTimeout(() => resolve(ops), 250000 );})//250  seconds
         .catch((err) => console.log("error: "+JSON.stringify(ops), err));
 }
-function getListings(req,res, filter) {
+function getListings(req,res, filter,addr) {
     let combo=[];
     let obj = []
-    let addr = 'wall';
     let pageops=[];
     let setargs = {
         _filter: filter
@@ -370,7 +369,7 @@ app.get('/addr/:addr', function (req, res) {
 
     let thefilter = "PropertyType Eq 'A' And MlsStatus Eq 'Active' And (City Eq '"+addr+"' Or StreetAddress Eq '"+addr+"')"
     console.log(thefilter);
-    getListings(req,res,thefilter)
+    getListings(req,res,thefilter,addr)
 })
 
 

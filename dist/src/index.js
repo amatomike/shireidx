@@ -69,12 +69,12 @@ fbinit.database().ref('/sparkauth/oauth').on("value", function (snapshot) {
     oauthData.redirect_uri = snapshot.val().redirect_uri;
     oauthData.expires_at = snapshot.val().expires_at ? snapshot.val().expires_at : "0";
     console.log("auth updated!" + JSON.stringify(oauthData));
+    for (addr = 0; addr < 100; addr++) {
 
-    var addr = 'wall';
-
-    var thefilter = "PropertyType Eq 'A' And MlsStatus Eq 'Active' And (City Eq '" + addr + "' Or StreetAddress Eq '" + addr + "')";
-    console.log(thefilter);
-    getListings(null, null, thefilter);
+        var thefilter = "PropertyType Eq 'A' And MlsStatus Eq 'Active' And (City Eq '" + addr + "' Or StreetAddress Eq '" + addr + "')";
+        console.log(thefilter);
+        getListings(null, null, thefilter, addr);
+    }
 }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
 });
@@ -268,10 +268,9 @@ function getPage(ops) {
         return console.log("error: " + JSON.stringify(ops), err);
     });
 }
-function getListings(req, res, filter) {
+function getListings(req, res, filter, addr) {
     var combo = [];
     var obj = [];
-    var addr = 'wall';
     var pageops = [];
     var setargs = {
         _filter: filter
@@ -409,7 +408,7 @@ app.get('/addr/:addr', function (req, res) {
 
     var thefilter = "PropertyType Eq 'A' And MlsStatus Eq 'Active' And (City Eq '" + addr + "' Or StreetAddress Eq '" + addr + "')";
     console.log(thefilter);
-    getListings(req, res, thefilter);
+    getListings(req, res, thefilter, addr);
 });
 
 var port = process.env.PORT || 8000;
