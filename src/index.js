@@ -49,71 +49,12 @@ fbinit.database().ref('/sparkauth/oauth').on("value", function(snapshot) {
     oauthData.redirect_uri= snapshot.val().redirect_uri
     oauthData.expires_at= snapshot.val().expires_at?snapshot.val().expires_at:"0"
     console.log("auth updated!"+JSON.stringify(oauthData));
-    let combo=[];
-    let obj = []
+
     let addr = 'wall';
-    let pageops=[];
-    let setargs = {
-        _filter: filter
-    };
-    let opsurl =  makeUrl(setargs, null, 'A', 'https://sparkapi.com/v1/listings?', 'Active');
-    let authops = {
-        headers: oauthHeaders(),
-        uri: opsurl+'&_pagination=count&_page=1',
-        json: true
-    };
-    console.log('about to request...'+JSON.stringify(authops))
-    rp(authops)
-        .then(pb => {
-            // results.concat(pb['D']['Results']);
-            console.log('pagei:'+JSON.stringify(pb['D']['Pagination']))
 
-            let pages = pb['D']['Pagination']['TotalPages'];
-            let currentpage = pb['D']['Pagination']['CurrentPage'];
-            let pagearr=[]
-            if (currentpage < pages){
-
-                for (let page = 1; page < pages; page++) {
-                    let pageReq = {};
-                    let newops = {headers:oauthHeaders(),uri:opsurl+'&_pagination=1&_page='+page,json:true};
-                    pagearr.push(newops)
-
-                }}else
-            {
-                let newops = {headers:oauthHeaders(),uri:opsurl+'&_pagination=1&_page=1',json:true};
-                pagearr.push(newops)
-            }
-            let promisedPages=pagearr.map(ops=>{
-                return getPage(rp(ops).then(pb=>{
-                    console.log('adding to combo'+pb['D']['Pagination']['CurrentPage'])
-                    promiseSaveListings(pb['D']['Results'])}));
-            })
-            Promise.all(promisedPages)
-                .then(endres=>{
-                    // res.set({'Access-Control-Allow-Origin':'*'});
-                    console.log('saving combo with '+combo.length)
-
-                    console.log('length:'+combo.length);
-                    res.send(combo)
-                });
-        })
-        .catch(errors.StatusCodeError, function (reason) {
-            // The server responded with a status codes other than 2xx.
-            // Check
-            if (reason.statusCode == 401) {
-                console.log(reason)
-                refreshAuth()
-            }
-        })
-        // .catch(this.checkStatus)
-        .catch(errors.RequestError, function (reason) {
-            // reason.cause is the Error object Request would pass into a callback.
-            console.log(reason.cause)
-        })
-        .catch(e=>{
-            // reason.cause is the Error object Request would pass into a callback.
-            console.log('e:'+e)
-        })
+    let thefilter = "PropertyType Eq 'A' And MlsStatus Eq 'Active' And (City Eq '"+addr+"' Or StreetAddress Eq '"+addr+"')"
+    console.log(thefilter);
+    getListings(null,null,thefilter)
 }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
 });
@@ -294,7 +235,7 @@ function getPage(ops){
 function getListings(req,res, filter) {
     let combo=[];
     let obj = []
-    let addr = req.params.addr;
+    let addr = 'wall';
     let pageops=[];
     let setargs = {
         _filter: filter
@@ -337,7 +278,7 @@ function getListings(req,res, filter) {
                     console.log('saving combo with '+combo.length)
 
                     console.log('length:'+combo.length);
-                    res.send(combo)
+                    // res.send(combo)
                 });
         })
         .catch(errors.StatusCodeError, function (reason) {
@@ -357,7 +298,7 @@ function getListings(req,res, filter) {
             // reason.cause is the Error object Request would pass into a callback.
             console.log('e:'+e)
         })
-    res.send('going!')
+    console.log('going!')
 
 }
 
