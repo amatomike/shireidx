@@ -53,8 +53,8 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="281" column="6" lean-forward="true" selection-start-line="281" selection-start-column="6" selection-end-line="281" selection-end-column="6" />
+            <state relative-caret-position="270">
+              <caret line="36" column="20" lean-forward="false" selection-start-line="36" selection-start-column="20" selection-end-line="36" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -66,37 +66,37 @@
             <state relative-caret-position="-135">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding>
-                <marker date="1482060493225" expanded="true" signature="951:3406" ph="{&quot;databaseURL&quot;: &quot;https://sparkidxapi.firebaseio.com&quot;...}" />
-                <marker date="1482060493225" expanded="true" signature="973:3349" ph="{&quot;type&quot;: &quot;service_account&quot;...}" />
-                <marker date="1482060493225" expanded="true" signature="3426:3558" ph="{&quot;client_id&quot;: ' '...}" />
-                <marker date="1482060493225" expanded="true" signature="3675:4341" ph="{...}" />
-                <marker date="1482060493225" expanded="true" signature="14631:14643" ph="{...}" />
-                <marker date="1482060493225" expanded="true" signature="14631:15240" ph="{...}" />
-                <marker date="1482060493225" expanded="true" signature="14631:15888" ph="{...}" />
-                <marker date="1482060493225" expanded="true" signature="14699:14954" ph="{...}" />
-                <marker date="1482060493225" expanded="true" signature="14782:14941" ph="{...}" />
-                <marker date="1482060493225" expanded="true" signature="15015:15232" ph="{...}" />
-                <marker date="1482060493225" expanded="true" signature="15300:15502" ph="{...}" />
-                <marker date="1482060493225" expanded="true" signature="15310:15386" ph="//..." />
-                <marker date="1482060493225" expanded="true" signature="15425:15496" ph="{...}" />
-                <marker date="1482060493225" expanded="true" signature="15596:15718" ph="{...}" />
-                <marker date="1482060493225" expanded="true" signature="15739:15857" ph="{...}" />
-                <marker date="1482060493225" expanded="true" signature="15913:17860" ph="{...}" />
-                <marker date="1482060493225" expanded="true" signature="17069:17490" ph="{&quot;_orderby&quot;: 'City'...}" />
-                <marker date="1482060493225" expanded="true" signature="17496:17588" ph="//..." />
-                <marker date="1482060493225" expanded="true" signature="17682:17823" ph="{...}" />
-                <marker date="1482060493225" expanded="true" signature="17888:18093" ph="{...}" />
-                <marker date="1482060493225" expanded="true" signature="17989:18089" ph="{...}" />
-                <marker date="1482060493225" expanded="true" signature="18022:18069" ph="{...}" />
-                <marker date="1482060493225" expanded="true" signature="18117:19076" ph="{...}" />
-                <marker date="1482060493225" expanded="true" signature="18187:18283" ph="{&quot;X-SparkApi-User-Agent&quot;: 'IDX Agent'...}" />
-                <marker date="1482060493225" expanded="true" signature="18319:18713" ph="{&quot;url&quot;: 'https://sparkapi.com/v1/oauth2/grant'...}" />
-                <marker date="1482060493225" expanded="true" signature="18438:18687" ph="{&quot;grant_type&quot;: &quot;refresh_token&quot;...}" />
-                <marker date="1482060493225" expanded="true" signature="18764:18798" ph="{...}" />
-                <marker date="1482060493225" expanded="true" signature="18858:18979" ph="{...}" />
-                <marker date="1482060493225" expanded="true" signature="19116:19162" ph="{...}" />
-                <marker date="1482060493225" expanded="true" signature="19208:19443" ph="{...}" />
-                <marker date="1482060493225" expanded="true" signature="19516:19570" ph="{...}" />
+                <marker date="1482060771237" expanded="true" signature="951:3406" ph="{&quot;databaseURL&quot;: &quot;https://sparkidxapi.firebaseio.com&quot;...}" />
+                <marker date="1482060771237" expanded="true" signature="973:3349" ph="{&quot;type&quot;: &quot;service_account&quot;...}" />
+                <marker date="1482060771237" expanded="true" signature="3426:3558" ph="{&quot;client_id&quot;: ' '...}" />
+                <marker date="1482060771237" expanded="true" signature="3675:4386" ph="{...}" />
+                <marker date="1482060771237" expanded="true" signature="14659:14671" ph="{...}" />
+                <marker date="1482060771237" expanded="true" signature="14659:15268" ph="{...}" />
+                <marker date="1482060771237" expanded="true" signature="14659:15916" ph="{...}" />
+                <marker date="1482060771237" expanded="true" signature="14727:14982" ph="{...}" />
+                <marker date="1482060771237" expanded="true" signature="14810:14969" ph="{...}" />
+                <marker date="1482060771237" expanded="true" signature="15043:15260" ph="{...}" />
+                <marker date="1482060771237" expanded="true" signature="15328:15530" ph="{...}" />
+                <marker date="1482060771237" expanded="true" signature="15338:15414" ph="//..." />
+                <marker date="1482060771237" expanded="true" signature="15453:15524" ph="{...}" />
+                <marker date="1482060771237" expanded="true" signature="15624:15746" ph="{...}" />
+                <marker date="1482060771237" expanded="true" signature="15767:15885" ph="{...}" />
+                <marker date="1482060771237" expanded="true" signature="15941:17888" ph="{...}" />
+                <marker date="1482060771237" expanded="true" signature="17097:17518" ph="{&quot;_orderby&quot;: 'City'...}" />
+                <marker date="1482060771237" expanded="true" signature="17524:17616" ph="//..." />
+                <marker date="1482060771237" expanded="true" signature="17710:17851" ph="{...}" />
+                <marker date="1482060771237" expanded="true" signature="17916:18121" ph="{...}" />
+                <marker date="1482060771237" expanded="true" signature="18017:18117" ph="{...}" />
+                <marker date="1482060771237" expanded="true" signature="18050:18097" ph="{...}" />
+                <marker date="1482060771237" expanded="true" signature="18145:19104" ph="{...}" />
+                <marker date="1482060771237" expanded="true" signature="18215:18311" ph="{&quot;X-SparkApi-User-Agent&quot;: 'IDX Agent'...}" />
+                <marker date="1482060771237" expanded="true" signature="18347:18741" ph="{&quot;url&quot;: 'https://sparkapi.com/v1/oauth2/grant'...}" />
+                <marker date="1482060771237" expanded="true" signature="18466:18715" ph="{&quot;grant_type&quot;: &quot;refresh_token&quot;...}" />
+                <marker date="1482060771237" expanded="true" signature="18792:18826" ph="{...}" />
+                <marker date="1482060771237" expanded="true" signature="18886:19007" ph="{...}" />
+                <marker date="1482060771237" expanded="true" signature="19144:19190" ph="{...}" />
+                <marker date="1482060771237" expanded="true" signature="19236:19477" ph="{...}" />
+                <marker date="1482060771237" expanded="true" signature="19550:19604" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -382,7 +382,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1482051088711</updated>
-      <workItem from="1482058896277" duration="1524000" />
+      <workItem from="1482058896277" duration="1802000" />
     </task>
     <task id="LOCAL-00001" summary="k">
       <created>1482059527902</created>
@@ -447,11 +447,25 @@
       <option name="project" value="LOCAL" />
       <updated>1482060316551</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="k">
+      <created>1482060501778</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1482060501778</updated>
+    </task>
+    <task id="LOCAL-00011" summary="k">
+      <created>1482060718184</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1482060718184</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1524000" />
+    <option name="totallyTimeSpent" value="1802000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="46" y="52" width="1863" height="997" extended-state="0" />
@@ -462,11 +476,11 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="GitLabIntegration" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25151682" sideWeight="0.50606585" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25151682" sideWeight="0.50406504" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329849" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.329849" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329849" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25151682" sideWeight="0.49393415" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25151682" sideWeight="0.49593496" order="0" side_tool="false" content_ui="combo" />
       <window_info id="ReST Console" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Get Gist" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Compare Directories" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -520,45 +534,45 @@
         <state relative-caret-position="-135">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1482060493225" expanded="true" signature="951:3406" ph="{&quot;databaseURL&quot;: &quot;https://sparkidxapi.firebaseio.com&quot;...}" />
-            <marker date="1482060493225" expanded="true" signature="973:3349" ph="{&quot;type&quot;: &quot;service_account&quot;...}" />
-            <marker date="1482060493225" expanded="true" signature="3426:3558" ph="{&quot;client_id&quot;: ' '...}" />
-            <marker date="1482060493225" expanded="true" signature="3675:4341" ph="{...}" />
-            <marker date="1482060493225" expanded="true" signature="14631:14643" ph="{...}" />
-            <marker date="1482060493225" expanded="true" signature="14631:15240" ph="{...}" />
-            <marker date="1482060493225" expanded="true" signature="14631:15888" ph="{...}" />
-            <marker date="1482060493225" expanded="true" signature="14699:14954" ph="{...}" />
-            <marker date="1482060493225" expanded="true" signature="14782:14941" ph="{...}" />
-            <marker date="1482060493225" expanded="true" signature="15015:15232" ph="{...}" />
-            <marker date="1482060493225" expanded="true" signature="15300:15502" ph="{...}" />
-            <marker date="1482060493225" expanded="true" signature="15310:15386" ph="//..." />
-            <marker date="1482060493225" expanded="true" signature="15425:15496" ph="{...}" />
-            <marker date="1482060493225" expanded="true" signature="15596:15718" ph="{...}" />
-            <marker date="1482060493225" expanded="true" signature="15739:15857" ph="{...}" />
-            <marker date="1482060493225" expanded="true" signature="15913:17860" ph="{...}" />
-            <marker date="1482060493225" expanded="true" signature="17069:17490" ph="{&quot;_orderby&quot;: 'City'...}" />
-            <marker date="1482060493225" expanded="true" signature="17496:17588" ph="//..." />
-            <marker date="1482060493225" expanded="true" signature="17682:17823" ph="{...}" />
-            <marker date="1482060493225" expanded="true" signature="17888:18093" ph="{...}" />
-            <marker date="1482060493225" expanded="true" signature="17989:18089" ph="{...}" />
-            <marker date="1482060493225" expanded="true" signature="18022:18069" ph="{...}" />
-            <marker date="1482060493225" expanded="true" signature="18117:19076" ph="{...}" />
-            <marker date="1482060493225" expanded="true" signature="18187:18283" ph="{&quot;X-SparkApi-User-Agent&quot;: 'IDX Agent'...}" />
-            <marker date="1482060493225" expanded="true" signature="18319:18713" ph="{&quot;url&quot;: 'https://sparkapi.com/v1/oauth2/grant'...}" />
-            <marker date="1482060493225" expanded="true" signature="18438:18687" ph="{&quot;grant_type&quot;: &quot;refresh_token&quot;...}" />
-            <marker date="1482060493225" expanded="true" signature="18764:18798" ph="{...}" />
-            <marker date="1482060493225" expanded="true" signature="18858:18979" ph="{...}" />
-            <marker date="1482060493225" expanded="true" signature="19116:19162" ph="{...}" />
-            <marker date="1482060493225" expanded="true" signature="19208:19443" ph="{...}" />
-            <marker date="1482060493225" expanded="true" signature="19516:19570" ph="{...}" />
+            <marker date="1482060771237" expanded="true" signature="951:3406" ph="{&quot;databaseURL&quot;: &quot;https://sparkidxapi.firebaseio.com&quot;...}" />
+            <marker date="1482060771237" expanded="true" signature="973:3349" ph="{&quot;type&quot;: &quot;service_account&quot;...}" />
+            <marker date="1482060771237" expanded="true" signature="3426:3558" ph="{&quot;client_id&quot;: ' '...}" />
+            <marker date="1482060771237" expanded="true" signature="3675:4386" ph="{...}" />
+            <marker date="1482060771237" expanded="true" signature="14659:14671" ph="{...}" />
+            <marker date="1482060771237" expanded="true" signature="14659:15268" ph="{...}" />
+            <marker date="1482060771237" expanded="true" signature="14659:15916" ph="{...}" />
+            <marker date="1482060771237" expanded="true" signature="14727:14982" ph="{...}" />
+            <marker date="1482060771237" expanded="true" signature="14810:14969" ph="{...}" />
+            <marker date="1482060771237" expanded="true" signature="15043:15260" ph="{...}" />
+            <marker date="1482060771237" expanded="true" signature="15328:15530" ph="{...}" />
+            <marker date="1482060771237" expanded="true" signature="15338:15414" ph="//..." />
+            <marker date="1482060771237" expanded="true" signature="15453:15524" ph="{...}" />
+            <marker date="1482060771237" expanded="true" signature="15624:15746" ph="{...}" />
+            <marker date="1482060771237" expanded="true" signature="15767:15885" ph="{...}" />
+            <marker date="1482060771237" expanded="true" signature="15941:17888" ph="{...}" />
+            <marker date="1482060771237" expanded="true" signature="17097:17518" ph="{&quot;_orderby&quot;: 'City'...}" />
+            <marker date="1482060771237" expanded="true" signature="17524:17616" ph="//..." />
+            <marker date="1482060771237" expanded="true" signature="17710:17851" ph="{...}" />
+            <marker date="1482060771237" expanded="true" signature="17916:18121" ph="{...}" />
+            <marker date="1482060771237" expanded="true" signature="18017:18117" ph="{...}" />
+            <marker date="1482060771237" expanded="true" signature="18050:18097" ph="{...}" />
+            <marker date="1482060771237" expanded="true" signature="18145:19104" ph="{...}" />
+            <marker date="1482060771237" expanded="true" signature="18215:18311" ph="{&quot;X-SparkApi-User-Agent&quot;: 'IDX Agent'...}" />
+            <marker date="1482060771237" expanded="true" signature="18347:18741" ph="{&quot;url&quot;: 'https://sparkapi.com/v1/oauth2/grant'...}" />
+            <marker date="1482060771237" expanded="true" signature="18466:18715" ph="{&quot;grant_type&quot;: &quot;refresh_token&quot;...}" />
+            <marker date="1482060771237" expanded="true" signature="18792:18826" ph="{...}" />
+            <marker date="1482060771237" expanded="true" signature="18886:19007" ph="{...}" />
+            <marker date="1482060771237" expanded="true" signature="19144:19190" ph="{...}" />
+            <marker date="1482060771237" expanded="true" signature="19236:19477" ph="{...}" />
+            <marker date="1482060771237" expanded="true" signature="19550:19604" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="281" column="6" lean-forward="true" selection-start-line="281" selection-start-column="6" selection-end-line="281" selection-end-column="6" />
+        <state relative-caret-position="270">
+          <caret line="36" column="20" lean-forward="false" selection-start-line="36" selection-start-column="20" selection-end-line="36" selection-end-column="20" />
           <folding />
         </state>
       </provider>

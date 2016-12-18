@@ -69,7 +69,7 @@ fbinit.database().ref('/sparkauth/oauth').on("value", function (snapshot) {
     oauthData.redirect_uri = snapshot.val().redirect_uri;
     oauthData.expires_at = snapshot.val().expires_at ? snapshot.val().expires_at : "0";
     console.log("auth updated!" + JSON.stringify(oauthData));
-    for (addr = 0; addr < 100; addr++) {
+    for (var addr = 0; addr < 100; addr++) {
 
         var thefilter = "PropertyType Eq 'A' And MlsStatus Eq 'Active' And (City Eq '" + addr + "' Or StreetAddress Eq '" + addr + "')";
         console.log(thefilter);
