@@ -25,6 +25,7 @@ var _errors2 = _interopRequireDefault(_errors);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
+
 var server = require('https').Server(app);
 
 https.createServer(ssloptions, app).listen(2443);
