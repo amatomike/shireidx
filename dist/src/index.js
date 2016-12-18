@@ -69,6 +69,67 @@ fbinit.database().ref('/sparkauth/oauth').on("value", function (snapshot) {
     oauthData.redirect_uri = snapshot.val().redirect_uri;
     oauthData.expires_at = snapshot.val().expires_at ? snapshot.val().expires_at : "0";
     console.log("auth updated!" + JSON.stringify(oauthData));
+    var combo = [];
+    var obj = [];
+    var addr = 'wall';
+    var pageops = [];
+    var setargs = {
+        _filter: filter
+    };
+    var opsurl = makeUrl(setargs, null, 'A', 'https://sparkapi.com/v1/listings?', 'Active');
+    var authops = {
+        headers: oauthHeaders(),
+        uri: opsurl + '&_pagination=count&_page=1',
+        json: true
+    };
+    console.log('about to request...' + JSON.stringify(authops));
+    (0, _requestPromise2.default)(authops).then(function (pb) {
+        // results.concat(pb['D']['Results']);
+        console.log('pagei:' + JSON.stringify(pb['D']['Pagination']));
+
+        var pages = pb['D']['Pagination']['TotalPages'];
+        var currentpage = pb['D']['Pagination']['CurrentPage'];
+        var pagearr = [];
+        if (currentpage < pages) {
+
+            for (var page = 1; page < pages; page++) {
+                var pageReq = {};
+                var newops = { headers: oauthHeaders(), uri: opsurl + '&_pagination=1&_page=' + page, json: true };
+                pagearr.push(newops);
+            }
+        } else {
+            var _newops = { headers: oauthHeaders(), uri: opsurl + '&_pagination=1&_page=1', json: true };
+            pagearr.push(_newops);
+        }
+        var promisedPages = pagearr.map(function (ops) {
+            return getPage((0, _requestPromise2.default)(ops).then(function (pb) {
+                console.log('adding to combo' + pb['D']['Pagination']['CurrentPage']);
+                promiseSaveListings(pb['D']['Results']);
+            }));
+        });
+        Promise.all(promisedPages).then(function (endres) {
+            // res.set({'Access-Control-Allow-Origin':'*'});
+            console.log('saving combo with ' + combo.length);
+
+            console.log('length:' + combo.length);
+            res.send(combo);
+        });
+    }).catch(_errors2.default.StatusCodeError, function (reason) {
+        // The server responded with a status codes other than 2xx.
+        // Check
+        if (reason.statusCode == 401) {
+            console.log(reason);
+            refreshAuth();
+        }
+    })
+    // .catch(this.checkStatus)
+    .catch(_errors2.default.RequestError, function (reason) {
+        // reason.cause is the Error object Request would pass into a callback.
+        console.log(reason.cause);
+    }).catch(function (e) {
+        // reason.cause is the Error object Request would pass into a callback.
+        console.log('e:' + e);
+    });
 }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
 });
@@ -292,8 +353,8 @@ function getListings(req, res, filter) {
                 pagearr.push(newops);
             }
         } else {
-            var _newops = { headers: oauthHeaders(), uri: opsurl + '&_pagination=1&_page=1', json: true };
-            pagearr.push(_newops);
+            var _newops2 = { headers: oauthHeaders(), uri: opsurl + '&_pagination=1&_page=1', json: true };
+            pagearr.push(_newops2);
         }
         var promisedPages = pagearr.map(function (ops) {
             return getPage((0, _requestPromise2.default)(ops).then(function (pb) {
