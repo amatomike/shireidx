@@ -1,0 +1,48 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/home/m/.nvm/versions/node/v6.9.1/bin/node',
+1 verbose cli   '/home/m/.nvm/versions/node/v6.9.1/lib/node_modules/npm/bin/npm-cli.js',
+1 verbose cli   'run',
+1 verbose cli   'start' ]
+2 info using npm@3.10.8
+3 info using node@v6.9.1
+4 verbose run-script [ 'prestart', 'start', 'poststart' ]
+5 info lifecycle search@0.0.1~prestart: search@0.0.1
+6 silly lifecycle search@0.0.1~prestart: no script for prestart, continuing
+7 info lifecycle search@0.0.1~start: search@0.0.1
+8 verbose lifecycle search@0.0.1~start: unsafe-perm in lifecycle true
+9 verbose lifecycle search@0.0.1~start: PATH: /home/m/.nvm/versions/node/v6.9.1/lib/node_modules/npm/bin/node-gyp-bin:/home/m/projects/searchidx/node_modules/.bin:/home/m/.nvm/versions/node/v6.9.1/bin:/home/m/bin:/home/m/.local/bin:/home/m/PhpStorm-162.2380.11/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+10 verbose lifecycle search@0.0.1~start: CWD: /home/m/projects/searchidx
+11 silly lifecycle search@0.0.1~start: Args: [ '-c', 'node dist/src/index.js' ]
+12 silly lifecycle search@0.0.1~start: Returned: code: 1  signal: null
+13 info lifecycle search@0.0.1~start: Failed to exec start script
+14 verbose stack Error: search@0.0.1 start: `node dist/src/index.js`
+14 verbose stack Exit status 1
+14 verbose stack     at EventEmitter.<anonymous> (/home/m/.nvm/versions/node/v6.9.1/lib/node_modules/npm/lib/utils/lifecycle.js:255:16)
+14 verbose stack     at emitTwo (events.js:106:13)
+14 verbose stack     at EventEmitter.emit (events.js:191:7)
+14 verbose stack     at ChildProcess.<anonymous> (/home/m/.nvm/versions/node/v6.9.1/lib/node_modules/npm/lib/utils/spawn.js:40:14)
+14 verbose stack     at emitTwo (events.js:106:13)
+14 verbose stack     at ChildProcess.emit (events.js:191:7)
+14 verbose stack     at maybeClose (internal/child_process.js:877:16)
+14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:226:5)
+15 verbose pkgid search@0.0.1
+16 verbose cwd /home/m/projects/searchidx
+17 error Linux 4.8.0-32-generic
+18 error argv "/home/m/.nvm/versions/node/v6.9.1/bin/node" "/home/m/.nvm/versions/node/v6.9.1/lib/node_modules/npm/bin/npm-cli.js" "run" "start"
+19 error node v6.9.1
+20 error npm  v3.10.8
+21 error code ELIFECYCLE
+22 error search@0.0.1 start: `node dist/src/index.js`
+22 error Exit status 1
+23 error Failed at the search@0.0.1 start script 'node dist/src/index.js'.
+23 error Make sure you have the latest version of node.js and npm installed.
+23 error If you do, this is most likely a problem with the search package,
+23 error not with npm itself.
+23 error Tell the author that this fails on your system:
+23 error     node dist/src/index.js
+23 error You can get information on how to open an issue for this project with:
+23 error     npm bugs search
+23 error Or if that isn't available, you can get their info via:
+23 error     npm owner ls search
+23 error There is likely additional logging output above.
+24 verbose exit [ 1, true ]

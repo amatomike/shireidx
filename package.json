@@ -1,0 +1,35 @@
+{
+  "name": "search",
+  "version": "0.0.1",
+  "description": "idx api",
+  "main": "src/index.js",
+  "repository": {
+    "url": "git@gitlab.com:mikeamato/idxapi.git",
+    "type": "git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node dist/src/index.js",
+    "listings": "node dist/src/listings.js",
+    "yarn":"yarn"
+  },
+  "author": "Mike Amato <mike@mikeamato.org>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-cli": "^6.18.0",
+    "bluebird": "^3.4.6",
+    "express": "^4.14.0",
+    "firebase": "^3.6.0",
+    "firebase-encode": "^0.0.5",
+    "firebase-tools": "^3.1.0",
+    "node-fetch": "^1.6.3",
+    "request": "^2.78.0",
+    "request-image-size": "^1.2.2",
+    "request-promise": "^4.1.1",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-es2016": "^6.16.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0"
+  }
+}
