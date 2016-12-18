@@ -297,11 +297,11 @@ function getListings(req, res, filter) {
             }));
         });
         Promise.all(promisedPages).then(function (endres) {
-            res.set({ 'Access-Control-Allow-Origin': '*' });
+            // res.set({'Access-Control-Allow-Origin':'*'});
             console.log('saving combo with ' + combo.length);
 
             console.log('length:' + combo.length);
-            res ? res.send(combo) : console.log('no res to send ....Saved');
+            res.send(combo);
         });
     }).catch(_errors2.default.StatusCodeError, function (reason) {
         // The server responded with a status codes other than 2xx.
@@ -319,6 +319,7 @@ function getListings(req, res, filter) {
         // reason.cause is the Error object Request would pass into a callback.
         console.log('e:' + e);
     });
+    res.send('going!');
 }
 
 function makeUrl(args) {

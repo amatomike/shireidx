@@ -267,11 +267,11 @@ function getListings(req,res, filter) {
             })
             Promise.all(promisedPages)
                 .then(endres=>{
-                    res.set({'Access-Control-Allow-Origin':'*'});
+                    // res.set({'Access-Control-Allow-Origin':'*'});
                     console.log('saving combo with '+combo.length)
 
                     console.log('length:'+combo.length);
-                    res?res.send(combo):console.log('no res to send ....Saved')
+                    res.send(combo)
                 });
         })
         .catch(errors.StatusCodeError, function (reason) {
@@ -291,7 +291,9 @@ function getListings(req,res, filter) {
             // reason.cause is the Error object Request would pass into a callback.
             console.log('e:'+e)
         })
-}
+    res.send('going!')
+
+} 
 
 function makeUrl(args,zipcode=null,proptype=null,base='https://sparkapi.com/v1/listings?',status=null){
     let argfilter = args['_filter']?args['_filter']:''

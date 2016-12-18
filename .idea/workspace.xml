@@ -5,6 +5,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/src/index.js" afterPath="$PROJECT_DIR$/dist/src/index.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/src/index.js.map" afterPath="$PROJECT_DIR$/dist/src/index.js.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/index.js" afterPath="$PROJECT_DIR$/src/index.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -49,22 +50,39 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="34" lean-forward="true" selection-start-line="18" selection-start-column="34" selection-end-line="18" selection-end-column="34" />
+            <state relative-caret-position="364">
+              <caret line="295" column="2" lean-forward="false" selection-start-line="295" selection-start-column="2" selection-end-line="295" selection-end-column="2" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dist/src/index.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-135">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+              <folding>
+                <marker date="1482060068827" expanded="true" signature="13124:15590" ph="{...}" />
+                <marker date="1482060068827" expanded="true" signature="15615:17562" ph="{...}" />
+                <marker date="1482060068827" expanded="true" signature="16771:17192" ph="{&quot;_orderby&quot;: 'City'...}" />
+                <marker date="1482060068827" expanded="true" signature="17198:17290" ph="//..." />
+                <marker date="1482060068827" expanded="true" signature="17384:17525" ph="{...}" />
+                <marker date="1482060068827" expanded="true" signature="17590:17795" ph="{...}" />
+                <marker date="1482060068827" expanded="true" signature="17691:17791" ph="{...}" />
+                <marker date="1482060068827" expanded="true" signature="17724:17771" ph="{...}" />
+                <marker date="1482060068827" expanded="true" signature="17819:18778" ph="{...}" />
+                <marker date="1482060068827" expanded="true" signature="17889:17985" ph="{&quot;X-SparkApi-User-Agent&quot;: 'IDX Agent'...}" />
+                <marker date="1482060068827" expanded="true" signature="18021:18415" ph="{&quot;url&quot;: 'https://sparkapi.com/v1/oauth2/grant'...}" />
+                <marker date="1482060068827" expanded="true" signature="18140:18389" ph="{&quot;grant_type&quot;: &quot;refresh_token&quot;...}" />
+                <marker date="1482060068827" expanded="true" signature="18560:18681" ph="{...}" />
+                <marker date="1482060068827" expanded="true" signature="18818:18864" ph="{...}" />
+                <marker date="1482060068827" expanded="true" signature="18910:19145" ph="{...}" />
+                <marker date="1482060068827" expanded="true" signature="19218:19272" ph="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -343,7 +361,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1482051088711</updated>
-      <workItem from="1482058896277" duration="885000" />
+      <workItem from="1482058896277" duration="1100000" />
     </task>
     <task id="LOCAL-00001" summary="k">
       <created>1482059527902</created>
@@ -380,11 +398,18 @@
       <option name="project" value="LOCAL" />
       <updated>1482059785889</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="k">
+      <created>1482059860014</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1482059860014</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="885000" />
+    <option name="totallyTimeSpent" value="1100000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="46" y="52" width="1863" height="997" extended-state="0" />
@@ -448,18 +473,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="34" lean-forward="true" selection-start-line="18" selection-start-column="34" selection-end-line="18" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dist/src/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-135">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1482060068827" expanded="true" signature="13124:15590" ph="{...}" />
+            <marker date="1482060068827" expanded="true" signature="15615:17562" ph="{...}" />
+            <marker date="1482060068827" expanded="true" signature="16771:17192" ph="{&quot;_orderby&quot;: 'City'...}" />
+            <marker date="1482060068827" expanded="true" signature="17198:17290" ph="//..." />
+            <marker date="1482060068827" expanded="true" signature="17384:17525" ph="{...}" />
+            <marker date="1482060068827" expanded="true" signature="17590:17795" ph="{...}" />
+            <marker date="1482060068827" expanded="true" signature="17691:17791" ph="{...}" />
+            <marker date="1482060068827" expanded="true" signature="17724:17771" ph="{...}" />
+            <marker date="1482060068827" expanded="true" signature="17819:18778" ph="{...}" />
+            <marker date="1482060068827" expanded="true" signature="17889:17985" ph="{&quot;X-SparkApi-User-Agent&quot;: 'IDX Agent'...}" />
+            <marker date="1482060068827" expanded="true" signature="18021:18415" ph="{&quot;url&quot;: 'https://sparkapi.com/v1/oauth2/grant'...}" />
+            <marker date="1482060068827" expanded="true" signature="18140:18389" ph="{&quot;grant_type&quot;: &quot;refresh_token&quot;...}" />
+            <marker date="1482060068827" expanded="true" signature="18560:18681" ph="{...}" />
+            <marker date="1482060068827" expanded="true" signature="18818:18864" ph="{...}" />
+            <marker date="1482060068827" expanded="true" signature="18910:19145" ph="{...}" />
+            <marker date="1482060068827" expanded="true" signature="19218:19272" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="364">
+          <caret line="295" column="2" lean-forward="false" selection-start-line="295" selection-start-column="2" selection-end-line="295" selection-end-column="2" />
           <folding />
         </state>
       </provider>
