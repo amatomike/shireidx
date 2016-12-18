@@ -27,9 +27,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var app = (0, _express2.default)();
 
 var server = require('https').Server(app);
-
-https.createServer(ssloptions, app).listen(2443);
-
 var Promise = require('bluebird'),
     size = Promise.promisify(require('request-image-size'));
 
