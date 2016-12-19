@@ -2,9 +2,25 @@ import express from "express";
 import fb from 'firebase'
 import rp from 'request-promise';
 let app = express();
-import path from 'path';
+app.set('port', (process.env.PORT || 5000));
 
-let server = require('https').Server(app);
+app.use(express.static(__dirname + '/public'));
+
+// views is directory for all template files
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+
+app.get('/', function(request, response) {
+    response.render('pages/index');
+});
+
+app.listen(app.get('port'), function() {
+    console.log('Node app is running on port', app.get('port'));
+});
+
+//import path from 'path';
+
+//let server = require('https').Server(app);
 const Promise = require('bluebird'),
     size = Promise.promisify(require('request-image-size'));
 import {
@@ -53,15 +69,7 @@ fbinit.database().ref('/sparkauth/oauth').on("value", function(snapshot) {
 }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
 });
-app.use(express.static('/dist/src/public'));
 
-// views is directory for all template files
-app.set('views', '/dist/src/views');
-app.set('view engine', 'ejs');
-
-app.get('/', function(request, response) {
-    response.render('pages/index');
-});
 function checkStatus(response){
     if (response.statusCode == 401) {
         console.log('response = 401 ? '+response.statusCode)
@@ -389,7 +397,3 @@ app.get('/auth', (req, res) => {
     res.location(uri);
 });
 
-let port = process.env.PORT || 8000
-server.listen(port, function() {
-    console.log("App is running on port " + port);
-});

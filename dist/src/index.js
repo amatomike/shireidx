@@ -12,10 +12,6 @@ var _requestPromise = require('request-promise');
 
 var _requestPromise2 = _interopRequireDefault(_requestPromise);
 
-var _path = require('path');
-
-var _path2 = _interopRequireDefault(_path);
-
 var _firebaseEncode = require('firebase-encode');
 
 var _nodeFetch = require('node-fetch');
@@ -29,9 +25,25 @@ var _errors2 = _interopRequireDefault(_errors);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
+app.set('port', process.env.PORT || 5000);
 
+app.use(_express2.default.static(__dirname + '/public'));
 
-var server = require('https').Server(app);
+// views is directory for all template files
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+
+app.get('/', function (request, response) {
+    response.render('pages/index');
+});
+
+app.listen(app.get('port'), function () {
+    console.log('Node app is running on port', app.get('port'));
+});
+
+//import path from 'path';
+
+//let server = require('https').Server(app);
 var Promise = require('bluebird'),
     size = Promise.promisify(require('request-image-size'));
 
@@ -72,15 +84,7 @@ fbinit.database().ref('/sparkauth/oauth').on("value", function (snapshot) {
 }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
 });
-app.use(_express2.default.static('/dist/src/public'));
 
-// views is directory for all template files
-app.set('views', '/dist/src/views');
-app.set('view engine', 'ejs');
-
-app.get('/', function (request, response) {
-    response.render('pages/index');
-});
 function checkStatus(response) {
     if (response.statusCode == 401) {
         console.log('response = 401 ? ' + response.statusCode);
@@ -422,10 +426,5 @@ app.get('/callback', function (req, res) {
 app.get('/auth', function (req, res) {
     var uri = "https://sparkapi.com/v1/oauth2/grant?response_type=code&client_id=" + oauthData.client_id + "&redirect_uri=" + oauthData.redirect_uri + "state=firebaseuserid";
     res.location(uri);
-});
-
-var port = process.env.PORT || 8000;
-server.listen(port, function () {
-    console.log("App is running on port " + port);
 });
 //# sourceMappingURL=index.js.map
