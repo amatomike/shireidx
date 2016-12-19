@@ -273,11 +273,15 @@ function getListings(req, res, filter, addr) {
             pagearr.push(_newops);
         }
         var promisedPages = pagearr.map(function (ops) {
-            return requestWithPageOps(ops);
+            console.log('mapping ops :' + JSON.stringify(ops));
+
+            requestWithPageOps(ops).then(function (listings) {
+                console.log('made req .. now save (length is):' + listings.length);
+                return promiseSaveListings(listings);
+            });
         });
         Promise.all(promisedPages).then(function (listings) {
-            console.log(JSON.stringify(listings));
-            promiseSaveListings(listings);
+            console.log('promise all ... ' + listings.length);
         }).catch(_errors2.default.StatusCodeError, function (reason) {
             // The server responded with a status codes other than 2xx.
             // Check

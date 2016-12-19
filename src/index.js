@@ -245,12 +245,16 @@ function getListings(req,res, filter,addr) {
                 pagearr.push(newops)
             }
             let promisedPages = pagearr.map(ops => {
-                return requestWithPageOps(ops);
+                console.log('mapping ops :'+JSON.stringify(ops));
+
+                requestWithPageOps(ops).then(listings=>{
+                    console.log('made req .. now save (length is):'+listings.length);
+                    return promiseSaveListings(listings)})
+
             })
             Promise.all(promisedPages)
                 .then(listings => {
-                    console.log(JSON.stringify(listings));
-                    promiseSaveListings(listings)
+                    console.log('promise all ... '+listings.length);
                 })
                 .catch(errors.StatusCodeError, function (reason) {
                     // The server responded with a status codes other than 2xx.
