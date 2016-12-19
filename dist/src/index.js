@@ -424,8 +424,8 @@ app.get('/callback', function (req, res) {
 });
 
 app.get('/auth', function (req, res) {
-    var uri = "https://sparkapi.com/oauth2?response_type=code&client_id=" + oauthData.client_id + "&redirect_uri=" + oauthData.redirect_uri + "state=firebaseuserid";
+    var uri = "https://sparkplatform.com/openid?openid.mode=checkid_setup&openid.return_to=" + oauthData.redirect_uri + "&openid.spark.client_id=" + oauthData.client_id + "&openid.spark.combined_flow=true";
     res.location(uri);
-    res.send("https://sparkapi.com/oauth2?response_type=code&client_id=" + oauthData.client_id + "&redirect_uri=" + oauthData.redirect_uri + "state=firebaseuserid");
+    res.send('<a href="https://sparkplatform.com/openid?openid.mode=checkid_setup&openid.return_to=' + oauthData.redirect_uri + '&openid.spark.client_id=' + oauthData.client_id + '&openid.spark.combined_flow=true">auth</a>');
 });
 //# sourceMappingURL=index.js.map
