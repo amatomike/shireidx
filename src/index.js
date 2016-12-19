@@ -363,7 +363,7 @@ app.get('/callback', function (req, res) {
         agentId = req.query['state']
     }
     if(hascode==true){
-        fbinit.database().ref('/sparkauth/oauth/code').update(code).then(function () {
+        fbinit.database().ref('/sparkauth/oauth').update({code:code}).then(function () {
             console.log('updated code :'+code);
         })
     }
