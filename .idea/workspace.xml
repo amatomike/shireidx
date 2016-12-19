@@ -53,8 +53,8 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="674">
-              <caret line="285" column="0" lean-forward="true" selection-start-line="285" selection-start-column="0" selection-end-line="285" selection-end-column="0" />
+            <state relative-caret-position="645">
+              <caret line="375" column="2" lean-forward="true" selection-start-line="375" selection-start-column="2" selection-end-line="375" selection-end-column="2" />
               <folding />
             </state>
           </provider>
@@ -66,37 +66,7 @@
             <state relative-caret-position="-135">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding>
-                <marker date="1482106185932" expanded="true" signature="951:3406" ph="{&quot;databaseURL&quot;: &quot;https://sparkidxapi.firebaseio.com&quot;...}" />
-                <marker date="1482106185932" expanded="true" signature="973:3349" ph="{&quot;type&quot;: &quot;service_account&quot;...}" />
-                <marker date="1482106185932" expanded="true" signature="3426:3558" ph="{&quot;client_id&quot;: ' '...}" />
-                <marker date="1482106185932" expanded="true" signature="3695:4406" ph="{...}" />
-                <marker date="1482106185932" expanded="true" signature="14680:14692" ph="{...}" />
-                <marker date="1482106185932" expanded="true" signature="14680:15419" ph="{...}" />
-                <marker date="1482106185932" expanded="true" signature="14680:16067" ph="{...}" />
-                <marker date="1482106185932" expanded="true" signature="14748:15003" ph="{...}" />
-                <marker date="1482106185932" expanded="true" signature="14831:14990" ph="{...}" />
-                <marker date="1482106185932" expanded="true" signature="15064:15321" ph="{...}" />
-                <marker date="1482106185932" expanded="true" signature="15479:15681" ph="{...}" />
-                <marker date="1482106185932" expanded="true" signature="15489:15565" ph="//..." />
-                <marker date="1482106185932" expanded="true" signature="15604:15675" ph="{...}" />
-                <marker date="1482106185932" expanded="true" signature="15775:15897" ph="{...}" />
-                <marker date="1482106185932" expanded="true" signature="15918:16036" ph="{...}" />
-                <marker date="1482106185932" expanded="true" signature="16092:18039" ph="{...}" />
-                <marker date="1482106185932" expanded="true" signature="17248:17669" ph="{&quot;_orderby&quot;: 'City'...}" />
-                <marker date="1482106185932" expanded="true" signature="17675:17767" ph="//..." />
-                <marker date="1482106185932" expanded="true" signature="17861:18002" ph="{...}" />
-                <marker date="1482106185932" expanded="true" signature="18067:18272" ph="{...}" />
-                <marker date="1482106185932" expanded="true" signature="18168:18268" ph="{...}" />
-                <marker date="1482106185932" expanded="true" signature="18201:18248" ph="{...}" />
-                <marker date="1482106185932" expanded="true" signature="18296:19255" ph="{...}" />
-                <marker date="1482106185932" expanded="true" signature="18366:18462" ph="{&quot;X-SparkApi-User-Agent&quot;: 'IDX Agent'...}" />
-                <marker date="1482106185932" expanded="true" signature="18498:18892" ph="{&quot;url&quot;: 'https://sparkapi.com/v1/oauth2/grant'...}" />
-                <marker date="1482106185932" expanded="true" signature="18617:18866" ph="{&quot;grant_type&quot;: &quot;refresh_token&quot;...}" />
-                <marker date="1482106185932" expanded="true" signature="18943:18977" ph="{...}" />
-                <marker date="1482106185932" expanded="true" signature="19037:19158" ph="{...}" />
-                <marker date="1482106185932" expanded="true" signature="19295:19341" ph="{...}" />
-                <marker date="1482106185932" expanded="true" signature="19387:19628" ph="{...}" />
-                <marker date="1482106185932" expanded="true" signature="19701:19755" ph="{...}" />
+                <marker date="1482110663253" expanded="true" signature="19365:19419" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -277,7 +247,7 @@
   <component name="PropertiesComponent">
     <property name="nodejs_interpreter_path" value="$USER_HOME$/.nvm/versions/node/v7.2.1/bin/node" />
     <property name="WebServerToolWindowFactoryState" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../idx-firebase" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="settings.editor.selected.configurable" value="settings.nodejs" />
     <property name="JavaScriptPreferStrict" value="false" />
@@ -382,7 +352,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1482051088711</updated>
-      <workItem from="1482058896277" duration="2946000" />
+      <workItem from="1482058896277" duration="3937000" />
     </task>
     <task id="LOCAL-00001" summary="k">
       <created>1482059527902</created>
@@ -468,11 +438,18 @@
       <option name="project" value="LOCAL" />
       <updated>1482060777164</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="k">
+      <created>1482106196169</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1482106196169</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2946000" />
+    <option name="totallyTimeSpent" value="3937000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="46" y="52" width="1863" height="997" extended-state="0" />
@@ -541,45 +518,15 @@
         <state relative-caret-position="-135">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1482106185932" expanded="true" signature="951:3406" ph="{&quot;databaseURL&quot;: &quot;https://sparkidxapi.firebaseio.com&quot;...}" />
-            <marker date="1482106185932" expanded="true" signature="973:3349" ph="{&quot;type&quot;: &quot;service_account&quot;...}" />
-            <marker date="1482106185932" expanded="true" signature="3426:3558" ph="{&quot;client_id&quot;: ' '...}" />
-            <marker date="1482106185932" expanded="true" signature="3695:4406" ph="{...}" />
-            <marker date="1482106185932" expanded="true" signature="14680:14692" ph="{...}" />
-            <marker date="1482106185932" expanded="true" signature="14680:15419" ph="{...}" />
-            <marker date="1482106185932" expanded="true" signature="14680:16067" ph="{...}" />
-            <marker date="1482106185932" expanded="true" signature="14748:15003" ph="{...}" />
-            <marker date="1482106185932" expanded="true" signature="14831:14990" ph="{...}" />
-            <marker date="1482106185932" expanded="true" signature="15064:15321" ph="{...}" />
-            <marker date="1482106185932" expanded="true" signature="15479:15681" ph="{...}" />
-            <marker date="1482106185932" expanded="true" signature="15489:15565" ph="//..." />
-            <marker date="1482106185932" expanded="true" signature="15604:15675" ph="{...}" />
-            <marker date="1482106185932" expanded="true" signature="15775:15897" ph="{...}" />
-            <marker date="1482106185932" expanded="true" signature="15918:16036" ph="{...}" />
-            <marker date="1482106185932" expanded="true" signature="16092:18039" ph="{...}" />
-            <marker date="1482106185932" expanded="true" signature="17248:17669" ph="{&quot;_orderby&quot;: 'City'...}" />
-            <marker date="1482106185932" expanded="true" signature="17675:17767" ph="//..." />
-            <marker date="1482106185932" expanded="true" signature="17861:18002" ph="{...}" />
-            <marker date="1482106185932" expanded="true" signature="18067:18272" ph="{...}" />
-            <marker date="1482106185932" expanded="true" signature="18168:18268" ph="{...}" />
-            <marker date="1482106185932" expanded="true" signature="18201:18248" ph="{...}" />
-            <marker date="1482106185932" expanded="true" signature="18296:19255" ph="{...}" />
-            <marker date="1482106185932" expanded="true" signature="18366:18462" ph="{&quot;X-SparkApi-User-Agent&quot;: 'IDX Agent'...}" />
-            <marker date="1482106185932" expanded="true" signature="18498:18892" ph="{&quot;url&quot;: 'https://sparkapi.com/v1/oauth2/grant'...}" />
-            <marker date="1482106185932" expanded="true" signature="18617:18866" ph="{&quot;grant_type&quot;: &quot;refresh_token&quot;...}" />
-            <marker date="1482106185932" expanded="true" signature="18943:18977" ph="{...}" />
-            <marker date="1482106185932" expanded="true" signature="19037:19158" ph="{...}" />
-            <marker date="1482106185932" expanded="true" signature="19295:19341" ph="{...}" />
-            <marker date="1482106185932" expanded="true" signature="19387:19628" ph="{...}" />
-            <marker date="1482106185932" expanded="true" signature="19701:19755" ph="{...}" />
+            <marker date="1482110663253" expanded="true" signature="19365:19419" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="674">
-          <caret line="285" column="0" lean-forward="true" selection-start-line="285" selection-start-column="0" selection-end-line="285" selection-end-column="0" />
+        <state relative-caret-position="645">
+          <caret line="375" column="2" lean-forward="true" selection-start-line="375" selection-start-column="2" selection-end-line="375" selection-end-column="2" />
           <folding />
         </state>
       </provider>

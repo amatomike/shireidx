@@ -49,12 +49,7 @@ fbinit.database().ref('/sparkauth/oauth').on("value", function(snapshot) {
     oauthData.redirect_uri= snapshot.val().redirect_uri
     oauthData.expires_at= snapshot.val().expires_at?snapshot.val().expires_at:"0"
     console.log("auth updated!"+JSON.stringify(oauthData));
-for (let addr=0;addr<100;addr++)
-{
 
-    let thefilter = "PropertyType Eq 'A' And MlsStatus Eq 'Active' And (City Eq '"+addr+"' Or StreetAddress Eq '"+addr+"')"
-    console.log(thefilter);
-    getListings(null,null,thefilter,addr)}
 }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
 });
@@ -63,7 +58,7 @@ function checkStatus(response){
         console.log('response = 401 ? '+response.statusCode)
         // let oauthData = Object.assign({},oauthData)
         // let fBdB = this.fBdB
-        return refreshAuth();
+        return refreshAuth(oauthData);
     }
     if (response.statusCode >= 200 && response.statusCode < 300) {
         return response
@@ -292,7 +287,7 @@ function getListings(req,res, filter,addr) {
             // Check
             if (reason.statusCode == 401) {
                 console.log(reason)
-                refreshAuth()
+                refreshAuth(oauthData)
             }
         })
         // .catch(this.checkStatus)
@@ -341,25 +336,23 @@ function promiseTo(doThis) {
     return new Promise(function(resolve, reject) {
         setTimeout(() => resolve(doThis), 1*doThis);})
 }
-function refreshAuth() {
-    console.log('refreshing with :'+oauthData)
+function refreshAuth(oa) {
     let headers = {
         'X-SparkApi-User-Agent': 'IDX Agent',
         'Content-Type': 'application/json'
     };
-    rp({
+    let rauth = {
         url:'https://sparkapi.com/v1/oauth2/grant',
         method:'POST',
         headers: headers,
-        body: {
-            grant_type:     "refresh_token",
-            client_id:      oauthData.client_id,
-            client_secret:  oauthData.client_secret,
-            refresh_token:  oauthData.refresh_token,
-            redirect_uri:   oauthData.redirect_uri
-        },
+        body: oa,
         json: true
-    }, function (err, res, body) {
+    };
+
+    rauth.body['grant_type']="refresh_token";
+    console.log('refreshing with :'+JSON.stringify(rauth))
+
+        rp(rauth, function (err, res, body) {
     }).then(pb=>{        saveOauthData(pb);
     })
         .catch(errors.StatusCodeError, function (reason) {
@@ -377,6 +370,9 @@ app.get('/addr/:addr', function (req, res) {
     let thefilter = "PropertyType Eq 'A' And MlsStatus Eq 'Active' And (City Eq '"+addr+"' Or StreetAddress Eq '"+addr+"')"
     console.log(thefilter);
     getListings(req,res,thefilter,addr)
+})
+app.get('/callback', function (req, res) {
+    handleCallback(req,res);
 })
 
 
