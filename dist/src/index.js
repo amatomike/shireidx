@@ -194,7 +194,7 @@ function promiseSaveListings(listings) {
             var entry = {};
             var listingkey = dB.ref('/listings/keys/').push(Object.assign(uplist, sf));
             uplist['key'] = listingkey;
-            var idpath = "/listings/id/" + listing['Id'];
+            var idpath = "/listings/id/" + uplist['Id'];
             var citypath = "/listings/location/city/" + uplist['City'];
             var zippath = "/listings/location/zip/" + uplist['PostalCode'];
             var streetpath = (0, _firebaseEncode.encode)("/listings/location/street/name/" + uplist['StreetName']);
@@ -213,7 +213,6 @@ function promiseSaveListings(listings) {
                 entry[zippath] = uplist;
                 entry[streetpath] = uplist;
                 entry[streetnumpath] = uplist;
-                dB.ref('/').update(entry);
             });
             size({ url: uplist.Photo300.url }, function (err, dimensions, length) {
                 uplist.Photo300.size = dimensions;
@@ -222,7 +221,6 @@ function promiseSaveListings(listings) {
                 entry[zippath] = uplist;
                 entry[streetpath] = uplist;
                 entry[streetnumpath] = uplist;
-                dB.ref('/').update(entry);
             });
 
             //2.5  seconds

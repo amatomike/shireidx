@@ -178,7 +178,7 @@ let        allupdates=[];
             let entry = {}
             let listingkey = dB.ref('/listings/keys/').push(Object.assign(uplist,sf));
             uplist['key']=listingkey;
-            let idpath = "/listings/id/" + listing['Id']
+            let idpath = "/listings/id/" + uplist['Id']
             let citypath = "/listings/location/city/" + uplist['City'];
             let zippath = "/listings/location/zip/" + uplist['PostalCode'];
             let streetpath = encode("/listings/location/street/name/" + uplist['StreetName']);
@@ -196,7 +196,6 @@ let        allupdates=[];
                 entry[zippath]=uplist;
                 entry[streetpath]=uplist;
                 entry[streetnumpath]=uplist;
-                dB.ref('/').update(entry)
             })
             size({url: uplist.Photo300.url},function (err, dimensions, length) {
                 uplist.Photo300.size = dimensions;
@@ -205,7 +204,6 @@ let        allupdates=[];
                 entry[zippath]=uplist;
                 entry[streetpath]=uplist;
                 entry[streetnumpath]=uplist;
-                dB.ref('/').update(entry)
                 })
 
                 //2.5  seconds
