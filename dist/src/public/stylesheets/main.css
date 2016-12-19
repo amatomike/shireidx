@@ -1,5 +1,7 @@
 body{
   background-image: url('../shirelogoWhite800.png');
+  color: aliceblue;
+  text-decoration-color: azure;
 }
 .jumbotron {
   background-image: url('../testimonialBg.jpg');
