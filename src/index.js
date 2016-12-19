@@ -53,10 +53,10 @@ fbinit.database().ref('/sparkauth/oauth').on("value", function(snapshot) {
 }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
 });
-app.use(express.static(__dirname + '/public'));
+app.use(express.static('/dist/src/public'));
 
 // views is directory for all template files
-app.set('views', __dirname + '/views');
+app.set('views', '/dist/src/views');
 app.set('view engine', 'ejs');
 
 app.get('/', function(request, response) {
