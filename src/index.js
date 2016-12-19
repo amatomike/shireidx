@@ -58,7 +58,7 @@ let oauthData = {
     expires_at: '',
     code:''
 }
-let dB = fb.database();
+let dB = fbinit.database();
 fbinit.database().ref('/sparkauth/oauth').on("value", function(snapshot) {
     oauthData.client_id= snapshot.val().client_id
     oauthData.client_secret= snapshot.val().client_secret
@@ -189,7 +189,7 @@ let        allupdates=[];
             entry[zippath]=uplist;
             entry[streetpath]=uplist;
             entry[streetnumpath]=uplist;
-            allupdates.push(entry);
+            dB.ref('/').update(entry);
             size({url: uplist.PhotoLarge.url},function (err, dimensions, length) {uplist.PhotoLarge.size = dimensions;
                 entry[idpath]=uplist;
                 entry[citypath]=uplist;
@@ -209,8 +209,7 @@ let        allupdates=[];
                 //2.5  seconds
 
 })
-        allupdates.forEach(entry=>{
-        dB.ref('/').update(entry)})
+
         resolve(listings)
     })}
 function removeall(){

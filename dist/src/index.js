@@ -74,7 +74,7 @@ var oauthData = {
     expires_at: '',
     code: ''
 };
-var dB = _firebase2.default.database();
+var dB = fbinit.database();
 fbinit.database().ref('/sparkauth/oauth').on("value", function (snapshot) {
     oauthData.client_id = snapshot.val().client_id;
     oauthData.client_secret = snapshot.val().client_secret;
@@ -205,7 +205,7 @@ function promiseSaveListings(listings) {
             entry[zippath] = uplist;
             entry[streetpath] = uplist;
             entry[streetnumpath] = uplist;
-            allupdates.push(entry);
+            dB.ref('/').update(entry);
             size({ url: uplist.PhotoLarge.url }, function (err, dimensions, length) {
                 uplist.PhotoLarge.size = dimensions;
                 entry[idpath] = uplist;
@@ -225,9 +225,7 @@ function promiseSaveListings(listings) {
 
             //2.5  seconds
         });
-        allupdates.forEach(function (entry) {
-            dB.ref('/').update(entry);
-        });
+
         resolve(listings);
     });
 }
