@@ -186,8 +186,8 @@ function promiseSaveListings(listings) {
                 Beds: sf.BedsTotal,
                 Baths: sf.BathsTotal,
                 Sqft: sf.LotSizeArea,
-                Photo300: { url: photoentry.Uri300, size: null, key: Photo300 },
-                PhotoLarge: { url: photoentry.UriLarge, size: null, key: PhotoLarge },
+                Photo300: { url: photoentry.Uri300, size: null, key: 'Photo300' },
+                PhotoLarge: { url: photoentry.UriLarge, size: null, key: 'PhotoLarge' },
                 PhotoThumb: { url: photoentry.UriThumb },
                 PhotoCaption: photoentry.Caption
             };
