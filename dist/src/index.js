@@ -191,35 +191,35 @@ function promiseSaveListings(listings) {
                 PhotoThumb: { url: photoentry.UriThumb },
                 PhotoCaption: photoentry.Caption
             };
+            var entry = {};
+            var listingkey = dB.ref('/listings/keys/').push(Object.assign(uplist, sf));
+            uplist['key'] = listingkey;
+            var idpath = "/listings/id/" + listing['Id'];
+            var citypath = "/listings/location/city/" + uplist['City'];
+            var zippath = "/listings/location/zip/" + uplist['PostalCode'];
+            var streetpath = "/listings/location/street/name/" + uplist['StreetName'];
+            var streetnumpath = "/listings/location/street/number/" + uplist['StreetNumber'];
+            var paths = { idpath: (0, _firebaseEncode.encode)(idpath), citypath: (0, _firebaseEncode.encode)(citypath), zippath: (0, _firebaseEncode.encode)(zippath), streetpath: (0, _firebaseEncode.encode)(streetpath), streetnumpath: (0, _firebaseEncode.encode)(streetnumpath) };
 
-            uplist.PhotoLarge.size = size({ url: uplist.PhotoLarge.url }, function (err, dimensions, length) {
+            dB.ref('/').update(entry);
+            resolve(listings);
+            var large = size({ url: uplist.PhotoLarge.url }, function (err, dimensions, length) {
                 return dimensions;
-            }).then(function (n) {
-                uplist.Photo300.size = size({ url: uplist.Photo300.url }, function (err, dimensions, length) {
-                    return dimensions;
-                });
-            }).then(function (n) {
-                var entry = {};
-                var listingkey = dB.ref('/listings/keys/').push(Object.assign(uplist, sf));
-                uplist['key'] = listingkey;
-                var idpath = "/listings/id/" + listing['Id'];
-                var citypath = "/listings/location/city/" + uplist['City'];
-                var zippath = "/listings/location/zip/" + uplist['PostalCode'];
-                var streetpath = "/listings/location/street/name/" + uplist['StreetName'];
-                var streetnumpath = "/listings/location/street/number/" + uplist['StreetNumber'];
-                var paths = { idpath: (0, _firebaseEncode.encode)(idpath), citypath: (0, _firebaseEncode.encode)(citypath), zippath: (0, _firebaseEncode.encode)(zippath), streetpath: (0, _firebaseEncode.encode)(streetpath), streetnumpath: (0, _firebaseEncode.encode)(streetnumpath) };
+            }).then(function (dl) {
+                uplist.PhotoLarge.size = dl;
+            });
+            var three = size({ url: uplist.Photo300.url }, function (err, dimensions, length) {
+                return dimensions;
+            }).then(function (d3) {
+                uplist.Photo300.size = d3;
                 entry[idpath] = uplist;
                 entry[citypath] = uplist;
                 entry[zippath] = uplist;
                 entry[streetpath] = uplist;
                 entry[streetnumpath] = uplist;
-                allupdates.push(entry);
                 dB.ref('/').update(entry);
-                resolve(listings);
-            }) //2.5  seconds
-            .catch(function (err) {
-                console.log("error: " + JSON.stringify(err));
             });
+            //2.5  seconds
         });
     });
 }

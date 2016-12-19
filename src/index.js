@@ -175,32 +175,34 @@ function promiseSaveListings(listings){
                 PhotoThumb:{url:photoentry.UriThumb},
                 PhotoCaption:photoentry.Caption
             }
-
-            uplist.PhotoLarge.size=size({url: uplist.PhotoLarge.url},function (err, dimensions, length) {return dimensions;})
-                .then(n=>{
-            uplist.Photo300.size=size({url: uplist.Photo300.url},function (err, dimensions, length) {return dimensions;})
-                }).then(n=>{
-                    let entry = {}
+            let entry = {}
             let listingkey = dB.ref('/listings/keys/').push(Object.assign(uplist,sf));
-                    uplist['key']=listingkey;
+            uplist['key']=listingkey;
             let idpath = "/listings/id/" + listing['Id']
             let citypath = "/listings/location/city/" + uplist['City'];
             let zippath = "/listings/location/zip/" + uplist['PostalCode'];
             let streetpath = "/listings/location/street/name/" + uplist['StreetName'];
             let streetnumpath = "/listings/location/street/number/" + uplist['StreetNumber'];
             let paths = {idpath:encode(idpath),citypath:encode(citypath),zippath:encode(zippath),streetpath:encode(streetpath),streetnumpath:encode(streetnumpath)}
-            entry[idpath]=uplist;
-            entry[citypath]=uplist;
-            entry[zippath]=uplist;
-            entry[streetpath]=uplist;
-            entry[streetnumpath]=uplist;
-            allupdates.push(entry);
+
             dB.ref('/').update(entry)
-                    resolve(listings)
-                })//2.5  seconds
-            .catch((err) =>{console.log("error: "+JSON.stringify(err))
-                });})
-})}
+            resolve(listings)
+            let large=size({url: uplist.PhotoLarge.url},function (err, dimensions, length) {return dimensions;})
+                .then(dl=>{
+                    uplist.PhotoLarge.size = dl;})
+            let three=size({url: uplist.Photo300.url},function (err, dimensions, length) {return dimensions;})
+                .then(d3=>{
+                    uplist.Photo300.size = d3;
+                    entry[idpath]=uplist;
+                    entry[citypath]=uplist;
+                    entry[zippath]=uplist;
+                    entry[streetpath]=uplist;
+                    entry[streetnumpath]=uplist;
+                    dB.ref('/').update(entry)
+                })
+                //2.5  seconds
+
+})})}
 function removeall(){
     let remit = dB.ref('/listings').remove().then(function () {
         return "done clearing";
