@@ -74,7 +74,6 @@ var oauthData = {
     expires_at: '',
     code: ''
 };
-var allupdates = [];
 var dB = _firebase2.default.database();
 fbinit.database().ref('/sparkauth/oauth').on("value", function (snapshot) {
     oauthData.client_id = snapshot.val().client_id;
@@ -154,6 +153,7 @@ function promiseSaveListings(listings) {
     var updates = {};
     var obj = [];
     return new Promise(function (resolve, reject) {
+        var allupdates = [];
         listings.forEach(function (listing) {
             var parr = [{
                 ResourceUri: "unset",
@@ -200,23 +200,36 @@ function promiseSaveListings(listings) {
             var streetpath = "/listings/location/street/name/" + uplist['StreetName'];
             var streetnumpath = "/listings/location/street/number/" + uplist['StreetNumber'];
             var paths = { idpath: (0, _firebaseEncode.encode)(idpath), citypath: (0, _firebaseEncode.encode)(citypath), zippath: (0, _firebaseEncode.encode)(zippath), streetpath: (0, _firebaseEncode.encode)(streetpath), streetnumpath: (0, _firebaseEncode.encode)(streetnumpath) };
-            var large = size({ url: uplist.PhotoLarge.url }, function (err, dimensions, length) {
+            entry[paths[idpath]] = uplist;
+            entry[paths[citypath]] = uplist;
+            entry[paths[zippath]] = uplist;
+            entry[paths[streetpath]] = uplist;
+            entry[paths[streetnumpath]] = uplist;
+            allupdates.push(entry);
+            size({ url: uplist.PhotoLarge.url }, function (err, dimensions, length) {
                 uplist.PhotoLarge.size = dimensions;
-            }).then(function (dl) {
-                var three = size({ url: uplist.Photo300.url }, function (err, dimensions, length) {
-                    uplist.Photo300.size = dimensions;
-                    entry[idpath] = uplist;
-                    entry[citypath] = uplist;
-                    entry[zippath] = uplist;
-                    entry[streetpath] = uplist;
-                    entry[streetnumpath] = uplist;
-                    dB.ref('/').update(entry);
-                });
+                entry[paths[idpath]] = uplist;
+                entry[paths[citypath]] = uplist;
+                entry[paths[zippath]] = uplist;
+                entry[paths[streetpath]] = uplist;
+                entry[paths[streetnumpath]] = uplist;
+                dB.ref('/').update(entry);
+            });
+            size({ url: uplist.Photo300.url }, function (err, dimensions, length) {
+                uplist.Photo300.size = dimensions;
+                entry[paths[idpath]] = uplist;
+                entry[paths[citypath]] = uplist;
+                entry[paths[zippath]] = uplist;
+                entry[paths[streetpath]] = uplist;
+                entry[paths[streetnumpath]] = uplist;
+                dB.ref('/').update(entry);
             });
 
             //2.5  seconds
         });
-        resolve(listings);
+        dB.ref('/').update(allupdates).then(function (d) {
+            resolve(listings);
+        });
     });
 }
 function removeall() {

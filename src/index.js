@@ -58,7 +58,6 @@ let oauthData = {
     expires_at: '',
     code:''
 }
-let allupdates=[]
 let dB = fb.database();
 fbinit.database().ref('/sparkauth/oauth').on("value", function(snapshot) {
     oauthData.client_id= snapshot.val().client_id
@@ -137,6 +136,7 @@ function promiseSaveListings(listings){
     let updates = {}
     let obj = []
     return new Promise(function(resolve, reject) {
+let        allupdates=[];
         listings.forEach(listing=> {
             let parr = [
                 {
@@ -184,22 +184,35 @@ function promiseSaveListings(listings){
             let streetpath = "/listings/location/street/name/" + uplist['StreetName'];
             let streetnumpath = "/listings/location/street/number/" + uplist['StreetNumber'];
             let paths = {idpath:encode(idpath),citypath:encode(citypath),zippath:encode(zippath),streetpath:encode(streetpath),streetnumpath:encode(streetnumpath)}
-            let large=size({url: uplist.PhotoLarge.url},function (err, dimensions, length) {uplist.PhotoLarge.size = dimensions;})
-                .then(dl=>{
-            let three=size({url: uplist.Photo300.url},function (err, dimensions, length) {
-                uplist.Photo300.size = dimensions;
-                entry[idpath]=uplist;
-                entry[citypath]=uplist;
-                entry[zippath]=uplist;
-                entry[streetpath]=uplist;
-                entry[streetnumpath]=uplist;
+            entry[paths[idpath]]=uplist;
+            entry[paths[citypath]]=uplist;
+            entry[paths[zippath]]=uplist;
+            entry[paths[streetpath]]=uplist;
+            entry[paths[streetnumpath]]=uplist;
+            allupdates.push(entry);
+            size({url: uplist.PhotoLarge.url},function (err, dimensions, length) {uplist.PhotoLarge.size = dimensions;
+                entry[paths[idpath]]=uplist;
+                entry[paths[citypath]]=uplist;
+                entry[paths[zippath]]=uplist;
+                entry[paths[streetpath]]=uplist;
+                entry[paths[streetnumpath]]=uplist;
                 dB.ref('/').update(entry)
-                })})
+            })
+            size({url: uplist.Photo300.url},function (err, dimensions, length) {
+                uplist.Photo300.size = dimensions;
+                entry[paths[idpath]]=uplist;
+                entry[paths[citypath]]=uplist;
+                entry[paths[zippath]]=uplist;
+                entry[paths[streetpath]]=uplist;
+                entry[paths[streetnumpath]]=uplist;
+                dB.ref('/').update(entry)
+                })
 
                 //2.5  seconds
 
 })
-        resolve(listings)
+        dB.ref('/').update(allupdates).then(d=>{
+        resolve(listings)})
     })}
 function removeall(){
     let remit = dB.ref('/listings').remove().then(function () {
