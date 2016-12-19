@@ -227,9 +227,10 @@ function promiseSaveListings(listings) {
 
             //2.5  seconds
         });
-        dB.ref('/').update(allupdates.entries()).then(function (d) {
-            resolve(listings);
+        allupdates.forEach(function (entry) {
+            dB.ref('/').update(entry);
         });
+        resolve(listings);
     });
 }
 function removeall() {
