@@ -1,5 +1,5 @@
 body{
-  background-image: url('testimonialBg.jpg');
+  background-image: url('../testimonialBg.jpg');
 }
 .jumbotron {
   background: #532F8C;
