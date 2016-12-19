@@ -126,29 +126,6 @@ function requestWithPageOps(ops) {
     });
 }
 function promiseSaveListings(listings) {
-    function finishUpdate(uplst, ups, o, e, p) {
-        console.log('next - saving now');
-        e[p.idpath] = uplst;
-        e[p.zippath] = uplst;
-        e[p.citypath] = uplst;
-        e[p.streetpath] = uplst['Id'];
-        e[p.streetnumpath] = uplst['Id'];
-        //  console.log('updating!'+JSON.stringify(uplist))//
-        o.push(uplst);
-        ups = Object.assign(ups, e);
-        return new Promise(function (resolve, reject) {
-            setTimeout(function () {
-                return resolve(ups);
-            }, 25000);
-        });
-    }
-    function minipromise(prom) {
-        return new Promise(function (resolve, reject) {
-            setTimeout(function () {
-                return resolve(prom);
-            }, 25000);
-        });
-    }
 
     var updates = {};
     var obj = [];
@@ -213,20 +190,19 @@ function promiseSaveListings(listings) {
                 entry[zippath] = uplist;
                 entry[streetpath] = uplist;
                 entry[streetnumpath] = uplist;
+                // })
+                // size({url: uplist.Photo300.url},function (err, dimensions, length) {
+                //     uplist.Photo300.size = dimensions;
+                //     entry[idpath]=uplist;
+                //     entry[citypath]=uplist;
+                //     entry[zippath]=uplist;
+                //     entry[streetpath]=uplist;
+                //     entry[streetnumpath]=uplist;
+                //     })
+            }).then(function (en) {
+                resolve(listings);
             });
-            size({ url: uplist.Photo300.url }, function (err, dimensions, length) {
-                uplist.Photo300.size = dimensions;
-                entry[idpath] = uplist;
-                entry[citypath] = uplist;
-                entry[zippath] = uplist;
-                entry[streetpath] = uplist;
-                entry[streetnumpath] = uplist;
-            });
-
-            //2.5  seconds
         });
-
-        resolve(listings);
     });
 }
 function removeall() {
