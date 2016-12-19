@@ -95,6 +95,7 @@ function saveOauthData(od) {
     })
 }
 function handleCallback(req, res) {
+    let code = ''
     let hascode = false;
     let agentId = '';
     if (req.query['openid.spark.code']) {

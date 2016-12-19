@@ -110,6 +110,7 @@ function saveOauthData(od) {
     });
 }
 function handleCallback(req, res) {
+    var code = '';
     var hascode = false;
     var agentId = '';
     if (req.query['openid.spark.code']) {
