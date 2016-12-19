@@ -407,7 +407,7 @@ app.get('/callback', function (req, res) {
     fbinit.database().ref('/sparkauth/oauth').once("value", function (snapshot) {
         options = {
             method: 'POST',
-            uri: 'https://sparkapi.com/oauth2/grant',
+            uri: 'https://sparkapi.com/v1/oauth2/grant',
             headers: {
                 'X-SparkApi-User-Agent': 'Idx Agent',
                 'Content-Type': 'application/json'
