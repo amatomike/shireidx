@@ -195,8 +195,8 @@ function promiseSaveListings(listings){
             entry[streetpath]=uplist;
             entry[streetnumpath]=uplist;
             allupdates.push(entry);
-            dB.ref('/').update(entry).then(z=>{
-            resolve(listings);})
+            dB.ref('/').update(entry)
+                    resolve(listings)
                 })//2.5  seconds
             .catch((err) =>{console.log("error: "+JSON.stringify(err))
                 });})
