@@ -200,9 +200,6 @@ function promiseSaveListings(listings) {
             var streetpath = "/listings/location/street/name/" + uplist['StreetName'];
             var streetnumpath = "/listings/location/street/number/" + uplist['StreetNumber'];
             var paths = { idpath: (0, _firebaseEncode.encode)(idpath), citypath: (0, _firebaseEncode.encode)(citypath), zippath: (0, _firebaseEncode.encode)(zippath), streetpath: (0, _firebaseEncode.encode)(streetpath), streetnumpath: (0, _firebaseEncode.encode)(streetnumpath) };
-
-            dB.ref('/').update(entry);
-            resolve(listings);
             var large = size({ url: uplist.PhotoLarge.url }, function (err, dimensions, length) {
                 uplist.PhotoLarge.size = dimensions;
             }).then(function (dl) {
@@ -216,8 +213,10 @@ function promiseSaveListings(listings) {
                     dB.ref('/').update(entry);
                 });
             });
+
             //2.5  seconds
         });
+        resolve(listings);
     });
 }
 function removeall() {
