@@ -211,7 +211,7 @@ let        allupdates=[];
                 //2.5  seconds
 
 })
-        dB.ref('/').update(allupdates).then(d=>{
+        dB.ref('/').update(allupdates.entries()).then(d=>{
         resolve(listings)})
     })}
 function removeall(){

@@ -227,7 +227,7 @@ function promiseSaveListings(listings) {
 
             //2.5  seconds
         });
-        dB.ref('/').update(allupdates).then(function (d) {
+        dB.ref('/').update(allupdates.entries()).then(function (d) {
             resolve(listings);
         });
     });
