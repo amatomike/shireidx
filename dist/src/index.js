@@ -412,13 +412,13 @@ app.get('/callback', function (req, res) {
                 'X-SparkApi-User-Agent': 'Idx Agent',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
+            body: {
                 client_id: snapshot.val().client_id,
                 client_secret: snapshot.val().client_secret,
-                grant_type: "authorization_code",
-                code: hascode ? code : snapshot.val().code,
+                grant_type: 'authorization_code',
+                code: code,
                 redirect_uri: snapshot.val().redirect_uri
-            }),
+            },
             json: true
         };
         console.log('using options :' + JSON.stringify(options));
