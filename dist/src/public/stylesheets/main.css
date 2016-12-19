@@ -1,8 +1,8 @@
 body{
-  background-image: url('../testimonialBg.jpg');
+  background-image: url('../shirelogoWhite800.png');
 }
 .jumbotron {
-  background: #532F8C;
+  background-image: url('../testimonialBg.jpg');
   color: white;
   padding-bottom: 80px; }
   .jumbotron .btn-primary {
