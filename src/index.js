@@ -2,6 +2,7 @@ import express from "express";
 import fb from 'firebase'
 import rp from 'request-promise';
 let app = express();
+let listingObj = {BathsTotal:null,BedsTotal:null,City:null,Id:null,Latitude:null,ListPrice:null,ListingId:null,Longitude:null,MlsId:null,MlsStatus:null,PhotoCaption:'Loading',PhotoLarge:'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire320x220.png',PhotoThumb:'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png',Photos:[{Caption:'Loading',Uri300:'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png',UriLarge:'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png',UriThumb:'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png'}],PostalCode:null,PropertySubType:null,PropertyType:null,PublicRemarks:'Loading',StreetName:null,StreetNumber:null,StreetSuffix:null,YearBuilt:null,completed:null,geo:{}};
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -125,7 +126,6 @@ function promiseSaveListings(listings){
         //  console.log('updating!'+JSON.stringify(uplist))//
         o.push(uplst)
         ups = Object.assign(ups, e)
-        allupdates.push(updates);
         return new Promise(function(resolve, reject) {
             setTimeout(() => resolve(ups),25000 );})
     }
@@ -140,83 +140,64 @@ function promiseSaveListings(listings){
         listings.forEach(listing=> {
             let photos = [
                 {
-                    ResourceUri: "/vX/listings/20060412165917817933000000/photos/20080917142739989238000000",
-                    Id: "20080917142739989238000000",
-                    Name: "Listing Photo",
-                    Caption: "",
-                    UriThumb: "http://photos.sparkplatform.com/demomls/20080917142739989238000000-t.jpg",
-                    Uri300: "http://photos.sparkplatform.com/demomls/20080917142739989238000000.jpg",
-                    Uri640: "http://resize.sparkplatform.com/demomls/640x480/true/20080917142739989238000000-o.jpg",
-                    Uri800: "http://resize.sparkplatform.com/demomls/800x600/true/20080917142739989238000000-o.jpg",
-                    Uri1024: "http://resize.sparkplatform.com/demomls/1024x768/true/20080917142739989238000000-o.jpg",
-                    Uri1280: "http://resize.sparkplatform.com/demomls/1280x1024/true/20080917142739989238000000-o.jpg",
-                    Uri1600: "http://resize.sparkplatform.com/demomls/1600x1280/true/20080917142739989238000000-o.jpg",
-                    Uri2048: "http://resize.sparkplatform.com/demomls/2048x1536/true/20080917142739989238000000-o.jpg",
-                    UriLarge: "http://photos.sparkplatform.com/demomls/20080917142739989238000000-o.jpg",
+                    ResourceUri: "unset",
+                    Id: "0",
+                    Name: "PlaceHolder",
+                    Caption: "PlaceHolder",
+                    UriThumb: "https://searchidx.herokuapp.com/placeholders/shireThumb.png",
+                    Uri300: "https://searchidx.herokuapp.com/placeholders/shire300.png",
+                    Uri640: "https://searchidx.herokuapp.com/placeholders/shire640.png",
+                    Uri800: "https://searchidx.herokuapp.com/placeholders/shire800.png",
+                    Uri1024: "https://searchidx.herokuapp.com/placeholders/shire1024.png",
+                    Uri1280: "https://searchidx.herokuapp.com/placeholders/shire1280.png",
+                    Uri1600: "https://searchidx.herokuapp.com/placeholders/shire1600.png",
+                    Uri2048: "https://searchidx.herokuapp.com/placeholders/shire2048.png",
+                    UriLarge: "https://searchidx.herokuapp.com/placeholders/shire1024.png",
                     Primary: true
                 }
-            ]
-            let uplist = {Id:listing.Id, media:{PhotoThumb:listing.Photos[0].UriThumb}}
-            let entry = {}
-            let entrygeo = {}
-            uplist = Object.assign(uplist, listing.StandardFields);
+            ];
+            let primaryphotos = listing.StandardFields.Photos[0]?listing.StandardFields.Photos[0]:photos[0];
+            let photoentry = Object.assign(photos[0],primaryphotos)
+            let sf = Object.assign({},listing.StandardFields);
+            let uplist = {
+                Id:listing.Id,
+                City:sf.City,
+                Zip:sf.PostalCode,
+                StreetAddress:sf.StreetNumber+' '+sf.StreetName+' '+sf.StreetSuffix,
+                Price:sf.ListPrice,
+                Beds:sf.BedsTotal,
+                Baths:sf.BathsTotal,
+                Sqft:sf.LotSizeArea,
+                Photo300:{url:photoentry.Uri300,size:null,key:Photo300},
+                PhotoLarge:{url:photoentry.UriLarge,size:null,key:PhotoLarge},
+                PhotoThumb:{url:photoentry.UriThumb},
+                PhotoCaption:photoentry.Caption
+            }
 
-            uplist['Id'] = listing['Id'];
-            uplist['PhotoThumb'] = listing.StandardFields.Photos[0] ? listing.StandardFields.Photos[0].UriThumb : 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png';
-            uplist['media']['PhotoThumb'] = listing.StandardFields.Photos[0] ? listing.StandardFields.Photos[0].UriThumb : 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png';
-            uplist['PhotoLarge'] = listing.StandardFields.Photos[0].UriLarge ? listing.StandardFields.Photos[0].UriLarge : 'unset';
-            uplist['media']['PhotoLarge'] = listing.StandardFields.Photos[0].UriLarge ? listing.StandardFields.Photos[0].UriLarge : 'unset';
-            uplist['Photo800'] = listing.StandardFields.Photos[0].Uri800 ? listing.StandardFields.Photos[0].Uri800 : 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png';
-            uplist['media']['Photo800'] = listing.StandardFields.Photos[0].Uri800 ? listing.StandardFields.Photos[0].Uri800 : 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png';
-            uplist['Photo300'] = listing.StandardFields.Photos[0].Uri300 ? listing.StandardFields.Photos[0].Uri300 : 'unset';
-            uplist['media']['Photo300'] = listing.StandardFields.Photos[0].Uri300 ? listing.StandardFields.Photos[0].Uri300 : 'unset';
-            uplist['Photo1024'] = listing.StandardFields.Photos[0].Uri1024 ? listing.StandardFields.Photos[0].Uri1024 : 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png';
-            uplist['media']['Photo1024'] = listing.StandardFields.Photos[0].Uri1024 ? listing.StandardFields.Photos[0].Uri1024 : 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png';
-            uplist['PhotoId'] = listing.StandardFields.Photos[0].Id ? listing.StandardFields.Photos[0].Id : '0';
-            uplist['PhotoCaption'] = listing.StandardFields.Photos[0].Caption ? listing.StandardFields.Photos[0].Caption : 'Photo Caption';
-            let listingkey = dB.ref('/listings/keys/').push(uplist);
+            uplist.PhotoLarge.size=size({url: uplist.PhotoLarge.url},function (err, dimensions, length) {return dimensions;})
+                .then(n=>{
+            uplist.Photo300.size=size({url: uplist.Photo300.url},function (err, dimensions, length) {return dimensions;})
+                }).then(n=>{
+                    let entry = {}
+            let listingkey = dB.ref('/listings/keys/').push(Object.assign(uplist,sf));
+                    uplist['key']=listingkey;
             let idpath = "/listings/id/" + listing['Id']
             let citypath = "/listings/location/city/" + uplist['City'];
             let zippath = "/listings/location/zip/" + uplist['PostalCode'];
             let streetpath = "/listings/location/street/name/" + uplist['StreetName'];
             let streetnumpath = "/listings/location/street/number/" + uplist['StreetNumber'];
             let paths = {idpath:encode(idpath),citypath:encode(citypath),zippath:encode(zippath),streetpath:encode(streetpath),streetnumpath:encode(streetnumpath)}
-            // size({url: uplist['PhotoLarge']},function (err, dimensions, length) {
-            //     console.log(JSON.stringify(dimensions))
-            //     uplist['PhotoLargeH'] = dimensions.height;
-            //     uplist['PhotoLargeW'] = dimensions.width;
-            //     finishUpdate(uplist,updates,obj,entry,paths);
-            // })
-
-            let saving = {};
-            if (uplist['Photos'][0]){
-                Object.keys(uplist['media']).forEach(key=>{
-                    size({url: uplist['media'][key]},function (err, dimensions, length) {
-                        console.log(JSON.stringify(dimensions))
-                        let mediaurl = uplist['media'][key]
-
-                        uplist['media'][key]['url'] = mediaurl;
-                        uplist['media'][key]['dimensions'] = dimensions;
-                    }).then(g=>{console.log(JSON.stringify(g))
-                    }).catch(e=>{console.log('while sizing got error :'+e)})})
-            }
-            finishUpdate(uplist,updates,obj,entry,paths);
-            resolve(listings), 2500 );})//2.5  seconds
-        .then(listings=>{
-                minipromise(saving)
-                    .then(enddata=>{
-                        finishUpdate(uplist,updates,obj,entry,paths);
-                    })
-                    .catch((err) => console.log("error: "+JSON.stringify(err)));
-            })
-
-            console.log('# of listings: '+listings.length);
-        })
-        .then(end=>{
-            return end;
-        })
-        .catch((err) => console.log("error: "+" "+JSON.stringify(listings), err.message));
-}
+            entry[idpath]=uplist;
+            entry[citypath]=uplist;
+            entry[zippath]=uplist;
+            entry[streetpath]=uplist;
+            entry[streetnumpath]=uplist;
+            allupdates.push(entry);
+            dB.ref('/').update(entry).then(z=>{
+            resolve(listings);})})})//2.5  seconds
+            .catch((err) =>{console.log("error: "+JSON.stringify(err))
+                });
+})}
 function removeall(){
     let remit = dB.ref('/listings').remove().then(function () {
         return "done clearing";
@@ -228,73 +209,85 @@ function getPage(ops){
         .catch((err) => console.log("error: "+JSON.stringify(ops), err));
 }
 function getListings(req,res, filter,addr) {
-    let combo=[];
+    let combo = [];
     let obj = []
-    let pageops=[];
+    let pageops = [];
     let setargs = {
         _filter: filter
     };
-    let opsurl =  makeUrl(setargs, null, 'A', 'https://sparkapi.com/v1/listings?', 'Active');
+    let opsurl = makeUrl(setargs, null, 'A', 'https://sparkapi.com/v1/listings?', 'Active');
     let authops = {
         headers: oauthHeaders(),
-        uri: opsurl+'&_pagination=count&_page=1',
+        uri: opsurl + '&_pagination=count&_page=1',
         json: true
     };
-    console.log('about to request...'+JSON.stringify(authops))
+    console.log('about to request...' + JSON.stringify(authops))
     rp(authops)
         .then(pb => {
             // results.concat(pb['D']['Results']);
-            console.log('pagei:'+JSON.stringify(pb['D']['Pagination']))
+            console.log('pagei:' + JSON.stringify(pb['D']['Pagination']))
 
             let pages = pb['D']['Pagination']['TotalPages'];
             let currentpage = pb['D']['Pagination']['CurrentPage'];
-            let pagearr=[]
-            if (currentpage < pages){
+            let pagearr = []
+            if (currentpage < pages) {
 
                 for (let page = 1; page < pages; page++) {
                     let pageReq = {};
-                    let newops = {headers:oauthHeaders(),uri:opsurl+'&_pagination=1&_page='+page,json:true};
+                    let newops = {headers: oauthHeaders(), uri: opsurl + '&_pagination=1&_page=' + page, json: true};
                     pagearr.push(newops)
 
-                }}else
-            {
-                let newops = {headers:oauthHeaders(),uri:opsurl+'&_pagination=1&_page=1',json:true};
+                }
+            } else {
+                let newops = {headers: oauthHeaders(), uri: opsurl + '&_pagination=1&_page=1', json: true};
                 pagearr.push(newops)
             }
-            let promisedPages=pagearr.map(ops=>{
+            let promisedPages = pagearr.map(ops => {
                 return requestWithPageOps(ops);
             })
             Promise.all(promisedPages)
-                .then(listings=>{
+                .then(listings => {
                     promiseSaveListings(listings)
-                        .then(updates=>{
-                dB.ref('/').update(allupdates);
-            });
-        })
-        .catch(errors.StatusCodeError, function (reason) {
-            // The server responded with a status codes other than 2xx.
-            // Check
-            if (reason.statusCode == 401) {
-                console.log(reason)
-                refreshAuth(oauthData)
-            }
-        })
-        // .catch(this.checkStatus)
+                })
+                .catch(errors.StatusCodeError, function (reason) {
+                    // The server responded with a status codes other than 2xx.
+                    // Check
+                    if (reason.statusCode == 401) {
+                        console.log(reason)
+                        refreshAuth(oauthData)
+                    }
+                })
+                // .catch(this.checkStatus)
+                .catch(errors.RequestError, function (reason) {
+                    // reason.cause is the Error object Request would pass into a callback.
+                    console.log(reason.cause)
+                })
+                .catch(e => {
+                    // reason.cause is the Error object Request would pass into a callback.
+                    console.log('e:' + e)
+                })
+            console.log('going!')
+
+        }).catch(errors.StatusCodeError, function (reason) {
+        // The server responded with a status codes other than 2xx.
+        // Check
+        if (reason.statusCode == 401) {
+            console.log(reason)
+            refreshAuth(oauthData)
+        }
+    })
+    // .catch(this.checkStatus)
         .catch(errors.RequestError, function (reason) {
             // reason.cause is the Error object Request would pass into a callback.
             console.log(reason.cause)
         })
-        .catch(e=>{
+        .catch(e => {
             // reason.cause is the Error object Request would pass into a callback.
-            console.log('e:'+e)
+            console.log('e:' + e)
         })
-    console.log('going!')
-
 }
-
 function makeUrl(args,zipcode=null,proptype=null,base='https://sparkapi.com/v1/listings?',status=null){
     let argfilter = args['_filter']?args['_filter']:''
-    let select = 'StreetNumber,StreetName,PostalCode,ListPrice,City,BedsTotal,BathsTotal,PublicRemarks,PropertyType,MlsStatus,Photos,Latitude,ListingId,Longitude,PostalCode,PropertySubType,YearBuilt'
     let andT = args['_filter']?' And ':''
     let zipfilter = zipcode?argfilter+andT+`" PostalCode Eq '${zipcode}'`:argfilter
     let andZ = zipcode?andT:''
@@ -308,7 +301,7 @@ function makeUrl(args,zipcode=null,proptype=null,base='https://sparkapi.com/v1/l
         _filter:    args['_filter'],
         _limit:     50,
         // _page:      1,
-        _select:    'Photos.UriThumb,Photos.UriLarge,Photos.Uri300,Photos.Caption,PrimaryPhoto,StreetNumber,StreetName,StreetSuffix,PostalCode,ListPrice,City,BedsTotal,BathsTotal,PublicRemarks,PropertyType,MlsStatus,Latitude,ListingId,Longitude,PostalCode,PropertySubType,YearBuilt',
+        _select:    'Photos.Uri640,Photos.Uri800,Photos.Uri1024,Photos.Uri1280,Photos.Uri1600,Photos.Uri2048,Photos.UriThumb,Photos.UriLarge,Photos.Uri300,Photos.Caption,PrimaryPhoto,StreetNumber,StreetName,StreetSuffix,PostalCode,ListPrice,City,BedsTotal,BathsTotal,PublicRemarks,PropertyType,MlsStatus,Latitude,ListingId,Longitude,PostalCode,PropertySubType,YearBuilt,LivingArea,HighSchool,MiddleOrJuniorSchool,ElementarySchool,SubdivisionName,BuildingAreaTotal,PropertySubType,UnparsedAddress,LotSizeArea,LotSizeAcres,CustomFields',
     }
     // formatargs['_page'] = args['_page']?args['_page']:1
     // formatargs['_select'] = select

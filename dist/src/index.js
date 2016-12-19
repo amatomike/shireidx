@@ -25,6 +25,7 @@ var _errors2 = _interopRequireDefault(_errors);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
+var listingObj = { BathsTotal: null, BedsTotal: null, City: null, Id: null, Latitude: null, ListPrice: null, ListingId: null, Longitude: null, MlsId: null, MlsStatus: null, PhotoCaption: 'Loading', PhotoLarge: 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire320x220.png', PhotoThumb: 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png', Photos: [{ Caption: 'Loading', Uri300: 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png', UriLarge: 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png', UriThumb: 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png' }], PostalCode: null, PropertySubType: null, PropertyType: null, PublicRemarks: 'Loading', StreetName: null, StreetNumber: null, StreetSuffix: null, YearBuilt: null, completed: null, geo: {} };
 
 app.set('port', process.env.PORT || 5000);
 
@@ -128,7 +129,7 @@ function requestWithPageOps(ops) {
 function promiseSaveListings(listings) {
     function finishUpdate(uplst, ups, o, e, p) {
         console.log('next - saving now');
-        e[p['idpath']] = uplst;
+        e[p.idpath] = uplst;
         e[p.zippath] = uplst;
         e[p.citypath] = uplst;
         e[p.streetpath] = uplst['Id'];
@@ -136,7 +137,6 @@ function promiseSaveListings(listings) {
         //  console.log('updating!'+JSON.stringify(uplist))//
         o.push(uplst);
         ups = Object.assign(ups, e);
-        allupdates.push(updates);
         return new Promise(function (resolve, reject) {
             setTimeout(function () {
                 return resolve(ups);
@@ -154,71 +154,71 @@ function promiseSaveListings(listings) {
     var updates = {};
     var obj = [];
     return new Promise(function (resolve, reject) {
-        setTimeout(function () {
-            return resolve(listings);
-        }, 2500);
-    }) //2.5  seconds
-    .then(function (listings) {
         listings.forEach(function (listing) {
-            var uplist = { media: {} };
-            uplist = Object.assign(uplist, listing.StandardFields);
-            uplist['Id'] = listing['Id'];
-            uplist['PhotoThumb'] = listing.StandardFields.Photos[0] ? listing.StandardFields.Photos[0].UriThumb : 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png';
-            uplist['media']['PhotoThumb'] = listing.StandardFields.Photos[0] ? listing.StandardFields.Photos[0].UriThumb : 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png';
-            uplist['PhotoLarge'] = listing.StandardFields.Photos[0].UriLarge ? listing.StandardFields.Photos[0].UriLarge : 'unset';
-            uplist['media']['PhotoLarge'] = listing.StandardFields.Photos[0].UriLarge ? listing.StandardFields.Photos[0].UriLarge : 'unset';
-            uplist['Photo800'] = listing.StandardFields.Photos[0].Uri800 ? listing.StandardFields.Photos[0].Uri800 : 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png';
-            uplist['media']['Photo800'] = listing.StandardFields.Photos[0].Uri800 ? listing.StandardFields.Photos[0].Uri800 : 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png';
-            uplist['Photo300'] = listing.StandardFields.Photos[0].Uri300 ? listing.StandardFields.Photos[0].Uri300 : 'unset';
-            uplist['media']['Photo300'] = listing.StandardFields.Photos[0].Uri300 ? listing.StandardFields.Photos[0].Uri300 : 'unset';
-            uplist['Photo1024'] = listing.StandardFields.Photos[0].Uri1024 ? listing.StandardFields.Photos[0].Uri1024 : 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png';
-            uplist['media']['Photo1024'] = listing.StandardFields.Photos[0].Uri1024 ? listing.StandardFields.Photos[0].Uri1024 : 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png';
-            uplist['PhotoId'] = listing.StandardFields.Photos[0].Id ? listing.StandardFields.Photos[0].Id : '0';
-            uplist['PhotoCaption'] = listing.StandardFields.Photos[0].Caption ? listing.StandardFields.Photos[0].Caption : 'Photo Caption';
-            var idpath = "/listings/id/" + listing['Id'];
-            var entry = {};
-            var entrygeo = {};
-            var citypath = "/listings/location/city/" + uplist['City'] + "/" + listing['Id'];
-            var zippath = "/listings/location/zip/" + uplist['PostalCode'] + "/" + listing['Id'];
-            var streetpath = "/listings/location/street/name/" + (0, _firebaseEncode.encode)(uplist['StreetName']) + "/" + listing['Id'];
-            var streetnumpath = "/listings/location/street/number/" + (0, _firebaseEncode.encode)(uplist['StreetNumber']) + "/" + listing['Id'];
-            var paths = { idpath: idpath, citypath: citypath, zippath: zippath, streetpath: streetpath, streetnumpath: streetnumpath };
+            var photos = [{
+                ResourceUri: "unset",
+                Id: "0",
+                Name: "PlaceHolder",
+                Caption: "PlaceHolder",
+                UriThumb: "https://searchidx.herokuapp.com/placeholders/shireThumb.png",
+                Uri300: "https://searchidx.herokuapp.com/placeholders/shire300.png",
+                Uri640: "https://searchidx.herokuapp.com/placeholders/shire640.png",
+                Uri800: "https://searchidx.herokuapp.com/placeholders/shire800.png",
+                Uri1024: "https://searchidx.herokuapp.com/placeholders/shire1024.png",
+                Uri1280: "https://searchidx.herokuapp.com/placeholders/shire1280.png",
+                Uri1600: "https://searchidx.herokuapp.com/placeholders/shire1600.png",
+                Uri2048: "https://searchidx.herokuapp.com/placeholders/shire2048.png",
+                UriLarge: "https://searchidx.herokuapp.com/placeholders/shire1024.png",
+                Primary: true
+            }];
+            var primaryphotos = listing.StandardFields.Photos[0] ? listing.StandardFields.Photos[0] : photos[0];
+            var photoentry = Object.assign(photos[0], primaryphotos);
+            var sf = Object.assign({}, listing.StandardFields);
+            var uplist = {
+                Id: listing.Id,
+                City: sf.City,
+                Zip: sf.PostalCode,
+                StreetAddress: sf.StreetNumber + ' ' + sf.StreetName + ' ' + sf.StreetSuffix,
+                Price: sf.ListPrice,
+                Beds: sf.BedsTotal,
+                Baths: sf.BathsTotal,
+                Sqft: sf.LotSizeArea,
+                Photo300: { url: photoentry.Uri300, size: null, key: Photo300 },
+                PhotoLarge: { url: photoentry.UriLarge, size: null, key: PhotoLarge },
+                PhotoThumb: { url: photoentry.UriThumb },
+                PhotoCaption: photoentry.Caption
+            };
 
-            // size({url: uplist['PhotoLarge']},function (err, dimensions, length) {
-            //     console.log(JSON.stringify(dimensions))
-            //     uplist['PhotoLargeH'] = dimensions.height;
-            //     uplist['PhotoLargeW'] = dimensions.width;
-            //     finishUpdate(uplist,updates,obj,entry,paths);
-            // })
-
-            var saving = {};
-            if (uplist['Photos'][0]) {
-                var _saving = Object.keys(uplist['media']).forEach(function (key) {
-                    size({ url: uplist['media'][key] }, function (err, dimensions, length) {
-                        console.log(JSON.stringify(dimensions));
-                        uplist['media'][key];
-                        uplist['media'][key + '_size'] = dimensions;
-                        uplist['media'][key + '_width'] = dimensions.width;
-                        finishUpdate(uplist, updates, obj, entry, paths);
-                    }).then(function (g) {
-                        console.log(JSON.stringify(g));
-                    }).catch(function (e) {
-                        console.log('while sizing got error :' + e);
-                    });
+            uplist.PhotoLarge.size = size({ url: uplist.PhotoLarge.url }, function (err, dimensions, length) {
+                return dimensions;
+            }).then(function (n) {
+                uplist.Photo300.size = size({ url: uplist.Photo300.url }, function (err, dimensions, length) {
+                    return dimensions;
                 });
-            }
-            minipromise(saving).then(function (enddata) {
-                finishUpdate(uplist, updates, obj, entry, paths);
-            }).catch(function (err) {
-                return console.log("error: " + JSON.stringify(err));
+            }).then(function (n) {
+                var entry = {};
+                var listingkey = dB.ref('/listings/keys/').push(Object.assign(uplist, sf));
+                uplist['key'] = listingkey;
+                var idpath = "/listings/id/" + listing['Id'];
+                var citypath = "/listings/location/city/" + uplist['City'];
+                var zippath = "/listings/location/zip/" + uplist['PostalCode'];
+                var streetpath = "/listings/location/street/name/" + uplist['StreetName'];
+                var streetnumpath = "/listings/location/street/number/" + uplist['StreetNumber'];
+                var paths = { idpath: (0, _firebaseEncode.encode)(idpath), citypath: (0, _firebaseEncode.encode)(citypath), zippath: (0, _firebaseEncode.encode)(zippath), streetpath: (0, _firebaseEncode.encode)(streetpath), streetnumpath: (0, _firebaseEncode.encode)(streetnumpath) };
+                entry[idpath] = uplist;
+                entry[citypath] = uplist;
+                entry[zippath] = uplist;
+                entry[streetpath] = uplist;
+                entry[streetnumpath] = uplist;
+                allupdates.push(entry);
+                dB.ref('/').update(entry).then(function (z) {
+                    resolve(listings);
+                });
             });
+        }) //2.5  seconds
+        .catch(function (err) {
+            console.log("error: " + JSON.stringify(err));
         });
-
-        console.log('# of listings: ' + listings.length);
-    }).then(function (end) {
-        return end;
-    }).catch(function (err) {
-        return console.log("error: " + " " + JSON.stringify(listings), err.message);
     });
 }
 function removeall() {
@@ -273,11 +273,24 @@ function getListings(req, res, filter, addr) {
             return requestWithPageOps(ops);
         });
         Promise.all(promisedPages).then(function (listings) {
-            promiseSaveListings(listings).then(function (updates) {});
-
-            dB.ref('/').update(allupdates);
+            promiseSaveListings(listings);
+        }).catch(_errors2.default.StatusCodeError, function (reason) {
+            // The server responded with a status codes other than 2xx.
+            // Check
+            if (reason.statusCode == 401) {
+                console.log(reason);
+                refreshAuth(oauthData);
+            }
+        })
+        // .catch(this.checkStatus)
+        .catch(_errors2.default.RequestError, function (reason) {
+            // reason.cause is the Error object Request would pass into a callback.
+            console.log(reason.cause);
+        }).catch(function (e) {
+            // reason.cause is the Error object Request would pass into a callback.
+            console.log('e:' + e);
         });
-        ;
+        console.log('going!');
     }).catch(_errors2.default.StatusCodeError, function (reason) {
         // The server responded with a status codes other than 2xx.
         // Check
@@ -294,9 +307,7 @@ function getListings(req, res, filter, addr) {
         // reason.cause is the Error object Request would pass into a callback.
         console.log('e:' + e);
     });
-    console.log('going!');
 }
-
 function makeUrl(args) {
     var zipcode = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
     var proptype = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
@@ -304,7 +315,6 @@ function makeUrl(args) {
     var status = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
 
     var argfilter = args['_filter'] ? args['_filter'] : '';
-    var select = 'StreetNumber,StreetName,PostalCode,ListPrice,City,BedsTotal,BathsTotal,PublicRemarks,PropertyType,MlsStatus,Photos,Latitude,ListingId,Longitude,PostalCode,PropertySubType,YearBuilt';
     var andT = args['_filter'] ? ' And ' : '';
     var zipfilter = zipcode ? argfilter + andT + ('" PostalCode Eq \'' + zipcode + '\'') : argfilter;
     var andZ = zipcode ? andT : '';
@@ -318,7 +328,7 @@ function makeUrl(args) {
         _filter: args['_filter'],
         _limit: 50,
         // _page:      1,
-        _select: 'Photos.UriThumb,Photos.UriLarge,Photos.Uri300,Photos.Caption,PrimaryPhoto,StreetNumber,StreetName,StreetSuffix,PostalCode,ListPrice,City,BedsTotal,BathsTotal,PublicRemarks,PropertyType,MlsStatus,Latitude,ListingId,Longitude,PostalCode,PropertySubType,YearBuilt'
+        _select: 'Photos.Uri640,Photos.Uri800,Photos.Uri1024,Photos.Uri1280,Photos.Uri1600,Photos.Uri2048,Photos.UriThumb,Photos.UriLarge,Photos.Uri300,Photos.Caption,PrimaryPhoto,StreetNumber,StreetName,StreetSuffix,PostalCode,ListPrice,City,BedsTotal,BathsTotal,PublicRemarks,PropertyType,MlsStatus,Latitude,ListingId,Longitude,PostalCode,PropertySubType,YearBuilt,LivingArea,HighSchool,MiddleOrJuniorSchool,ElementarySchool,SubdivisionName,BuildingAreaTotal,PropertySubType,UnparsedAddress,LotSizeArea,LotSizeAcres,CustomFields'
     };
     // formatargs['_page'] = args['_page']?args['_page']:1
     // formatargs['_select'] = select
