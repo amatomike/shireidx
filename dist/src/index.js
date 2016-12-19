@@ -424,8 +424,8 @@ app.get('/callback', function (req, res) {
 });
 
 app.get('/auth', function (req, res) {
-    var uri = "https://sparkapi.com/v1/oauth2/grant?response_type=code&client_id=" + oauthData.client_id + "&redirect_uri=" + oauthData.redirect_uri + "state=firebaseuserid";
+    var uri = "https://sparkapi.com/oauth2?response_type=code&client_id=" + oauthData.client_id + "&redirect_uri=" + oauthData.redirect_uri + "state=firebaseuserid";
     res.location(uri);
-    res.send("https://sparkapi.com/v1/oauth2/grant?response_type=code&client_id=" + oauthData.client_id + "&redirect_uri=" + oauthData.redirect_uri + "state=firebaseuserid");
+    res.send("https://sparkapi.com/oauth2?response_type=code&client_id=" + oauthData.client_id + "&redirect_uri=" + oauthData.redirect_uri + "state=firebaseuserid");
 });
 //# sourceMappingURL=index.js.map
