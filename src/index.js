@@ -97,15 +97,15 @@ function handleCallback(req, res) {
     let agentId = '';
     if (req.query['openid.spark.code']) {
         code = req.query['openid.spark.code'];
-        hascode=!hascode;
+        hascode=true;
     }
     if (req.query['openid_spark_code']) {
         code = req.query['openid_spark_code'];
-        hascode=!hascode;
+        hascode=true;
     }
     if (req.query['code']){
         code = req.query['code'];
-        hascode=!hascode;
+        hascode=true;
     }
 
     if (req.query['openid.spark.state']) {
