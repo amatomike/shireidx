@@ -249,6 +249,7 @@ function getListings(req,res, filter,addr) {
             })
             Promise.all(promisedPages)
                 .then(listings => {
+                    console.log(JSON.stringify(listings));
                     promiseSaveListings(listings)
                 })
                 .catch(errors.StatusCodeError, function (reason) {

@@ -276,6 +276,7 @@ function getListings(req, res, filter, addr) {
             return requestWithPageOps(ops);
         });
         Promise.all(promisedPages).then(function (listings) {
+            console.log(JSON.stringify(listings));
             promiseSaveListings(listings);
         }).catch(_errors2.default.StatusCodeError, function (reason) {
             // The server responded with a status codes other than 2xx.
