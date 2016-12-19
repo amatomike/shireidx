@@ -410,6 +410,10 @@ app.get('/callback', function (req, res) {
     handleCallback(req, res);
 });
 
+app.get('/auth', function (req, res) {
+    var uri = "https://sparkapi.com/v1/oauth2/grant?response_type=code&client_id=" + oauthData.client_id + "&redirect_uri=" + oauthData.redirect_uri + "state=firebaseuserid";
+    res.location(uri);
+});
 var port = process.env.PORT || 8000;
 server.listen(port, function () {
     console.log("App is running on port " + port);

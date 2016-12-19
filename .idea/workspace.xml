@@ -53,8 +53,8 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="645">
-              <caret line="375" column="2" lean-forward="true" selection-start-line="375" selection-start-column="2" selection-end-line="375" selection-end-column="2" />
+            <state relative-caret-position="612">
+              <caret line="378" column="142" lean-forward="false" selection-start-line="378" selection-start-column="142" selection-end-line="378" selection-end-column="142" />
               <folding />
             </state>
           </provider>
@@ -66,7 +66,7 @@
             <state relative-caret-position="-135">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding>
-                <marker date="1482110663253" expanded="true" signature="19365:19419" ph="{...}" />
+                <marker date="1482110893419" expanded="true" signature="19606:19660" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -352,7 +352,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1482051088711</updated>
-      <workItem from="1482058896277" duration="3937000" />
+      <workItem from="1482058896277" duration="4155000" />
     </task>
     <task id="LOCAL-00001" summary="k">
       <created>1482059527902</created>
@@ -445,11 +445,18 @@
       <option name="project" value="LOCAL" />
       <updated>1482106196169</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="k">
+      <created>1482110678072</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1482110678072</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3937000" />
+    <option name="totallyTimeSpent" value="4155000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="46" y="52" width="1863" height="997" extended-state="0" />
@@ -518,15 +525,15 @@
         <state relative-caret-position="-135">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1482110663253" expanded="true" signature="19365:19419" ph="{...}" />
+            <marker date="1482110893419" expanded="true" signature="19606:19660" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="645">
-          <caret line="375" column="2" lean-forward="true" selection-start-line="375" selection-start-column="2" selection-end-line="375" selection-end-column="2" />
+        <state relative-caret-position="612">
+          <caret line="378" column="142" lean-forward="false" selection-start-line="378" selection-start-column="142" selection-end-line="378" selection-end-column="142" />
           <folding />
         </state>
       </provider>
