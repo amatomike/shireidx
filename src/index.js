@@ -181,30 +181,30 @@ let        allupdates=[];
             let idpath = "/listings/id/" + listing['Id']
             let citypath = "/listings/location/city/" + uplist['City'];
             let zippath = "/listings/location/zip/" + uplist['PostalCode'];
-            let streetpath = "/listings/location/street/name/" + uplist['StreetName'];
-            let streetnumpath = "/listings/location/street/number/" + uplist['StreetNumber'];
+            let streetpath = encode("/listings/location/street/name/" + uplist['StreetName']);
+            let streetnumpath = encode("/listings/location/street/number/" + uplist['StreetNumber']);
             let paths = {idpath:encode(idpath),citypath:encode(citypath),zippath:encode(zippath),streetpath:encode(streetpath),streetnumpath:encode(streetnumpath)}
-            entry[paths[idpath]]=uplist;
-            entry[paths[citypath]]=uplist;
-            entry[paths[zippath]]=uplist;
-            entry[paths[streetpath]]=uplist;
-            entry[paths[streetnumpath]]=uplist;
+            entry[idpath]=uplist;
+            entry[citypath]=uplist;
+            entry[zippath]=uplist;
+            entry[streetpath]=uplist;
+            entry[streetnumpath]=uplist;
             allupdates.push(entry);
             size({url: uplist.PhotoLarge.url},function (err, dimensions, length) {uplist.PhotoLarge.size = dimensions;
-                entry[paths[idpath]]=uplist;
-                entry[paths[citypath]]=uplist;
-                entry[paths[zippath]]=uplist;
-                entry[paths[streetpath]]=uplist;
-                entry[paths[streetnumpath]]=uplist;
+                entry[idpath]=uplist;
+                entry[citypath]=uplist;
+                entry[zippath]=uplist;
+                entry[streetpath]=uplist;
+                entry[streetnumpath]=uplist;
                 dB.ref('/').update(entry)
             })
             size({url: uplist.Photo300.url},function (err, dimensions, length) {
                 uplist.Photo300.size = dimensions;
-                entry[paths[idpath]]=uplist;
-                entry[paths[citypath]]=uplist;
-                entry[paths[zippath]]=uplist;
-                entry[paths[streetpath]]=uplist;
-                entry[paths[streetnumpath]]=uplist;
+                entry[idpath]=uplist;
+                entry[citypath]=uplist;
+                entry[zippath]=uplist;
+                entry[streetpath]=uplist;
+                entry[streetnumpath]=uplist;
                 dB.ref('/').update(entry)
                 })
 

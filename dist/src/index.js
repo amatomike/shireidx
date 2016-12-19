@@ -197,31 +197,31 @@ function promiseSaveListings(listings) {
             var idpath = "/listings/id/" + listing['Id'];
             var citypath = "/listings/location/city/" + uplist['City'];
             var zippath = "/listings/location/zip/" + uplist['PostalCode'];
-            var streetpath = "/listings/location/street/name/" + uplist['StreetName'];
-            var streetnumpath = "/listings/location/street/number/" + uplist['StreetNumber'];
+            var streetpath = (0, _firebaseEncode.encode)("/listings/location/street/name/" + uplist['StreetName']);
+            var streetnumpath = (0, _firebaseEncode.encode)("/listings/location/street/number/" + uplist['StreetNumber']);
             var paths = { idpath: (0, _firebaseEncode.encode)(idpath), citypath: (0, _firebaseEncode.encode)(citypath), zippath: (0, _firebaseEncode.encode)(zippath), streetpath: (0, _firebaseEncode.encode)(streetpath), streetnumpath: (0, _firebaseEncode.encode)(streetnumpath) };
-            entry[paths[idpath]] = uplist;
-            entry[paths[citypath]] = uplist;
-            entry[paths[zippath]] = uplist;
-            entry[paths[streetpath]] = uplist;
-            entry[paths[streetnumpath]] = uplist;
+            entry[idpath] = uplist;
+            entry[citypath] = uplist;
+            entry[zippath] = uplist;
+            entry[streetpath] = uplist;
+            entry[streetnumpath] = uplist;
             allupdates.push(entry);
             size({ url: uplist.PhotoLarge.url }, function (err, dimensions, length) {
                 uplist.PhotoLarge.size = dimensions;
-                entry[paths[idpath]] = uplist;
-                entry[paths[citypath]] = uplist;
-                entry[paths[zippath]] = uplist;
-                entry[paths[streetpath]] = uplist;
-                entry[paths[streetnumpath]] = uplist;
+                entry[idpath] = uplist;
+                entry[citypath] = uplist;
+                entry[zippath] = uplist;
+                entry[streetpath] = uplist;
+                entry[streetnumpath] = uplist;
                 dB.ref('/').update(entry);
             });
             size({ url: uplist.Photo300.url }, function (err, dimensions, length) {
                 uplist.Photo300.size = dimensions;
-                entry[paths[idpath]] = uplist;
-                entry[paths[citypath]] = uplist;
-                entry[paths[zippath]] = uplist;
-                entry[paths[streetpath]] = uplist;
-                entry[paths[streetnumpath]] = uplist;
+                entry[idpath] = uplist;
+                entry[citypath] = uplist;
+                entry[zippath] = uplist;
+                entry[streetpath] = uplist;
+                entry[streetnumpath] = uplist;
                 dB.ref('/').update(entry);
             });
 
