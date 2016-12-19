@@ -217,10 +217,10 @@ function promiseSaveListings(listings) {
                 dB.ref('/').update(entry).then(function (z) {
                     resolve(listings);
                 });
+            }) //2.5  seconds
+            .catch(function (err) {
+                console.log("error: " + JSON.stringify(err));
             });
-        }) //2.5  seconds
-        .catch(function (err) {
-            console.log("error: " + JSON.stringify(err));
         });
     });
 }

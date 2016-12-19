@@ -196,9 +196,10 @@ function promiseSaveListings(listings){
             entry[streetnumpath]=uplist;
             allupdates.push(entry);
             dB.ref('/').update(entry).then(z=>{
-            resolve(listings);})})})//2.5  seconds
+            resolve(listings);})
+                })//2.5  seconds
             .catch((err) =>{console.log("error: "+JSON.stringify(err))
-                });
+                });})
 })}
 function removeall(){
     let remit = dB.ref('/listings').remove().then(function () {
