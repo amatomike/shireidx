@@ -39,7 +39,7 @@ let oauthData = {
     redirect_uri: '',
     expires_at: ''
 }
-
+let allupdates=[]
 let dB = fb.database();
 fbinit.database().ref('/sparkauth/oauth').on("value", function(snapshot) {
     oauthData.client_id= snapshot.val().client_id
@@ -151,7 +151,7 @@ function promiseSaveListings(listings){
         //  console.log('updating!'+JSON.stringify(uplist))//
         o.push(uplst)
         ups = Object.assign(ups, e)
-        dB.ref('/').update(ups);
+        allupdates.push(updates);
         return new Promise(function(resolve, reject) {
             setTimeout(() => resolve(ups),25000 );})
     }
@@ -278,7 +278,14 @@ function getListings(req,res, filter,addr) {
 
                     console.log('length:'+combo.length);
                     // res.send(combo)
-                });
+                    // dB.ref('/').update(ups);
+
+                })
+                .then(endres=>{
+                dB.ref('/').update(allupdates);
+
+            });
+            ;
         })
         .catch(errors.StatusCodeError, function (reason) {
             // The server responded with a status codes other than 2xx.
