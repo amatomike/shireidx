@@ -53,6 +53,15 @@ fbinit.database().ref('/sparkauth/oauth').on("value", function(snapshot) {
 }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
 });
+app.use(express.static(__dirname + '/public'));
+
+// views is directory for all template files
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+
+app.get('/', function(request, response) {
+    response.render('pages/index');
+});
 function checkStatus(response){
     if (response.statusCode == 401) {
         console.log('response = 401 ? '+response.statusCode)
@@ -379,6 +388,7 @@ app.get('/auth', (req, res) => {
     var uri = "https://sparkapi.com/v1/oauth2/grant?response_type=code&client_id="+oauthData.client_id+"&redirect_uri="+oauthData.redirect_uri+"state=firebaseuserid";
     res.location(uri);
 });
+
 let port = process.env.PORT || 8000
 server.listen(port, function() {
     console.log("App is running on port " + port);
