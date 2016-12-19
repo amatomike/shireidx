@@ -93,57 +93,7 @@ function saveOauthData(od) {
     return dB.ref('/sparkauth/oauth').update(od)
 }
 function handleCallback(req, res) {
-    let code = ''
-    let hascode = false;
-    let agentId = '';
-    if (req.query['openid.spark.code']) {
-        code = req.query['openid.spark.code'];
-        hascode=true;
-    }
-    if (req.query['openid_spark_code']) {
-        code = req.query['openid_spark_code'];
-        hascode=true;
-    }
-    if (req.query['code']){
-        code = req.query['code'];
-        hascode=true;
-    }
 
-    if (req.query['openid.spark.state']) {
-        agentId = req.query['openid.spark.state']
-    }
-    if(req.query['state']) {
-        agentId = req.query['state']
-    }
-    // console.log(req.query['openid.spark.code'] + ' : from callback');
-    let headers = {
-        'X-SparkApi-User-Agent': 'Idx Agent',
-        'Content-Type': 'application/json'
-    };
-    let options;
-    options = {
-        uri: 'https://sparkapi.com/v1/oauth2/grant',
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify({
-            client_id: oauthData.client_id,
-            client_secret: oauthData.client_secret,
-            grant_type: "authorization_code",
-            code: hascode ? code : oauthData.code,
-            redirect_uri: oauthData.redirect_uri
-        }),
-        json:true
-    };
-    rp(options)
-        .then(pb=>{
-            saveOauthData(pb)
-            res.send('<strong>zip codes</strong><br><a href="/zip/07717"><br/><strong>zip 07717</strong><br><a href="/zip/08736"><strong>zip 08736</strong><br/><br/><strong>Log in</strong> with Spark</a>' +
-                '<a href="https://sparkplatform.com/oauth2?response_type=code&client_id='+oauthData.client_id+'&redirect_uri='+oauthData.redirect_uri+'">Agent <strong>login</strong></a>');
-        })
-        .catch(function(err) {
-            res.send(err + 'oops');
-            console.log(err + 'uhoh');
-            console.log('request failed', err)})
 }
 //https://searchidx.herokuapp.com/callback?openid.assoc_handle=%7BHMAC-SHA1%7D%7B58574516%7D%7B6I%2BC%2Bg%3D%3D%7D&openid.claimed_id=https%3A%2F%2Fsparkplatform.com%2Fopenid%2Fuserid%2Fmo.1524%3Fsession_id%3D6e338a49c2eef5f2d4e36270c0647de5&openid.identity=https%3A%2F%2Fsparkplatform.com%2Fopenid%2Fuserid%2Fmo.1524%3Fsession_id%3D6e338a49c2eef5f2d4e36270c0647de5&openid.mode=id_res&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.ns.spark=http%3A%2F%2Fsparkplatform.com%2Fextensions%2Fspark%2F1.0&openid.ns.sreg=http%3A%2F%2Fopenid.net%2Fextensions%2Fsreg%2F1.1&openid.op_endpoint=https%3A%2F%2Fsparkplatform.com%2Fopenid%3Fsession_id%3D6e338a49c2eef5f2d4e36270c0647de5&openid.response_nonce=2016-12-19T02%3A25%3A26ZV3Hhkt&openid.return_to=https%3A%2F%2Fsearchidx.herokuapp.com%2Fcallback&openid.sig=e582hxh5GzHutv0z%2FMIayGji6cw%3D&openid.signed=assoc_handle%2Cclaimed_id%2Cidentity%2Cmode%2Cns%2Cns.spark%2Cns.sreg%2Cop_endpoint%2Cresponse_nonce%2Creturn_to%2Csigned%2Cspark.code%2Csreg.fullname%2Csreg.nickname&openid.spark.code=6tbc7lcwmiedsbwrlnpokkrdb&openid.sreg.fullname=Paul+Amato&openid.sreg.nickname=20140811174925623895000000
 function oauthHeaders(){
@@ -390,7 +340,79 @@ app.get('/addr/:addr', function (req, res) {
     getListings(req,res,thefilter,addr)
 })
 app.get('/callback', function (req, res) {
-    handleCallback(req,res);
+    let code = ''
+    let hascode = false;
+    let agentId = '';
+    if (req.query['openid.spark.code']) {
+        code = req.query['openid.spark.code'];
+        hascode=true;
+    }
+    if (req.query['openid_spark_code']) {
+        code = req.query['openid_spark_code'];
+        hascode=true;
+    }
+    if (req.query['code']){
+        code = req.query['code'];
+        hascode=true;
+    }
+
+    if (req.query['openid.spark.state']) {
+        agentId = req.query['openid.spark.state']
+    }
+    if(req.query['state']) {
+        agentId = req.query['state']
+    }
+    if(hascode==true){
+        fbinit.database().ref('/sparkauth/oauth/code').update(code).then(function () {
+            console.log('updated code :'+code);
+        })
+    }
+    else {
+        console.log('did not update code : '+code+' hascode set to :'+hascode?'true':'false')
+    }
+    // console.log(req.query['openid.spark.code'] + ' : from callback');
+    let options;
+    fbinit.database().ref('/sparkauth/oauth').once("value", function(snapshot) {
+        options = {
+            method: 'POST',
+            uri: 'https://sparkapi.com/oauth2/grant',
+            headers: {
+                'X-SparkApi-User-Agent': 'Idx Agent',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                client_id: snapshot.val().client_id,
+                client_secret: snapshot.val().client_secret,
+                grant_type: "authorization_code",
+                code: hascode ? code : snapshot.val().code,
+                redirect_uri: snapshot.val().redirect_uri
+            }),
+            json:true
+        };
+        console.log('using options :'+JSON.stringify(options))
+        oauthData.client_id= snapshot.val().client_id
+        oauthData.client_secret= snapshot.val().client_secret
+        oauthData.access_token= snapshot.val().access_token
+        oauthData.refresh_token= snapshot.val().refresh_token
+        oauthData.redirect_uri= snapshot.val().redirect_uri
+        oauthData.expires_at= snapshot.val().expires_at?snapshot.val().expires_at:"0"
+        oauthData.code = snapshot.val().code
+
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    }).then(function () {
+    rp(options)
+        .then(pb=>{
+            saveOauthData(pb)
+            res.render('pages/spark', {results:Object.keys(pb).map(key=> key = pb[key])});
+            // res.send('<strong>zip codes</strong><br><a href="/zip/07717"><br/><strong>zip 07717</strong><br><a href="/zip/08736"><strong>zip 08736</strong><br/><br/><strong>Log in</strong> with Spark</a>' +
+            //     '<a href="https://sparkplatform.com/oauth2?response_type=code&client_id='+oauthData.client_id+'&redirect_uri='+oauthData.redirect_uri+'">Agent <strong>login</strong></a>');
+        })
+        .catch(function(err) {
+            res.send(err + 'oops');
+            console.log(err + 'uhoh');
+            console.log('request failed', err)})
+    });
 })
 
 app.get('/auth', (req, res) => {
