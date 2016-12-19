@@ -187,19 +187,17 @@ function promiseSaveListings(listings){
 
             dB.ref('/').update(entry)
             resolve(listings)
-            let large=size({url: uplist.PhotoLarge.url},function (err, dimensions, length) {return dimensions;})
+            let large=size({url: uplist.PhotoLarge.url},function (err, dimensions, length) {uplist.PhotoLarge.size = dimensions;})
                 .then(dl=>{
-                    uplist.PhotoLarge.size = dl;})
-            let three=size({url: uplist.Photo300.url},function (err, dimensions, length) {return dimensions;})
-                .then(d3=>{
-                    uplist.Photo300.size = d3;
-                    entry[idpath]=uplist;
-                    entry[citypath]=uplist;
-                    entry[zippath]=uplist;
-                    entry[streetpath]=uplist;
-                    entry[streetnumpath]=uplist;
-                    dB.ref('/').update(entry)
-                })
+            let three=size({url: uplist.Photo300.url},function (err, dimensions, length) {
+                uplist.Photo300.size = dimensions;
+                entry[idpath]=uplist;
+                entry[citypath]=uplist;
+                entry[zippath]=uplist;
+                entry[streetpath]=uplist;
+                entry[streetnumpath]=uplist;
+                dB.ref('/').update(entry)
+                })})
                 //2.5  seconds
 
 })})}
