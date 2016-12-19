@@ -90,10 +90,7 @@ function checkStatus(response){
 }
 function saveOauthData(od) {
     console.log("saving OauthData ->"+od);
-    return dB.ref('/sparkauth/oauth').update({
-        access_token: od.access_token,
-        refresh_token: od.refresh_token
-    })
+    return dB.ref('/sparkauth/oauth').update(od)
 }
 function handleCallback(req, res) {
     let code = ''
@@ -125,7 +122,7 @@ function handleCallback(req, res) {
     };
     let options;
     options = {
-        url: 'https://sparkapi.com/v1/oauth2/grant',
+        uri: 'https://sparkapi.com/v1/oauth2/grant',
         method: 'POST',
         headers: headers,
         body: JSON.stringify({
@@ -134,10 +131,10 @@ function handleCallback(req, res) {
             grant_type: "authorization_code",
             code: hascode ? code : oauthData.code,
             redirect_uri: oauthData.redirect_uri
-        })
+        }),
+        json:true
     };
-    fetch(options)
-        .then(parseJSON)
+    rp(options)
         .then(pb=>{
             saveOauthData(pb)
             res.send('<strong>zip codes</strong><br><a href="/zip/07717"><br/><strong>zip 07717</strong><br><a href="/zip/08736"><strong>zip 08736</strong><br/><br/><strong>Log in</strong> with Spark</a>' +
