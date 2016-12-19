@@ -103,10 +103,21 @@ function oauthHeaders(){
         'Content-Type': 'application/json'
     };
 }
+function requestWithPageOps(ops){
+        return new Promise(function(resolve, reject) {
+            rp(ops)
+                .then(pb=>{
+                resolve(pb['D']['Results']);
+                })
+                .catch(e=>{
+                reject(Error('listings didnt load' + e));
+                })
+            })
+}
 function promiseSaveListings(listings){
     function finishUpdate(uplst,ups,o,e,p) {
         console.log('next - saving now')
-        e[p['idpath']] = uplst
+        e[p.idpath] = uplst
         e[p.zippath] = uplst
         e[p.citypath] = uplst
         e[p.streetpath] = uplst['Id']
@@ -126,51 +137,72 @@ function promiseSaveListings(listings){
     let updates = {}
     let obj = []
     return new Promise(function(resolve, reject) {
-        setTimeout(() => resolve(listings), 2500 );})//2.5  seconds
+        listings.forEach(listing=> {
+            let photos = [
+                {
+                    ResourceUri: "/vX/listings/20060412165917817933000000/photos/20080917142739989238000000",
+                    Id: "20080917142739989238000000",
+                    Name: "Listing Photo",
+                    Caption: "",
+                    UriThumb: "http://photos.sparkplatform.com/demomls/20080917142739989238000000-t.jpg",
+                    Uri300: "http://photos.sparkplatform.com/demomls/20080917142739989238000000.jpg",
+                    Uri640: "http://resize.sparkplatform.com/demomls/640x480/true/20080917142739989238000000-o.jpg",
+                    Uri800: "http://resize.sparkplatform.com/demomls/800x600/true/20080917142739989238000000-o.jpg",
+                    Uri1024: "http://resize.sparkplatform.com/demomls/1024x768/true/20080917142739989238000000-o.jpg",
+                    Uri1280: "http://resize.sparkplatform.com/demomls/1280x1024/true/20080917142739989238000000-o.jpg",
+                    Uri1600: "http://resize.sparkplatform.com/demomls/1600x1280/true/20080917142739989238000000-o.jpg",
+                    Uri2048: "http://resize.sparkplatform.com/demomls/2048x1536/true/20080917142739989238000000-o.jpg",
+                    UriLarge: "http://photos.sparkplatform.com/demomls/20080917142739989238000000-o.jpg",
+                    Primary: true
+                }
+            ]
+            let uplist = {Id:listing.Id, media:{PhotoThumb:listing.Photos[0].UriThumb}}
+            let entry = {}
+            let entrygeo = {}
+            uplist = Object.assign(uplist, listing.StandardFields);
+
+            uplist['Id'] = listing['Id'];
+            uplist['PhotoThumb'] = listing.StandardFields.Photos[0] ? listing.StandardFields.Photos[0].UriThumb : 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png';
+            uplist['media']['PhotoThumb'] = listing.StandardFields.Photos[0] ? listing.StandardFields.Photos[0].UriThumb : 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png';
+            uplist['PhotoLarge'] = listing.StandardFields.Photos[0].UriLarge ? listing.StandardFields.Photos[0].UriLarge : 'unset';
+            uplist['media']['PhotoLarge'] = listing.StandardFields.Photos[0].UriLarge ? listing.StandardFields.Photos[0].UriLarge : 'unset';
+            uplist['Photo800'] = listing.StandardFields.Photos[0].Uri800 ? listing.StandardFields.Photos[0].Uri800 : 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png';
+            uplist['media']['Photo800'] = listing.StandardFields.Photos[0].Uri800 ? listing.StandardFields.Photos[0].Uri800 : 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png';
+            uplist['Photo300'] = listing.StandardFields.Photos[0].Uri300 ? listing.StandardFields.Photos[0].Uri300 : 'unset';
+            uplist['media']['Photo300'] = listing.StandardFields.Photos[0].Uri300 ? listing.StandardFields.Photos[0].Uri300 : 'unset';
+            uplist['Photo1024'] = listing.StandardFields.Photos[0].Uri1024 ? listing.StandardFields.Photos[0].Uri1024 : 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png';
+            uplist['media']['Photo1024'] = listing.StandardFields.Photos[0].Uri1024 ? listing.StandardFields.Photos[0].Uri1024 : 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png';
+            uplist['PhotoId'] = listing.StandardFields.Photos[0].Id ? listing.StandardFields.Photos[0].Id : '0';
+            uplist['PhotoCaption'] = listing.StandardFields.Photos[0].Caption ? listing.StandardFields.Photos[0].Caption : 'Photo Caption';
+            let listingkey = dB.ref('/listings/keys/').push(uplist);
+            let idpath = "/listings/id/" + listing['Id']
+            let citypath = "/listings/location/city/" + uplist['City'];
+            let zippath = "/listings/location/zip/" + uplist['PostalCode'];
+            let streetpath = "/listings/location/street/name/" + uplist['StreetName'];
+            let streetnumpath = "/listings/location/street/number/" + uplist['StreetNumber'];
+            let paths = {idpath:encode(idpath),citypath:encode(citypath),zippath:encode(zippath),streetpath:encode(streetpath),streetnumpath:encode(streetnumpath)}
+            // size({url: uplist['PhotoLarge']},function (err, dimensions, length) {
+            //     console.log(JSON.stringify(dimensions))
+            //     uplist['PhotoLargeH'] = dimensions.height;
+            //     uplist['PhotoLargeW'] = dimensions.width;
+            //     finishUpdate(uplist,updates,obj,entry,paths);
+            // })
+
+            let saving = {};
+            if (uplist['Photos'][0]){
+                Object.keys(uplist['media']).forEach(key=>{
+                    size({url: uplist['media'][key]},function (err, dimensions, length) {
+                        console.log(JSON.stringify(dimensions))
+                        let mediaurl = uplist['media'][key]
+
+                        uplist['media'][key]['url'] = mediaurl;
+                        uplist['media'][key]['dimensions'] = dimensions;
+                    }).then(g=>{console.log(JSON.stringify(g))
+                    }).catch(e=>{console.log('while sizing got error :'+e)})})
+            }
+            finishUpdate(uplist,updates,obj,entry,paths);
+            resolve(listings), 2500 );})//2.5  seconds
         .then(listings=>{
-            listings.forEach(listing=> {
-                let uplist = {media:{}}
-                uplist = Object.assign(uplist, listing.StandardFields);
-                uplist['Id'] = listing['Id'];
-                uplist['PhotoThumb'] = listing.StandardFields.Photos[0] ? listing.StandardFields.Photos[0].UriThumb : 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png';
-                uplist['media']['PhotoThumb'] = listing.StandardFields.Photos[0] ? listing.StandardFields.Photos[0].UriThumb : 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png';
-                uplist['PhotoLarge'] = listing.StandardFields.Photos[0].UriLarge ? listing.StandardFields.Photos[0].UriLarge : 'unset';
-                uplist['media']['PhotoLarge'] = listing.StandardFields.Photos[0].UriLarge ? listing.StandardFields.Photos[0].UriLarge : 'unset';
-                uplist['Photo800'] = listing.StandardFields.Photos[0].Uri800 ? listing.StandardFields.Photos[0].Uri800 : 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png';
-                uplist['media']['Photo800'] = listing.StandardFields.Photos[0].Uri800 ? listing.StandardFields.Photos[0].Uri800 : 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png';
-                uplist['Photo300'] = listing.StandardFields.Photos[0].Uri300 ? listing.StandardFields.Photos[0].Uri300 : 'unset';
-                uplist['media']['Photo300'] = listing.StandardFields.Photos[0].Uri300 ? listing.StandardFields.Photos[0].Uri300 : 'unset';
-                uplist['Photo1024'] = listing.StandardFields.Photos[0].Uri1024 ? listing.StandardFields.Photos[0].Uri1024 : 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png';
-                uplist['media']['Photo1024'] = listing.StandardFields.Photos[0].Uri1024 ? listing.StandardFields.Photos[0].Uri1024 : 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png';
-                uplist['PhotoId'] = listing.StandardFields.Photos[0].Id ? listing.StandardFields.Photos[0].Id : '0';
-                uplist['PhotoCaption'] = listing.StandardFields.Photos[0].Caption ? listing.StandardFields.Photos[0].Caption : 'Photo Caption';
-                let idpath = "/listings/id/" + listing['Id']
-                let entry = {}
-                let entrygeo = {}
-                let citypath = "/listings/location/city/" + uplist['City'] + "/" + listing['Id']
-                let zippath = "/listings/location/zip/" + uplist['PostalCode'] + "/" + listing['Id'];
-                let streetpath = "/listings/location/street/name/" + encode(uplist['StreetName']) + "/" + listing['Id']
-                let streetnumpath = "/listings/location/street/number/" + encode(uplist['StreetNumber']) + "/" + listing['Id']
-                let paths = {idpath:idpath,citypath:citypath,zippath:zippath,streetpath:streetpath,streetnumpath:streetnumpath}
-
-                // size({url: uplist['PhotoLarge']},function (err, dimensions, length) {
-                //     console.log(JSON.stringify(dimensions))
-                //     uplist['PhotoLargeH'] = dimensions.height;
-                //     uplist['PhotoLargeW'] = dimensions.width;
-                //     finishUpdate(uplist,updates,obj,entry,paths);
-                // })
-
-                let saving = {};
-                if (uplist['Photos'][0]){
-                    let saving = Object.keys(uplist['media']).forEach(key=>{
-                            size({url: uplist['media'][key]},function (err, dimensions, length) {
-                                console.log(JSON.stringify(dimensions))
-                                uplist['media'][key]
-                                uplist['media'][key+'_size'] = dimensions;
-                                uplist['media'][key+'_width'] = dimensions.width;
-                                finishUpdate(uplist,updates,obj,entry,paths);
-                            }).then(g=>{console.log(JSON.stringify(g))
-                            }).catch(e=>{console.log('while sizing got error :'+e)})})}
                 minipromise(saving)
                     .then(enddata=>{
                         finishUpdate(uplist,updates,obj,entry,paths);
@@ -230,25 +262,14 @@ function getListings(req,res, filter,addr) {
                 pagearr.push(newops)
             }
             let promisedPages=pagearr.map(ops=>{
-                return getPage(rp(ops).then(pb=>{
-                    console.log('adding to combo'+pb['D']['Pagination']['CurrentPage'])
-                    promiseSaveListings(pb['D']['Results'])}));
+                return requestWithPageOps(ops);
             })
             Promise.all(promisedPages)
-                .then(endres=>{
-                    // res.set({'Access-Control-Allow-Origin':'*'});
-                    console.log('saving combo with '+combo.length)
-
-                    console.log('length:'+combo.length);
-                    // res.send(combo)
-                    // dB.ref('/').update(ups);
-
-                })
-                .then(endres=>{
+                .then(listings=>{
+                    promiseSaveListings(listings)
+                        .then(updates=>{
                 dB.ref('/').update(allupdates);
-
             });
-            ;
         })
         .catch(errors.StatusCodeError, function (reason) {
             // The server responded with a status codes other than 2xx.

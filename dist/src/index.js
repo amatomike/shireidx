@@ -116,6 +116,15 @@ function oauthHeaders() {
         'Content-Type': 'application/json'
     };
 }
+function requestWithPageOps(ops) {
+    return new Promise(function (resolve, reject) {
+        (0, _requestPromise2.default)(ops).then(function (pb) {
+            resolve(pb['D']['Results']);
+        }).catch(function (e) {
+            reject(Error('listings didnt load' + e));
+        });
+    });
+}
 function promiseSaveListings(listings) {
     function finishUpdate(uplst, ups, o, e, p) {
         console.log('next - saving now');
@@ -261,19 +270,11 @@ function getListings(req, res, filter, addr) {
             pagearr.push(_newops);
         }
         var promisedPages = pagearr.map(function (ops) {
-            return getPage((0, _requestPromise2.default)(ops).then(function (pb) {
-                console.log('adding to combo' + pb['D']['Pagination']['CurrentPage']);
-                promiseSaveListings(pb['D']['Results']);
-            }));
+            return requestWithPageOps(ops);
         });
-        Promise.all(promisedPages).then(function (endres) {
-            // res.set({'Access-Control-Allow-Origin':'*'});
-            console.log('saving combo with ' + combo.length);
+        Promise.all(promisedPages).then(function (listings) {
+            promiseSaveListings(listings).then(function (updates) {});
 
-            console.log('length:' + combo.length);
-            // res.send(combo)
-            // dB.ref('/').update(ups);
-        }).then(function (endres) {
             dB.ref('/').update(allupdates);
         });
         ;
