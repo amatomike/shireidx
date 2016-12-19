@@ -2,6 +2,7 @@ import express from "express";
 import fb from 'firebase'
 import rp from 'request-promise';
 let app = express();
+
 app.set('port', (process.env.PORT || 5000));
 
 app.use(express.static(__dirname + '/public'));
@@ -118,12 +119,12 @@ function handleCallback(req, res) {
         agentId = req.query['state']
     }
     // console.log(req.query['openid.spark.code'] + ' : from callback');
-    let headers = new Headers({
+    let headers = {
         'X-SparkApi-User-Agent': 'Idx Agent',
         'Content-Type': 'application/json'
-    });
+    };
     let options;
-    options = new Request({
+    options = {
         url: 'https://sparkapi.com/v1/oauth2/grant',
         method: 'POST',
         headers: headers,
@@ -134,9 +135,8 @@ function handleCallback(req, res) {
             code: hascode ? code : oauthData.code,
             redirect_uri: oauthData.redirect_uri
         })
-    });
+    };
     fetch(options)
-        .then(checkStatus)
         .then(parseJSON)
         .then(pb=>{
             saveOauthData(pb)

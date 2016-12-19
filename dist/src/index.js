@@ -25,6 +25,7 @@ var _errors2 = _interopRequireDefault(_errors);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
+
 app.set('port', process.env.PORT || 5000);
 
 app.use(_express2.default.static(__dirname + '/public'));
@@ -133,12 +134,12 @@ function handleCallback(req, res) {
         agentId = req.query['state'];
     }
     // console.log(req.query['openid.spark.code'] + ' : from callback');
-    var headers = new Headers({
+    var headers = {
         'X-SparkApi-User-Agent': 'Idx Agent',
         'Content-Type': 'application/json'
-    });
+    };
     var options = void 0;
-    options = new Request({
+    options = {
         url: 'https://sparkapi.com/v1/oauth2/grant',
         method: 'POST',
         headers: headers,
@@ -149,8 +150,8 @@ function handleCallback(req, res) {
             code: hascode ? code : oauthData.code,
             redirect_uri: oauthData.redirect_uri
         })
-    });
-    (0, _nodeFetch2.default)(options).then(checkStatus).then(parseJSON).then(function (pb) {
+    };
+    (0, _nodeFetch2.default)(options).then(parseJSON).then(function (pb) {
         saveOauthData(pb);
         res.send('<strong>zip codes</strong><br><a href="/zip/07717"><br/><strong>zip 07717</strong><br><a href="/zip/08736"><strong>zip 08736</strong><br/><br/><strong>Log in</strong> with Spark</a>' + '<a href="https://sparkplatform.com/oauth2?response_type=code&client_id=' + oauthData.client_id + '&redirect_uri=' + oauthData.redirect_uri + '">Agent <strong>login</strong></a>');
     }).catch(function (err) {
