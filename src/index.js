@@ -138,7 +138,7 @@ function promiseSaveListings(listings){
     let obj = []
     return new Promise(function(resolve, reject) {
         listings.forEach(listing=> {
-            let photos = [
+            let parr = [
                 {
                     ResourceUri: "unset",
                     Id: "0",
@@ -156,9 +156,11 @@ function promiseSaveListings(listings){
                     Primary: true
                 }
             ];
-            let primaryphotos = listing.StandardFields.Photos[0]?listing.StandardFields.Photos[0]:photos[0];
-            let photoentry = Object.assign(photos[0],primaryphotos)
-            let sf = Object.assign({},listing.StandardFields);
+            let sf = Object.assign({},listing['StandardFields']);
+            let primaryphotos = parr[0];
+            if(Object.keys(listing['StandardFields']).includes('Photos')){
+            primaryphotos = Object.assign(primaryphotos,sf['Photos'][0])}
+            let photoentry = Object.assign(parr[0],primaryphotos)
             let uplist = {
                 Id:listing.Id,
                 City:sf.City,

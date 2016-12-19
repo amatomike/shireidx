@@ -155,7 +155,7 @@ function promiseSaveListings(listings) {
     var obj = [];
     return new Promise(function (resolve, reject) {
         listings.forEach(function (listing) {
-            var photos = [{
+            var parr = [{
                 ResourceUri: "unset",
                 Id: "0",
                 Name: "PlaceHolder",
@@ -171,9 +171,12 @@ function promiseSaveListings(listings) {
                 UriLarge: "https://searchidx.herokuapp.com/placeholders/shire1024.png",
                 Primary: true
             }];
-            var primaryphotos = listing.StandardFields.Photos[0] ? listing.StandardFields.Photos[0] : photos[0];
-            var photoentry = Object.assign(photos[0], primaryphotos);
-            var sf = Object.assign({}, listing.StandardFields);
+            var sf = Object.assign({}, listing['StandardFields']);
+            var primaryphotos = parr[0];
+            if (Object.keys(listing['StandardFields']).includes('Photos')) {
+                primaryphotos = Object.assign(primaryphotos, sf['Photos'][0]);
+            }
+            var photoentry = Object.assign(parr[0], primaryphotos);
             var uplist = {
                 Id: listing.Id,
                 City: sf.City,
