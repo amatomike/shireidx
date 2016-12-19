@@ -2,7 +2,7 @@
   "name": "search",
   "version": "0.0.1",
   "description": "idx api",
-  "main": "src/index.js",
+  "main": "dist/src/index.js",
   "repository": {
     "url": "git@gitlab.com:mikeamato/idxapi.git",
     "type": "git"
