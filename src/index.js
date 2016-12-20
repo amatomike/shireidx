@@ -208,87 +208,7 @@ function getPage(ops){
         .catch((err) => console.log("error: "+JSON.stringify(ops), err));
 }
 function getListings(req,res, filter,addr) {
-    let combo = [];
-    let obj = []
-    let pageops = [];
-    let setargs = {
-        _filter: filter
-    };
-    let opsurl = makeUrl(setargs, null, 'A', 'https://sparkapi.com/v1/listings?', 'Active');
-    let authops = {
-        headers: oauthHeaders(),
-        uri: opsurl + '&_pagination=count&_page=1',
-        json: true
-    };
-    console.log('about to request...' + JSON.stringify(authops))
-    rp(authops)
-        .then(pb => {
-            // results.concat(pb['D']['Results']);
-            console.log('pagei:' + JSON.stringify(pb['D']['Pagination']))
 
-            let pages = pb['D']['Pagination']['TotalPages'];
-            let currentpage = pb['D']['Pagination']['CurrentPage'];
-            let pagearr = []
-            if (currentpage < pages) {
-
-                for (let page = 1; page < pages; page++) {
-                    let pageReq = {};
-                    let newops = {headers: oauthHeaders(), uri: opsurl + '&_pagination=1&_page=' + page, json: true};
-                    pagearr.push(newops)
-
-                }
-            } else {
-                let newops = {headers: oauthHeaders(), uri: opsurl + '&_pagination=1&_page=1', json: true};
-                pagearr.push(newops)
-            }
-            let promisedPages = pagearr.map(ops => {
-                console.log('mapping ops :'+JSON.stringify(ops));
-
-                requestWithPageOps(ops).then(listings=>{
-                    console.log('made req .. now save (length is):'+listings.length);
-                    return promiseSaveListings(listings)})
-
-            })
-            Promise.all(promisedPages)
-                .then(listings => {
-                    console.log('promise all ... '+listings.length);
-                })
-                .catch(errors.StatusCodeError, function (reason) {
-                    // The server responded with a status codes other than 2xx.
-                    // Check
-                    if (reason.statusCode == 401) {
-                        console.log(reason)
-                        refreshAuth(oauthData)
-                    }
-                })
-                // .catch(this.checkStatus)
-                .catch(errors.RequestError, function (reason) {
-                    // reason.cause is the Error object Request would pass into a callback.
-                    console.log(reason.cause)
-                })
-                .catch(e => {
-                    // reason.cause is the Error object Request would pass into a callback.
-                    console.log('e:' + e)
-                })
-            console.log('going!')
-
-        }).catch(errors.StatusCodeError, function (reason) {
-        // The server responded with a status codes other than 2xx.
-        // Check
-        if (reason.statusCode == 401) {
-            console.log(reason)
-            refreshAuth(oauthData)
-        }
-    })
-    // .catch(this.checkStatus)
-        .catch(errors.RequestError, function (reason) {
-            // reason.cause is the Error object Request would pass into a callback.
-            console.log(reason.cause)
-        })
-        .catch(e => {
-            // reason.cause is the Error object Request would pass into a callback.
-            console.log('e:' + e)
-        })
 }
 function makeUrl(args,zipcode=null,proptype=null,base='https://sparkapi.com/v1/listings?',status=null){
     let argfilter = args['_filter']?args['_filter']:''
@@ -355,8 +275,89 @@ app.get('/addr/:addr', function (req, res) {
 
     let thefilter = "PropertyType Eq 'A' And MlsStatus Eq 'Active' And (City Eq '"+addr+"' Or StreetAddress Eq '"+addr+"')"
     console.log(thefilter);
-    getListings(req,res,thefilter,addr)
-})
+    let combo = [];
+    let obj = []
+    let pageops = [];
+    let setargs = {
+        _filter: filter
+    };
+    let opsurl = makeUrl(setargs, null, 'A', 'https://sparkapi.com/v1/listings?', 'Active');
+    let authops = {
+        headers: oauthHeaders(),
+        uri: opsurl + '&_pagination=count&_page=1',
+        json: true
+    };
+    console.log('about to request...' + JSON.stringify(authops))
+    rp(authops)
+        .then(pb => {
+            // results.concat(pb['D']['Results']);
+            console.log('pagei:' + JSON.stringify(pb['D']['Pagination']))
+
+            let pages = pb['D']['Pagination']['TotalPages'];
+            let currentpage = pb['D']['Pagination']['CurrentPage'];
+            let pagearr = []
+            if (currentpage < pages) {
+
+                for (let page = 1; page < pages; page++) {
+                    let pageReq = {};
+                    let newops = {headers: oauthHeaders(), uri: opsurl + '&_pagination=1&_page=' + page, json: true};
+                    pagearr.push(newops)
+
+                }
+            } else {
+                let newops = {headers: oauthHeaders(), uri: opsurl + '&_pagination=1&_page=1', json: true};
+                pagearr.push(newops)
+            }
+            let promisedPages = pagearr.map(ops => {
+                console.log('mapping ops :'+JSON.stringify(ops));
+
+                requestWithPageOps(ops).then(listings=>{
+                    console.log('made req .. now save (length is):'+listings.length);
+                    return promiseSaveListings(listings)})
+
+            })
+            Promise.all(promisedPages)
+                .then(listings => {
+                    console.log('promise all ... '+listings.length);
+                }).then(fin=>{
+                res.render('pages/index');
+            })
+                .catch(errors.StatusCodeError, function (reason) {
+                    // The server responded with a status codes other than 2xx.
+                    // Check
+                    if (reason.statusCode == 401) {
+                        console.log(reason)
+                        refreshAuth(oauthData)
+                    }
+                })
+                // .catch(this.checkStatus)
+                .catch(errors.RequestError, function (reason) {
+                    // reason.cause is the Error object Request would pass into a callback.
+                    console.log(reason.cause)
+                })
+                .catch(e => {
+                    // reason.cause is the Error object Request would pass into a callback.
+                    console.log('e:' + e)
+                })
+            console.log('going!')
+
+        }).catch(errors.StatusCodeError, function (reason) {
+        // The server responded with a status codes other than 2xx.
+        // Check
+        if (reason.statusCode == 401) {
+            console.log(reason)
+            refreshAuth(oauthData)
+        }
+    })
+    // .catch(this.checkStatus)
+        .catch(errors.RequestError, function (reason) {
+            // reason.cause is the Error object Request would pass into a callback.
+            console.log(reason.cause)
+        })
+        .catch(e => {
+            // reason.cause is the Error object Request would pass into a callback.
+            console.log('e:' + e)
+        })})
 app.get('/callback', function (req, res) {
     let code = ''
     let hascode = false;
