@@ -31,8 +31,10 @@
     "firebase-tools": "^3.1.0",
     "https": "^1.0.0",
     "node-fetch": "^1.6.3",
+    "node-gyp": "^3.4.0",
     "request": "^2.78.0",
     "request-image-size": "^1.2.2",
-    "request-promise": "^4.1.1"
+    "request-promise": "^4.1.1",
+    "webworker-threads": "^0.7.9"
   }
 }

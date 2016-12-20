@@ -27,6 +27,7 @@ app.listen(app.get('port'), function() {
 const Promise = require('bluebird'),
     size = Promise.promisify(require('request-image-size'));
 import errors from 'request-promise/errors';
+let ls = [];
 let fbinit = fb.initializeApp({
     serviceAccount: {
         "type": "service_account",
@@ -66,6 +67,14 @@ fbinit.database().ref('/sparkauth/oauth').on("value", function(snapshot) {
 }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
 });
+let dbsnap;
+fbinit.database().ref('/listings').on("value", function(snapshot) {
+    dbsnap = snapshot;
+    if(dbsnap.child('id').exists()) {
+        console.log('entries :' + Object.keys(dbsnap.child('id').val()).length)
+    }}, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+});
 
 function checkStatus(response){
     if (response.statusCode == 401) {
@@ -98,109 +107,190 @@ function oauthHeaders(){
     };
 }
 function requestWithPageOps(ops){
-        return new Promise(function(resolve, reject) {
-            rp(ops)
-                .then(pb=>{
-                resolve(pb['D']['Results']);
-                })
-                .catch(e=>{
-                reject(Error('listings didnt load' + e));
-                })
-            })
+    return Promise.resolve(rp(ops))
 }
 function sizeAndSave(uplist,idpath,citypath,zippath,streetpath,streetnumpath){
-    return new Promise(function (resolve,reject) {
+
         let entry={};
         let sizeLarge = size({url: uplist.PhotoLarge.url},function (err, dimensions, length) {
-            uplist.PhotoLarge.size = dimensions;});
+            uplist.PhotoLarge.size = dimensions;
+            let nuplist = uplist
+            // idpath.update(nuplist);
+            // citypath.update(nuplist);
+            // zippath.update(nuplist);
+            // streetpath.update(nuplist);
+            // streetnumpath.update(nuplist);
+            entry[idpath] = uplist;
+            entry[citypath] = uplist;
+            entry[zippath]=uplist;
+            entry[streetpath]=uplist;
+            entry[streetnumpath]=uplist;
+            return dB.ref('/').update(entry)
+        });
         let size300 = size({url: uplist.Photo300.url},function (err, dimensions, length) {
             uplist.Photo300.size = dimensions;
-            });
-
-        Promise.all([sizeLarge,size300]).then(donedoing=>{
-            let nuplist = safekey.safe(uplist)
+            let nuplist = uplist
+            // idpath.update(nuplist);
+            // citypath.update(nuplist);
+            // zippath.update(nuplist);
+            // streetpath.update(nuplist);
+            // streetnumpath.update(nuplist);
             entry[idpath] = nuplist;
             entry[citypath] = nuplist;
-            entry[zippath] = nuplist;
-            entry[streetpath] = nuplist;
-            entry[streetnumpath] = nuplist;
-            dB.ref('/').update(entry).then(endit=>{
-                resolve(uplist)
-            });
+            entry[zippath]=nuplist;
+            entry[streetpath]=nuplist;
+            entry[streetnumpath]=nuplist;
+            return dB.ref('/').update(entry)
+        });
+
+        Promise.all([sizeLarge,size300]).then(donedoing=>{
+            console.log('sized-'+JSON.stringify({donedoing}))
         })
+            .then(upl=>{
+        let nuplist = uplist
+        // idpath.update(nuplist);
+        // citypath.update(nuplist);
+        // zippath.update(nuplist);
+        // streetpath.update(nuplist);
+        // streetnumpath.update(nuplist);
+                entry[idpath] = nuplist;
+                entry[citypath] = nuplist;
+                entry[zippath]=nuplist;
+                entry[streetpath]=nuplist;
+                entry[streetnumpath]=nuplist;
+        return dB.ref('/').update(entry)
     })
 }
 function promiseSaveListings(listings){
 
     let updates = {}
     let obj = []
-    return new Promise(function(resolve, reject) {
         let allupdates=[];
-       let dopromises = listings.map(listing=> {
-            let parr = [
-                {
-                    ResourceUri: "unset",
-                    Id: "0",
-                    Name: "PlaceHolder",
-                    Caption: "PlaceHolder",
-                    UriThumb: "https://searchidx.herokuapp.com/placeholders/shireThumb.png",
-                    Uri300: "https://searchidx.herokuapp.com/placeholders/shire300.png",
-                    Uri640: "https://searchidx.herokuapp.com/placeholders/shire640.png",
-                    Uri800: "https://searchidx.herokuapp.com/placeholders/shire800.png",
-                    Uri1024: "https://searchidx.herokuapp.com/placeholders/shire1024.png",
-                    Uri1280: "https://searchidx.herokuapp.com/placeholders/shire1280.png",
-                    Uri1600: "https://searchidx.herokuapp.com/placeholders/shire1600.png",
-                    Uri2048: "https://searchidx.herokuapp.com/placeholders/shire2048.png",
-                    UriLarge: "https://searchidx.herokuapp.com/placeholders/shire1024.png",
-                    Primary: true
-                }
-            ];
-            let sf = Object.assign({},listing['StandardFields']);
-            let primaryphotos = parr[0];
-            if(Object.keys(listing['StandardFields']).includes('Photos')){
-            primaryphotos = Object.assign(primaryphotos,sf['Photos'][0])}
-            let photoentry = Object.assign(parr[0],primaryphotos)
-            let uplist = {
-                Id:listing.Id,
-                City:sf.City,
-                Zip:sf.PostalCode,
-                StreetAddress:sf.StreetNumber+' '+sf.StreetName+' '+sf.StreetSuffix,
-                FullAddress:sf.UnparsedAddress,
-                Price:sf.ListPrice,
-                Beds:sf.BedsTotal,
-                Baths:sf.BathsTotal,
-                Acres:sf.LotSizeAcres,
-                Photo300:{url:photoentry.Uri300,size:null,key:'Photo300'},
-                PhotoLarge:{url:photoentry.UriLarge,size:null,key:'PhotoLarge'},
-                PhotoThumb:{url:photoentry.UriThumb},
-                PhotoCaption:photoentry.Caption,
-                YearBuilt:sf.YearBuilt,
-                LivingArea:sf.LivingArea,
-                HighSchool:sf.HighSchool,
-                MiddleOrJuniorSchool:sf.MiddleOrJuniorSchool,
-                ElementarySchool:sf.ElementarySchool,
-                Neighborhood:sf.SubdivisionName,
-                BuildingArea:sf.BuildingAreaTotal,
-                Type:sf.PropertySubType
-            }
-            let entry = {}
-            let full = safekey.safe(Object.assign(uplist,{CustomFields:listing['CustomFields'],StandardFields:sf}))
-            let listingkey = dB.ref('/listings/keys/').push(full);
-            uplist['key']=listingkey;
-            let streetnumsafe ="/listings/location/street/number/" + uplist['StreetNumber'];
-            let streetnamesafe = "/listings/location/street/name/" + uplist['StreetName'];
-            let idpath = "/listings/id/" + uplist['Id']
-            let citypath = "/listings/location/city/" + uplist['City'];
-            let zippath = "/listings/location/zip/" + uplist['PostalCode'];
-            let streetpath = streetnamesafe;
-            let streetnumpath =streetnumsafe;
+        let listingkey;
+        let entries;
+        listings.forEach(lsts=>{
+        if (!lsts.D) {
+            console.log('no D found in results - inside :'+JSON.stringify(lsts))
+            return Promise.resolve(lsts)
+        }
+        else {
+            if (lsts['D']['Results']) {
 
-            return sizeAndSave(uplist,idpath,citypath,zippath,streetpath,streetnumpath)
-       })
-    Promise.all(dopromises).then(idid=>{
-    resolve(listings)
-    })})
-    }
+                let dopromises = lsts['D']['Results'].map(listing => {
+                    let exists = dbsnap.child('id/' + listing.Id).exists();
+                    if (exists == true) {
+                        let current = dbsnap.child('id/' + listing.Id).val();
+                        listingkey = current.ListingKey;
+                        let citykey = current.CityKey;
+                        let streetnumsafe = "/listings/location/street/number/" + current['StreetNumber'];
+                        let streetnamesafe = "/listings/location/street/name/" + current['StreetName'];
+                        let idpath = dB.ref("/listings/id/" + current.Id)
+                        idpath.update(current)
+                        let keypath = dB.ref("/listings/keys/" + current.ListingKey)
+                        keypath.update(current)
+
+                        let cityKeypath = dB.ref('/listings/location/city/' + current.City + '/key/' + listingkey)
+                        cityKeypath.update(current)
+                        let cityIdpath = dB.ref('/listings/location/city/' + current.City + '/Id/' + current.Id)
+                        cityIdpath.update(current)
+                        let streetpath = dB.ref(streetnamesafe);
+                        let streetnumpath = dB.ref(streetnumsafe);
+                        return sizeAndSave(current, '/listings/id/' + current.Id, '/listings/location/city/' + current.City + '/key/' + citykey, '/listings/location/zip/' + current.Zip + '/' + current.Id, streetnamesafe+'/'+current.Id, streetnumsafe+'/'+current.Id)
+
+                        console.log('Price :' + current.ListPrice + ' City:' + current.City + 'CityKey : ' + current.CityKey + ' key :' + listingkey)
+                    } else {
+                        console.log('new entry');
+                        let parr = [
+                            {
+                                ResourceUri: "unset",
+                                Id: "0",
+                                Name: "PlaceHolder",
+                                Caption: "PlaceHolder",
+                                UriThumb: "https://searchidx.herokuapp.com/placeholders/shireThumb.png",
+                                Uri300: "https://searchidx.herokuapp.com/placeholders/shire300.png",
+                                Uri640: "https://searchidx.herokuapp.com/placeholders/shire640.png",
+                                Uri800: "https://searchidx.herokuapp.com/placeholders/shire800.png",
+                                Uri1024: "https://searchidx.herokuapp.com/placeholders/shire1024.png",
+                                Uri1280: "https://searchidx.herokuapp.com/placeholders/shire1280.png",
+                                Uri1600: "https://searchidx.herokuapp.com/placeholders/shire1600.png",
+                                Uri2048: "https://searchidx.herokuapp.com/placeholders/shire2048.png",
+                                UriLarge: "https://searchidx.herokuapp.com/placeholders/shire1024.png",
+                                Primary: true
+                            }
+                        ];
+                        let sf = Object.assign({}, listing['StandardFields']);
+                        let primaryphotos = parr[0];
+                        if (Object.keys(listing['StandardFields']).includes('Photos')) {
+                            primaryphotos = Object.assign(parr[0], sf['Photos'][0])
+                        }
+
+                        let photoentry = Object.assign(parr[0], primaryphotos)
+                        let uplist = {
+                            Id: listing.Id,
+                            City: sf.City,
+                            CityKey:'',
+                            ListingKey:'',
+                            Zip: sf.PostalCode,
+                            StreetAddress: sf.StreetNumber + ' ' + sf.StreetName + ' ' + sf.StreetSuffix,
+                            FullAddress: sf.UnparsedAddress,
+                            Price: sf.ListPrice,
+                            Beds: sf.BedsTotal,
+                            Baths: sf.BathsTotal,
+                            Acres: sf.LotSizeAcres,
+                            Photo300: {url: photoentry.Uri300, size: ' ', key: 'Photo300'},
+                            PhotoLarge: {url: photoentry.UriLarge, size: ' ', key: 'PhotoLarge'},
+                            PhotoThumb: {url: photoentry.UriThumb},
+                            PhotoCaption: photoentry.Caption,
+                            YearBuilt: sf.YearBuilt,
+                            LivingArea: sf.LivingArea,
+                            HighSchool: sf.HighSchool,
+                            MiddleOrJuniorSchool: sf.MiddleOrJuniorSchool,
+                            ElementarySchool: sf.ElementarySchool,
+                            Neighborhood: sf.SubdivisionName,
+                            BuildingArea: sf.BuildingAreaTotal,
+                            Type: sf.PropertySubType,
+                            ListPrice: sf.ListPrice,
+                            Latitude: sf.Latitude,
+                            Longitude: sf.Longitude,
+                            MlsStatus: sf.MlsStatus,
+                            PublicRemarks:sf.PublicRemarks,
+                            StreetNumber:sf.StreetNumber,
+                            StreetName:sf.StreetName,
+                            StreetSuffix:sf.StreetSuffix
+                        }
+                        uplist = Object.assign({}, safekey.safe(uplist))
+                        let entry = {}
+                        let full = Object.assign({}, uplist)
+                        listingkey = dB.ref('/listings/full/').push(full).key;
+                        uplist['ListingKey'] = listingkey;
+                        full['ListingKey'] = listingkey;
+
+                        let citykey = dB.ref('/listings/location/city/' + uplist.City + '/listings').push(full).key;
+                        uplist.CityKey = citykey;
+                        dB.ref('/listings/full/' + listingkey).update(uplist)
+
+                        let streetnumsafe = "/listings/location/street/number/" + uplist['StreetNumber'];
+                        let streetnamesafe = "/listings/location/street/name/" + uplist['StreetName'];
+                        let idpath = dB.ref("/listings/id/" + uplist.Id)
+                        idpath.update(uplist)
+                        let keypath = dB.ref("/listings/keys/" + uplist.ListingKey)
+                        keypath.update(uplist)
+
+                        let cityKeypath = dB.ref('/listings/location/city/' + uplist.City + '/key/' + listingkey)
+                        cityKeypath.update(uplist)
+                        let cityIdpath = dB.ref('/listings/location/city/' + uplist.City + '/Id/' + uplist.Id)
+                        cityIdpath.update(uplist)
+                        let streetpath = dB.ref(streetnamesafe);
+                        let streetnumpath = dB.ref(streetnumsafe);
+                        return sizeAndSave(uplist, '/listings/id/' + uplist.Id, '/listings/location/city/' + uplist.City + '/key/' + citykey, '/listings/location/zip/' + uplist.Zip + '/' + uplist.Id, streetnamesafe+'/'+uplist.Id, streetnumsafe+'/'+uplist.Id)
+                    }
+                })
+                return Promise.all(dopromises).then(idid => {
+                    console.log('Saved '+JSON.stringify(idid));
+                })
+            }
+        }})
+}
 function getPage(ops){
     console.log('getting with ops:'+JSON.stringify(ops))
     return new Promise(function(resolve, reject) {
@@ -267,11 +357,10 @@ function refreshAuth(oa) {
 
 }
 app.get('/remove', function (req, res) {
-    removeall();
-    res.send('cleared ')
+    dB.ref('/listings').remove().then(e=>{
+    res.send('cleared ')})
 })
 app.get('/addr/:addr', function (req, res) {
-    let ls=[];
     let addr = req.params.addr;
 
     let filter = "PropertyType Eq 'A' And MlsStatus Eq 'Active' And (City Eq '"+addr+"' Or StreetAddress Eq '"+addr+"')"
@@ -282,6 +371,8 @@ app.get('/addr/:addr', function (req, res) {
     let setargs = {
         _filter: filter
     };
+    let pagearr = []
+
     let opsurl = makeUrl(setargs, null, 'A', 'https://sparkapi.com/v1/listings?', 'Active');
     let authops = {
         headers: oauthHeaders(),
@@ -296,8 +387,7 @@ app.get('/addr/:addr', function (req, res) {
 
             let pages = pb['D']['Pagination']['TotalPages'];
             let currentpage = pb['D']['Pagination']['CurrentPage'];
-            let pagearr = []
-            if (currentpage < pages) {
+            pagearr.push({headers: oauthHeaders(), uri: opsurl + '&_pagination=1&_page='+pages, json: true})
 
                 for (let page = 1; page < pages; page++) {
                     let pageReq = {};
@@ -305,26 +395,20 @@ app.get('/addr/:addr', function (req, res) {
                     pagearr.push(newops)
 
                 }
-            } else {
-                let newops = {headers: oauthHeaders(), uri: opsurl + '&_pagination=1&_page=1', json: true};
-                pagearr.push(newops)
-            }
+
             let promisedPages = pagearr.map(ops => {
                 console.log('mapping ops :'+JSON.stringify(ops));
 
-                requestWithPageOps(ops).then(listings=>{
-                    console.log('made req .. now save (length is):'+listings.length);
-                    return promiseSaveListings(listings)})
-
-            })
+                return requestWithPageOps(ops)
+                })
             Promise.all(promisedPages)
-                .then(listings => {
-                    console.log('promise all ... '+listings.length);
-                    ls.push(listings);
-            }).then(lots=>{
-                res.render('pages/spark', {results:ls});
-
-            })
+             .then(pb=>{
+                 promiseSaveListings(pb)
+                }).then(f=>{
+                res.render('pages/spark', {results:Object.keys(f).map(key=>{
+                    return key = f[key];
+                })
+            })})
                 .catch(errors.StatusCodeError, function (reason) {
                     // The server responded with a status codes other than 2xx.
                     // Check
@@ -361,6 +445,90 @@ app.get('/addr/:addr', function (req, res) {
             // reason.cause is the Error object Request would pass into a callback.
             console.log('e:' + e)
         })})
+app.get('/primary', function (req, res) {
+  ls = [];
+    let cities = ['Manasquan','Wall','Avon-by-the-sea','Sea Girt','Belmar','Spring Lake','Spring Lake Heights','Brielle','Point Pleasant','Point Pleasant Beach','Bay Head','Bradley Beach','Ocean Grove','Neptune','West Belmar','Asbury Park'];
+cities.forEach(addr=>{
+    let filter = "PropertyType Eq 'A' And MlsStatus Eq 'Active' And (City Eq '"+addr+"' Or StreetAddress Eq '"+addr+"')"
+    console.log(filter);
+    let combo = [];
+    let obj = []
+    let pageops = [];
+    let setargs = {
+        _filter: filter
+    };
+    let pagearr = []
+
+    let opsurl = makeUrl(setargs, null, 'A', 'https://sparkapi.com/v1/listings?', 'Active');
+    let authops = {
+        headers: oauthHeaders(),
+        uri: opsurl + '&_pagination=count&_page=1',
+        json: true
+    };
+    console.log('about to request...' + JSON.stringify(authops))
+    rp(authops)
+        .then(pb => {
+            // results.concat(pb['D']['Results']);
+            console.log('pagei:' + JSON.stringify(pb['D']['Pagination']))
+
+            let pages = pb['D']['Pagination']['TotalPages'];
+            let currentpage = pb['D']['Pagination']['CurrentPage'];
+            pagearr.push({headers: oauthHeaders(), uri: opsurl + '&_pagination=1&_page='+pages, json: true})
+
+            for (let page = 1; page < pages; page++) {
+                let pageReq = {};
+                let newops = {headers: oauthHeaders(), uri: opsurl + '&_pagination=1&_page=' + page, json: true};
+                pagearr.push(newops)
+
+            }
+
+            let promisedPages = pagearr.map(ops => {
+                console.log('mapping ops :'+JSON.stringify(ops));
+
+                return requestWithPageOps(ops)
+            })
+            Promise.all(promisedPages)
+                .then(pb=>{
+                    promiseSaveListings(pb)
+                })
+        })
+                .catch(errors.StatusCodeError, function (reason) {
+                    // The server responded with a status codes other than 2xx.
+                    // Check
+                    if (reason.statusCode == 401) {
+                        console.log(reason)
+                        refreshAuth(oauthData)
+                    }
+                })
+                // .catch(this.checkStatus)
+                .catch(errors.RequestError, function (reason) {
+                    // reason.cause is the Error object Request would pass into a callback.
+                    console.log(reason.cause)
+                })
+                .catch(e => {
+                    // reason.cause is the Error object Request would pass into a callback.
+                    console.log('e:' + e)
+                })
+          .catch(errors.StatusCodeError, function (reason) {
+        // The server responded with a status codes other than 2xx.
+        // Check
+        if (reason.statusCode == 401) {
+            console.log(reason)
+            refreshAuth(oauthData)
+        }
+    })
+    // .catch(this.checkStatus)
+        .catch(errors.RequestError, function (reason) {
+            // reason.cause is the Error object Request would pass into a callback.
+            console.log(reason.cause)
+        })
+        .catch(e => {
+            // reason.cause is the Error object Request would pass into a callback.
+            console.log('e:' + e)
+        })})
+    res.render('pages/spark', {results:Object.keys(ls).map(key=>{
+        return key = f[key];})
+})})
 app.get('/callback', function (req, res) {
     let code = ''
     let hascode = false;
