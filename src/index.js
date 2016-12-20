@@ -122,12 +122,14 @@ function sizeAndSave(listing,idpath,citypath,zippath,streetpath,streetnumpath){
             let size300 = size({url: uplist.Photo300.url},function (err, dimensions, length) {
                 uplist.Photo300.size = dimensions;
                 })
+
         Promise.all([sizeLarge,size300]).then(donedoing=>{
-        entry[idpath] = uplist;
-        entry[citypath] = uplist;
-        entry[zippath] = uplist;
-        entry[streetpath] = uplist;
-        entry[streetnumpath] = uplist;
+let nuplist = encode(JSON.stringify(uplist))
+            entry[idpath] = nuplist;
+        entry[citypath] = nuplist;
+        entry[zippath] = nuplist;
+        entry[streetpath] = nuplist;
+        entry[streetnumpath] = nuplist;
         dB.ref('/').update(entry).then(endit=>{
             resolve(listing)
         });})
@@ -187,7 +189,7 @@ function promiseSaveListings(listings){
                 Type:sf.PropertySubType
             }
             let entry = {}
-            let full = Object.assign(uplist,{CustomFields:listing['CustomFields'],StandardFields:sf})
+            let full = encode(JSON.stringify(Object.assign(uplist,{CustomFields:listing['CustomFields'],StandardFields:sf})))
             let listingkey = dB.ref('/listings/keys/').push(full);
             uplist['key']=listingkey;
             let streetnumsafe ="/listings/location/street/number/" + encode(uplist['StreetNumber']);
