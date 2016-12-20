@@ -344,8 +344,10 @@ app.get('/addr/:addr', function (req, res) {
         });
         Promise.all(promisedPages).then(function (listings) {
             console.log('promise all ... ' + listings.length);
-        }).then(function (fin) {
-            res.render('pages/index');
+        }).then(function (pb) {
+            res.render('pages/spark', { results: Object.keys(pb).map(function (key) {
+                    return key = pb[key];
+                }) });
         }).catch(_errors2.default.StatusCodeError, function (reason) {
             // The server responded with a status codes other than 2xx.
             // Check

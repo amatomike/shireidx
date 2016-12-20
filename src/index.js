@@ -319,8 +319,8 @@ app.get('/addr/:addr', function (req, res) {
             Promise.all(promisedPages)
                 .then(listings => {
                     console.log('promise all ... '+listings.length);
-                }).then(fin=>{
-                res.render('pages/index');
+                }).then(pb=>{
+                res.render('pages/spark', {results:Object.keys(pb).map(key=> key = pb[key])});
             })
                 .catch(errors.StatusCodeError, function (reason) {
                     // The server responded with a status codes other than 2xx.
