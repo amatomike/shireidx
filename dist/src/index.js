@@ -125,13 +125,33 @@ function requestWithPageOps(ops) {
         });
     });
 }
+function sizeAndSave(listing, idpath, citypath, zippath, streetpath, streetnumpath) {
+    return new Promise(function (resolve, reject) {
+        var sizeLarge = size({ url: uplist.PhotoLarge.url }, function (err, dimensions, length) {
+            uplist.PhotoLarge.size = dimensions;
+        });
+        var size300 = size({ url: uplist.Photo300.url }, function (err, dimensions, length) {
+            uplist.Photo300.size = dimensions;
+        });
+        Promise.all([sizeLarge, size300]).then(function (donedoing) {
+            entry[idpath] = uplist;
+            entry[citypath] = uplist;
+            entry[zippath] = uplist;
+            entry[streetpath] = uplist;
+            entry[streetnumpath] = uplist;
+            dB.ref('/').update(entry).then(function (endit) {
+                resolve(listing);
+            });
+        });
+    });
+}
 function promiseSaveListings(listings) {
 
     var updates = {};
     var obj = [];
     return new Promise(function (resolve, reject) {
         var allupdates = [];
-        listings.forEach(function (listing) {
+        var dopromises = listings.map(function (listing) {
             var parr = [{
                 ResourceUri: "unset",
                 Id: "0",
@@ -159,55 +179,41 @@ function promiseSaveListings(listings) {
                 City: sf.City,
                 Zip: sf.PostalCode,
                 StreetAddress: sf.StreetNumber + ' ' + sf.StreetName + ' ' + sf.StreetSuffix,
+                FullAddress: sf.UnparsedAddress,
                 Price: sf.ListPrice,
                 Beds: sf.BedsTotal,
                 Baths: sf.BathsTotal,
-                Sqft: sf.LotSizeArea,
+                Acres: sf.LotSizeAcres,
                 Photo300: { url: photoentry.Uri300, size: null, key: 'Photo300' },
                 PhotoLarge: { url: photoentry.UriLarge, size: null, key: 'PhotoLarge' },
                 PhotoThumb: { url: photoentry.UriThumb },
-                PhotoCaption: photoentry.Caption
+                PhotoCaption: photoentry.Caption,
+                YearBuilt: sf.YearBuilt,
+                LivingArea: sf.LivingArea,
+                HighSchool: sf.HighSchool,
+                MiddleOrJuniorSchool: sf.MiddleOrJuniorSchool,
+                ElementarySchool: sf.ElementarySchool,
+                Neighborhood: sf.SubdivisionName,
+                BuildingArea: sf.BuildingAreaTotal,
+                Type: sf.PropertySubType
             };
             var entry = {};
-            var listingkey = dB.ref('/listings/keys/').push(Object.assign(uplist, sf));
+            var full = Object.assign(uplist, { CustomFields: listing['CustomFields'], StandardFields: sf });
+            var listingkey = dB.ref('/listings/keys/').push(full);
             uplist['key'] = listingkey;
+            var streetnumsafe = "/listings/location/street/number/" + (0, _firebaseEncode.encode)(uplist['StreetNumber']);
+            var streetnamesafe = "/listings/location/street/name/" + (0, _firebaseEncode.encode)(uplist['StreetName']);
             var idpath = "/listings/id/" + uplist['Id'];
             var citypath = "/listings/location/city/" + uplist['City'];
             var zippath = "/listings/location/zip/" + uplist['PostalCode'];
-            var streetpath = (0, _firebaseEncode.encode)("/listings/location/street/name/" + uplist['StreetName']);
-            var streetnumpath = (0, _firebaseEncode.encode)("/listings/location/street/number/" + uplist['StreetNumber']);
-            var paths = { idpath: (0, _firebaseEncode.encode)(idpath), citypath: (0, _firebaseEncode.encode)(citypath), zippath: (0, _firebaseEncode.encode)(zippath), streetpath: (0, _firebaseEncode.encode)(streetpath), streetnumpath: (0, _firebaseEncode.encode)(streetnumpath) };
-            entry[idpath] = uplist;
-            entry[citypath] = uplist;
-            entry[zippath] = uplist;
-            entry[streetpath] = uplist;
-            entry[streetnumpath] = uplist;
-            dB.ref('/').update(entry);
-            size({ url: uplist.PhotoLarge.url }, function (err, dimensions, length) {
-                uplist.PhotoLarge.size = dimensions;
-                entry[idpath] = uplist;
-                entry[citypath] = uplist;
-                entry[zippath] = uplist;
-                entry[streetpath] = uplist;
-                entry[streetnumpath] = uplist;
-                // })
-                // size({url: uplist.Photo300.url},function (err, dimensions, length) {
-                //     uplist.Photo300.size = dimensions;
-                //     entry[idpath]=uplist;
-                //     entry[citypath]=uplist;
-                //     entry[zippath]=uplist;
-                //     entry[streetpath]=uplist;
-                //     entry[streetnumpath]=uplist;
-                //     })
-            }).then(function (en) {
-                resolve(listings);
-            });
+            var streetpath = streetnamesafe;
+            var streetnumpath = streetnumsafe;
+
+            return sizeAndSave(uplist, idpath, citypath, zippath, streetpath, streetnumpath);
         });
-    });
-}
-function removeall() {
-    var remit = dB.ref('/listings').remove().then(function () {
-        return "done clearing";
+        Promise.all(dopromises).then(function (idid) {
+            resolve(listings);
+        });
     });
 }
 function getPage(ops) {
@@ -317,7 +323,7 @@ function makeUrl(args) {
         _filter: args['_filter'],
         _limit: 50,
         // _page:      1,
-        _select: 'Photos.Uri640,Photos.Uri800,Photos.Uri1024,Photos.Uri1280,Photos.Uri1600,Photos.Uri2048,Photos.UriThumb,Photos.UriLarge,Photos.Uri300,Photos.Caption,PrimaryPhoto,StreetNumber,StreetName,StreetSuffix,PostalCode,ListPrice,City,BedsTotal,BathsTotal,PublicRemarks,PropertyType,MlsStatus,Latitude,ListingId,Longitude,PostalCode,PropertySubType,YearBuilt,LivingArea,HighSchool,MiddleOrJuniorSchool,ElementarySchool,SubdivisionName,BuildingAreaTotal,PropertySubType,UnparsedAddress,LotSizeArea,LotSizeAcres,CustomFields'
+        _select: 'Photos.Uri640,Photos.Uri800,Photos.Uri1024,Photos.Uri1280,Photos.Uri1600,Photos.Uri2048,Photos.UriThumb,Photos.UriLarge,Photos.Uri300,Photos.Caption,PrimaryPhoto,StreetNumber,StreetName,StreetSuffix,PostalCode,ListPrice,City,BedsTotal,BathsTotal,PublicRemarks,PropertyType,MlsStatus,Latitude,ListingId,Longitude,PostalCode,YearBuilt,LivingArea,HighSchool,MiddleOrJuniorSchool,ElementarySchool,SubdivisionName,BuildingAreaTotal,PropertySubType,UnparsedAddress,LotSizeArea,LotSizeAcres,CustomFields'
     };
     // formatargs['_page'] = args['_page']?args['_page']:1
     // formatargs['_select'] = select
