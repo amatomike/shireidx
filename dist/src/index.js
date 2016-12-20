@@ -127,6 +127,7 @@ function requestWithPageOps(ops) {
 }
 function sizeAndSave(listing, idpath, citypath, zippath, streetpath, streetnumpath) {
     return new Promise(function (resolve, reject) {
+        var entry = {};
         var sizeLarge = size({ url: uplist.PhotoLarge.url }, function (err, dimensions, length) {
             uplist.PhotoLarge.size = dimensions;
         });
