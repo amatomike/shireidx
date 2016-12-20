@@ -108,25 +108,26 @@ function requestWithPageOps(ops){
                 })
             })
 }
-function sizeAndSave(listing,idpath,citypath,zippath,streetpath,streetnumpath){
+function sizeAndSave(uplist,idpath,citypath,zippath,streetpath,streetnumpath){
     return new Promise(function (resolve,reject) {
-    let entry={};
+        let entry={};
         let sizeLarge = size({url: uplist.PhotoLarge.url},function (err, dimensions, length) {
-            uplist.PhotoLarge.size = dimensions;})
-            let size300 = size({url: uplist.Photo300.url},function (err, dimensions, length) {
-                uplist.Photo300.size = dimensions;
-                })
+            uplist.PhotoLarge.size = dimensions;});
+        let size300 = size({url: uplist.Photo300.url},function (err, dimensions, length) {
+            uplist.Photo300.size = dimensions;
+            });
 
         Promise.all([sizeLarge,size300]).then(donedoing=>{
-let nuplist = safekey.safe(uplist)
+            let nuplist = safekey.safe(uplist)
             entry[idpath] = nuplist;
-        entry[citypath] = nuplist;
-        entry[zippath] = nuplist;
-        entry[streetpath] = nuplist;
-        entry[streetnumpath] = nuplist;
-        dB.ref('/').update(entry).then(endit=>{
-            resolve(listing)
-        });})
+            entry[citypath] = nuplist;
+            entry[zippath] = nuplist;
+            entry[streetpath] = nuplist;
+            entry[streetnumpath] = nuplist;
+            dB.ref('/').update(entry).then(endit=>{
+                resolve(listing)
+            });
+        })
     })
 }
 function promiseSaveListings(listings){
