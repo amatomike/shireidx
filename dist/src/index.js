@@ -142,7 +142,7 @@ function sizeAndSave(uplist, idpath, citypath, zippath, streetpath, streetnumpat
             entry[streetpath] = nuplist;
             entry[streetnumpath] = nuplist;
             dB.ref('/').update(entry).then(function (endit) {
-                resolve(listing);
+                resolve(uplist);
             });
         });
     });

@@ -125,7 +125,7 @@ function sizeAndSave(uplist,idpath,citypath,zippath,streetpath,streetnumpath){
             entry[streetpath] = nuplist;
             entry[streetnumpath] = nuplist;
             dB.ref('/').update(entry).then(endit=>{
-                resolve(listing)
+                resolve(uplist)
             });
         })
     })
