@@ -344,7 +344,6 @@ app.get('/addr/:addr', function (req, res) {
         });
         Promise.all(promisedPages).then(function (listings) {
             console.log('promise all ... ' + listings.length);
-        }).then(function (pb) {
             res.render('pages/spark', { results: Object.keys(pb).map(function (key) {
                     return key = pb[key];
                 }) });
