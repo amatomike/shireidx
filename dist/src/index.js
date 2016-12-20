@@ -12,8 +12,6 @@ var _requestPromise = require('request-promise');
 
 var _requestPromise2 = _interopRequireDefault(_requestPromise);
 
-var _firebaseEncode = require('firebase-encode');
-
 var _firebaseSafekey = require('firebase-safekey');
 
 var _firebaseSafekey2 = _interopRequireDefault(_firebaseSafekey);
@@ -205,8 +203,8 @@ function promiseSaveListings(listings) {
             var full = _firebaseSafekey2.default.safe(Object.assign(uplist, { CustomFields: listing['CustomFields'], StandardFields: sf }));
             var listingkey = dB.ref('/listings/keys/').push(full);
             uplist['key'] = listingkey;
-            var streetnumsafe = "/listings/location/street/number/" + (0, _firebaseEncode.encode)(uplist['StreetNumber']);
-            var streetnamesafe = "/listings/location/street/name/" + (0, _firebaseEncode.encode)(uplist['StreetName']);
+            var streetnumsafe = "/listings/location/street/number/" + uplist['StreetNumber'];
+            var streetnamesafe = "/listings/location/street/name/" + uplist['StreetName'];
             var idpath = "/listings/id/" + uplist['Id'];
             var citypath = "/listings/location/city/" + uplist['City'];
             var zippath = "/listings/location/zip/" + uplist['PostalCode'];

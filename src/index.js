@@ -2,12 +2,6 @@ import express from "express";
 import fb from 'firebase'
 import rp from 'request-promise';
 let app = express();
-import {
-    encode,
-    decode,
-    encodeComponents,
-    decodeComponents,
-} from 'firebase-encode';
 import safekey from 'firebase-safekey';
 let listingObj = {BathsTotal:null,BedsTotal:null,City:null,Id:null,Latitude:null,ListPrice:null,ListingId:null,Longitude:null,MlsId:null,MlsStatus:null,PhotoCaption:'Loading',PhotoLarge:'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire320x220.png',PhotoThumb:'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png',Photos:[{Caption:'Loading',Uri300:'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png',UriLarge:'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png',UriThumb:'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png'}],PostalCode:null,PropertySubType:null,PropertyType:null,PublicRemarks:'Loading',StreetName:null,StreetNumber:null,StreetSuffix:null,YearBuilt:null,completed:null,geo:{}};
 
@@ -192,8 +186,8 @@ function promiseSaveListings(listings){
             let full = safekey.safe(Object.assign(uplist,{CustomFields:listing['CustomFields'],StandardFields:sf}))
             let listingkey = dB.ref('/listings/keys/').push(full);
             uplist['key']=listingkey;
-            let streetnumsafe ="/listings/location/street/number/" + encode(uplist['StreetNumber']);
-            let streetnamesafe = "/listings/location/street/name/" + encode(uplist['StreetName']);
+            let streetnumsafe ="/listings/location/street/number/" + uplist['StreetNumber'];
+            let streetnamesafe = "/listings/location/street/name/" + uplist['StreetName'];
             let idpath = "/listings/id/" + uplist['Id']
             let citypath = "/listings/location/city/" + uplist['City'];
             let zippath = "/listings/location/zip/" + uplist['PostalCode'];
