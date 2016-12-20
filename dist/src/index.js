@@ -299,6 +299,7 @@ app.get('/remove', function (req, res) {
     res.send('cleared ');
 });
 app.get('/addr/:addr', function (req, res) {
+    var ls = [];
     var addr = req.params.addr;
 
     var filter = "PropertyType Eq 'A' And MlsStatus Eq 'Active' And (City Eq '" + addr + "' Or StreetAddress Eq '" + addr + "')";
@@ -344,9 +345,9 @@ app.get('/addr/:addr', function (req, res) {
         });
         Promise.all(promisedPages).then(function (listings) {
             console.log('promise all ... ' + listings.length);
-            res.render('pages/spark', { results: Object.keys(pb).map(function (key) {
-                    return key = pb[key];
-                }) });
+            ls.push(listings);
+        }).then(function (lots) {
+            res.render('pages/spark', { results: ls });
         }).catch(_errors2.default.StatusCodeError, function (reason) {
             // The server responded with a status codes other than 2xx.
             // Check

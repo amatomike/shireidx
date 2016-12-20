@@ -271,6 +271,7 @@ app.get('/remove', function (req, res) {
     res.send('cleared ')
 })
 app.get('/addr/:addr', function (req, res) {
+    let ls=[];
     let addr = req.params.addr;
 
     let filter = "PropertyType Eq 'A' And MlsStatus Eq 'Active' And (City Eq '"+addr+"' Or StreetAddress Eq '"+addr+"')"
@@ -319,7 +320,10 @@ app.get('/addr/:addr', function (req, res) {
             Promise.all(promisedPages)
                 .then(listings => {
                     console.log('promise all ... '+listings.length);
-                res.render('pages/spark', {results:Object.keys(pb).map(key=> key = pb[key])});
+                    ls.push(listings);
+            }).then(lots=>{
+                res.render('pages/spark', {results:ls});
+
             })
                 .catch(errors.StatusCodeError, function (reason) {
                     // The server responded with a status codes other than 2xx.
