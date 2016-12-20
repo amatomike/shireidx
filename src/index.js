@@ -274,7 +274,7 @@ app.get('/addr/:addr', function (req, res) {
     let addr = req.params.addr;
 
     let filter = "PropertyType Eq 'A' And MlsStatus Eq 'Active' And (City Eq '"+addr+"' Or StreetAddress Eq '"+addr+"')"
-    console.log(thefilter);
+    console.log(filter);
     let combo = [];
     let obj = []
     let pageops = [];

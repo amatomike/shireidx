@@ -302,7 +302,7 @@ app.get('/addr/:addr', function (req, res) {
     var addr = req.params.addr;
 
     var filter = "PropertyType Eq 'A' And MlsStatus Eq 'Active' And (City Eq '" + addr + "' Or StreetAddress Eq '" + addr + "')";
-    console.log(thefilter);
+    console.log(filter);
     var combo = [];
     var obj = [];
     var pageops = [];
