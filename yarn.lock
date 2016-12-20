@@ -1444,6 +1444,12 @@ firebase-encode@^0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/firebase-encode/-/firebase-encode-0.0.5.tgz#3184d2d53a8d9b41a3ee9f27274554156d750905"
 
+firebase-safekey@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/firebase-safekey/-/firebase-safekey-0.1.7.tgz#9d5b541218f8f1ed96dcf35302fa6cab89171f89"
+  dependencies:
+    lodash "^3.8.0"
+
 firebase-tools@^3.1.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/firebase-tools/-/firebase-tools-3.2.0.tgz#404372f6b9d56fb1f213024087d28aa3088cd061"
@@ -2175,7 +2181,7 @@ lodash@^2.4.1:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-2.4.2.tgz#fadd834b9683073da179b3eae6d9c0d15053f73e"
 
-lodash@^3.10.0, lodash@~3.10.0, lodash@~3.10.1:
+lodash@^3.10.0, lodash@^3.8.0, lodash@~3.10.0, lodash@~3.10.1:
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
 

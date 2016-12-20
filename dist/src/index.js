@@ -14,9 +14,9 @@ var _requestPromise2 = _interopRequireDefault(_requestPromise);
 
 var _firebaseEncode = require('firebase-encode');
 
-var _nodeFetch = require('node-fetch');
+var _firebaseSafekey = require('firebase-safekey');
 
-var _nodeFetch2 = _interopRequireDefault(_nodeFetch);
+var _firebaseSafekey2 = _interopRequireDefault(_firebaseSafekey);
 
 var _errors = require('request-promise/errors');
 
@@ -25,6 +25,7 @@ var _errors2 = _interopRequireDefault(_errors);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
+
 var listingObj = { BathsTotal: null, BedsTotal: null, City: null, Id: null, Latitude: null, ListPrice: null, ListingId: null, Longitude: null, MlsId: null, MlsStatus: null, PhotoCaption: 'Loading', PhotoLarge: 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire320x220.png', PhotoThumb: 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png', Photos: [{ Caption: 'Loading', Uri300: 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png', UriLarge: 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png', UriThumb: 'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png' }], PostalCode: null, PropertySubType: null, PropertyType: null, PublicRemarks: 'Loading', StreetName: null, StreetNumber: null, StreetSuffix: null, YearBuilt: null, completed: null, geo: {} };
 
 app.set('port', process.env.PORT || 5000);
@@ -136,7 +137,7 @@ function sizeAndSave(listing, idpath, citypath, zippath, streetpath, streetnumpa
         });
 
         Promise.all([sizeLarge, size300]).then(function (donedoing) {
-            var nuplist = (0, _firebaseEncode.encode)(JSON.stringify(uplist));
+            var nuplist = _firebaseSafekey2.default.safe(uplist);
             entry[idpath] = nuplist;
             entry[citypath] = nuplist;
             entry[zippath] = nuplist;
@@ -201,7 +202,7 @@ function promiseSaveListings(listings) {
                 Type: sf.PropertySubType
             };
             var entry = {};
-            var full = (0, _firebaseEncode.encode)(JSON.stringify(Object.assign(uplist, { CustomFields: listing['CustomFields'], StandardFields: sf })));
+            var full = _firebaseSafekey2.default.safe(Object.assign(uplist, { CustomFields: listing['CustomFields'], StandardFields: sf }));
             var listingkey = dB.ref('/listings/keys/').push(full);
             uplist['key'] = listingkey;
             var streetnumsafe = "/listings/location/street/number/" + (0, _firebaseEncode.encode)(uplist['StreetNumber']);

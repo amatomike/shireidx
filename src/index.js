@@ -2,6 +2,13 @@ import express from "express";
 import fb from 'firebase'
 import rp from 'request-promise';
 let app = express();
+import {
+    encode,
+    decode,
+    encodeComponents,
+    decodeComponents,
+} from 'firebase-encode';
+import safekey from 'firebase-safekey';
 let listingObj = {BathsTotal:null,BedsTotal:null,City:null,Id:null,Latitude:null,ListPrice:null,ListingId:null,Longitude:null,MlsId:null,MlsStatus:null,PhotoCaption:'Loading',PhotoLarge:'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire320x220.png',PhotoThumb:'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png',Photos:[{Caption:'Loading',Uri300:'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png',UriLarge:'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png',UriThumb:'https://shire.mikeamato.org/wp-content/uploads/2016/11/shire110x75.png'}],PostalCode:null,PropertySubType:null,PropertyType:null,PublicRemarks:'Loading',StreetName:null,StreetNumber:null,StreetSuffix:null,YearBuilt:null,completed:null,geo:{}};
 
 app.set('port', (process.env.PORT || 5000));
@@ -25,13 +32,6 @@ app.listen(app.get('port'), function() {
 //let server = require('https').Server(app);
 const Promise = require('bluebird'),
     size = Promise.promisify(require('request-image-size'));
-import {
-    encode,
-    decode,
-    encodeComponents,
-    decodeComponents,
-} from 'firebase-encode';
-import fetch from 'node-fetch'
 import errors from 'request-promise/errors';
 let fbinit = fb.initializeApp({
     serviceAccount: {
@@ -124,7 +124,7 @@ function sizeAndSave(listing,idpath,citypath,zippath,streetpath,streetnumpath){
                 })
 
         Promise.all([sizeLarge,size300]).then(donedoing=>{
-let nuplist = encode(JSON.stringify(uplist))
+let nuplist = safekey.safe(uplist)
             entry[idpath] = nuplist;
         entry[citypath] = nuplist;
         entry[zippath] = nuplist;
@@ -189,7 +189,7 @@ function promiseSaveListings(listings){
                 Type:sf.PropertySubType
             }
             let entry = {}
-            let full = encode(JSON.stringify(Object.assign(uplist,{CustomFields:listing['CustomFields'],StandardFields:sf})))
+            let full = safekey.safe(Object.assign(uplist,{CustomFields:listing['CustomFields'],StandardFields:sf}))
             let listingkey = dB.ref('/listings/keys/').push(full);
             uplist['key']=listingkey;
             let streetnumsafe ="/listings/location/street/number/" + encode(uplist['StreetNumber']);

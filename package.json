@@ -27,6 +27,7 @@
     "express": "^4.14.0",
     "firebase": "^3.6.0",
     "firebase-encode": "^0.0.5",
+    "firebase-safekey": "^0.1.7",
     "firebase-tools": "^3.1.0",
     "https": "^1.0.0",
     "node-fetch": "^1.6.3",
