@@ -187,7 +187,7 @@ function promiseSaveListings(listings){
                         fbinit.database().ref('/listings/keys/'+currentkey).once("value", function(snapshot) {
 
                             let current = snapshot.val();
-                            let reqf = rp({headers: oauthHeaders(), uri:'https://sparkapi.com/v1/listings/'+current.Id+'?_expand=Photos', json: true})
+                            return rp({headers: oauthHeaders(), uri:'https://sparkapi.com/v1/listings/'+current.Id+'?_expand=Photos', json: true})
                                 .then(pb=>{
                                     let lkey = currentkey;
                                     let full = Object.assign(current,safekey.safe(pb['D']['Results'][0]['StandardFields']))
@@ -261,7 +261,7 @@ function promiseSaveListings(listings){
                                     entry[streetnamepath]=basic;
                                     entry[streetnumpath]=basic;
                                     dB.ref('/').update(entry)
-                                    return sizeAndSave(most,full,basic,keypath,idpath,citykeypath,cityidpath,zippath,streetnamepath,streetnumpath)
+                                     sizeAndSave(most,full,basic,keypath,idpath,citykeypath,cityidpath,zippath,streetnamepath,streetnumpath)
 
                                 })});
 
@@ -447,6 +447,8 @@ app.get('/remove', function (req, res) {
     res.send('cleared ')})
 })
 app.get('/addr/:addr', function (req, res) {
+    fbinit.database().ref('/listings/id').once("value", function(snapshot) {
+        idsnap = snapshot;
     let addr = req.params.addr;
 
     let filter = "PropertyType Eq 'A' And MlsStatus Eq 'Active' And (City Eq '"+addr+"' Or StreetAddress Eq '"+addr+"')"
@@ -530,7 +532,10 @@ app.get('/addr/:addr', function (req, res) {
         .catch(e => {
             // reason.cause is the Error object Request would pass into a callback.
             console.log('e:' + e)
-        })})
+        })}, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+})
 app.get('/primary', function (req, res) {
     fbinit.database().ref('/listings/id').once("value", function(snapshot) {
         idsnap = snapshot;

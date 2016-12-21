@@ -201,7 +201,7 @@ function promiseSaveListings(listings) {
                             fbinit.database().ref('/listings/keys/' + currentkey).once("value", function (snapshot) {
 
                                 var current = snapshot.val();
-                                var reqf = (0, _requestPromise2.default)({ headers: oauthHeaders(), uri: 'https://sparkapi.com/v1/listings/' + current.Id + '?_expand=Photos', json: true }).then(function (pb) {
+                                return (0, _requestPromise2.default)({ headers: oauthHeaders(), uri: 'https://sparkapi.com/v1/listings/' + current.Id + '?_expand=Photos', json: true }).then(function (pb) {
                                     var lkey = currentkey;
                                     var full = Object.assign(current, _firebaseSafekey2.default.safe(pb['D']['Results'][0]['StandardFields']));
                                     var entry = {};
@@ -274,7 +274,7 @@ function promiseSaveListings(listings) {
                                     entry[streetnamepath] = basic;
                                     entry[streetnumpath] = basic;
                                     dB.ref('/').update(entry);
-                                    return sizeAndSave(most, full, basic, keypath, idpath, citykeypath, cityidpath, zippath, streetnamepath, streetnumpath);
+                                    sizeAndSave(most, full, basic, keypath, idpath, citykeypath, cityidpath, zippath, streetnamepath, streetnumpath);
                                 });
                             });
                         })();
@@ -468,51 +468,70 @@ app.get('/remove', function (req, res) {
     });
 });
 app.get('/addr/:addr', function (req, res) {
-    var addr = req.params.addr;
+    fbinit.database().ref('/listings/id').once("value", function (snapshot) {
+        idsnap = snapshot;
+        var addr = req.params.addr;
 
-    var filter = "PropertyType Eq 'A' And MlsStatus Eq 'Active' And (City Eq '" + addr + "' Or StreetAddress Eq '" + addr + "')";
-    console.log(filter);
-    var combo = [];
-    var obj = [];
-    var pageops = [];
-    var setargs = {
-        _filter: filter
-    };
-    var pagearr = [];
+        var filter = "PropertyType Eq 'A' And MlsStatus Eq 'Active' And (City Eq '" + addr + "' Or StreetAddress Eq '" + addr + "')";
+        console.log(filter);
+        var combo = [];
+        var obj = [];
+        var pageops = [];
+        var setargs = {
+            _filter: filter
+        };
+        var pagearr = [];
 
-    var opsurl = makeUrl(setargs, null, 'A', 'https://sparkapi.com/v1/listings?', 'Active');
-    var authops = {
-        headers: oauthHeaders(),
-        uri: opsurl + '&_pagination=count&_page=1',
-        json: true
-    };
-    console.log('about to request...' + JSON.stringify(authops));
-    (0, _requestPromise2.default)(authops).then(function (pb) {
-        // results.concat(pb['D']['Results']);
-        console.log('pagei:' + JSON.stringify(pb['D']['Pagination']));
+        var opsurl = makeUrl(setargs, null, 'A', 'https://sparkapi.com/v1/listings?', 'Active');
+        var authops = {
+            headers: oauthHeaders(),
+            uri: opsurl + '&_pagination=count&_page=1',
+            json: true
+        };
+        console.log('about to request...' + JSON.stringify(authops));
+        (0, _requestPromise2.default)(authops).then(function (pb) {
+            // results.concat(pb['D']['Results']);
+            console.log('pagei:' + JSON.stringify(pb['D']['Pagination']));
 
-        var pages = pb['D']['Pagination']['TotalPages'];
-        var currentpage = pb['D']['Pagination']['CurrentPage'];
-        pagearr.push({ headers: oauthHeaders(), uri: opsurl + '&_pagination=1&_page=' + pages, json: true });
+            var pages = pb['D']['Pagination']['TotalPages'];
+            var currentpage = pb['D']['Pagination']['CurrentPage'];
+            pagearr.push({ headers: oauthHeaders(), uri: opsurl + '&_pagination=1&_page=' + pages, json: true });
 
-        for (var page = 1; page < pages; page++) {
-            var pageReq = {};
-            var newops = { headers: oauthHeaders(), uri: opsurl + '&_pagination=1&_page=' + page, json: true };
-            pagearr.push(newops);
-        }
+            for (var page = 1; page < pages; page++) {
+                var pageReq = {};
+                var newops = { headers: oauthHeaders(), uri: opsurl + '&_pagination=1&_page=' + page, json: true };
+                pagearr.push(newops);
+            }
 
-        var promisedPages = pagearr.map(function (ops) {
-            console.log('mapping ops :' + JSON.stringify(ops));
+            var promisedPages = pagearr.map(function (ops) {
+                console.log('mapping ops :' + JSON.stringify(ops));
 
-            return requestWithPageOps(ops);
-        });
-        Promise.all(promisedPages).then(function (pb) {
-            promiseSaveListings(pb);
-        }).then(function (f) {
-            res.render('pages/spark', { results: Object.keys(f).map(function (key) {
-                    return key = f[key];
-                })
+                return requestWithPageOps(ops);
             });
+            Promise.all(promisedPages).then(function (pb) {
+                promiseSaveListings(pb);
+            }).then(function (f) {
+                res.render('pages/spark', { results: Object.keys(f).map(function (key) {
+                        return key = f[key];
+                    })
+                });
+            }).catch(_errors2.default.StatusCodeError, function (reason) {
+                // The server responded with a status codes other than 2xx.
+                // Check
+                if (reason.statusCode == 401) {
+                    console.log(reason);
+                    refreshAuth(oauthData);
+                }
+            })
+            // .catch(this.checkStatus)
+            .catch(_errors2.default.RequestError, function (reason) {
+                // reason.cause is the Error object Request would pass into a callback.
+                console.log(reason.cause);
+            }).catch(function (e) {
+                // reason.cause is the Error object Request would pass into a callback.
+                console.log('e:' + e);
+            });
+            console.log('going!');
         }).catch(_errors2.default.StatusCodeError, function (reason) {
             // The server responded with a status codes other than 2xx.
             // Check
@@ -529,22 +548,8 @@ app.get('/addr/:addr', function (req, res) {
             // reason.cause is the Error object Request would pass into a callback.
             console.log('e:' + e);
         });
-        console.log('going!');
-    }).catch(_errors2.default.StatusCodeError, function (reason) {
-        // The server responded with a status codes other than 2xx.
-        // Check
-        if (reason.statusCode == 401) {
-            console.log(reason);
-            refreshAuth(oauthData);
-        }
-    })
-    // .catch(this.checkStatus)
-    .catch(_errors2.default.RequestError, function (reason) {
-        // reason.cause is the Error object Request would pass into a callback.
-        console.log(reason.cause);
-    }).catch(function (e) {
-        // reason.cause is the Error object Request would pass into a callback.
-        console.log('e:' + e);
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
     });
 });
 app.get('/primary', function (req, res) {
