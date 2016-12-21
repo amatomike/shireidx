@@ -125,24 +125,13 @@ function oauthHeaders() {
 function requestWithPageOps(ops) {
     return Promise.resolve((0, _requestPromise2.default)(ops));
 }
-function sizeAndSave(full, basic, keypath, idpath, citykey, cityid, zippath, streetpath, streetnumpath) {
+function sizeAndSave(most, full, basic, keypath, idpath, citykey, cityid, zippath, streetpath, streetnumpath) {
 
-    var most = Object.assign({}, full);
-    var reqf = (0, _requestPromise2.default)({ headers: oauthHeaders(), uri: 'https://sparkapi.com/v1/listings/' + basic.Id + '?_expand=Photos', json: true }).then(function (pb) {
-        full = Object.assign(full, pb['D']['Results'][0]['StandardFields']);
-        var entry = {};
-        entry[idpath] = most;
-        entry[keypath] = full;
-        entry[citykey] = basic;
-        entry[cityid] = basic;
-        entry[zippath] = basic;
-        entry[streetpath] = basic;
-        entry[streetnumpath] = basic;
-        dB.ref('/').update(entry);
-    });
     var sizeLarge = size({ url: basic.PhotoLarge }, function (err, dimensions, length) {
         full['PhotoLarge']['size'] = dimensions;
         var entry = {};
+
+        // let most = Object.assign({},mostof)
 
         // idpath.update(nbasic);
         // citypath.update(nbasic);
@@ -161,6 +150,7 @@ function sizeAndSave(full, basic, keypath, idpath, citykey, cityid, zippath, str
     var size300 = size({ url: basic.Photo300 }, function (err, dimensions, length) {
         full['Photo300']['size'] = dimensions;
         var entry = {};
+        // let most = Object.assign({},full)
 
         // idpath.update(nbasic);
         // citypath.update(nbasic);
@@ -177,7 +167,7 @@ function sizeAndSave(full, basic, keypath, idpath, citykey, cityid, zippath, str
         return dB.ref('/').update(entry);
     });
 
-    return Promise.all([sizeLarge, size300, reqf]).then(function (donedoing) {
+    return Promise.all([sizeLarge, size300]).then(function (donedoing) {
         console.log('sized-' + JSON.stringify({ donedoing: donedoing }));
     }).catch(function (e) {
         console.log(e);
@@ -200,33 +190,87 @@ function promiseSaveListings(listings) {
                 var dopromises = lsts['D']['Results'].map(function (listing) {
                     var exists = dbsnap.child('/id/' + listing.Id).exists();
                     if (exists == true) {
-                        var lkey = dbsnap.child('/id/' + listing.Id + '/ShireKey').val();
-                        var current = dbsnap.child('/id/' + listing.Id).val();
-                        var basic = {
-                            Id: current.Id,
-                            ShireKey: current.ShireKey,
-                            City: current.City,
-                            CityKey: current.CityKey,
-                            Photo300: current.Photo300.url,
-                            PhotoLarge: current.PhotoLarge.url,
-                            PhotoThumb: current.PhotoThumb.url,
-                            PublicRemarks: current.PublicRemarks,
-                            StreetAddress: current.StreetAddress
-                        };
+                        (function () {
+                            var current = dbsnap.child('/id/' + listing.Id).val();
 
-                        ShireKey = current.ShireKey;
-                        var citykey = current.CityKey;
-                        var keypath = '/listings/keys/' + current.ShireKey;
-                        var idpath = '/listings/id/' + current.Id;
-                        var citykeypath = '/listings/location/city/' + current.City + '/keys/' + citykey;
-                        var cityidpath = '/listings/location/city/' + current.City + '/Id/' + current.Id;
-                        var zippath = '/listings/location/zip/' + current.Zip + '/' + current.Id;
-                        var streetnamepath = '/listings/location/street/name/' + current['StreetName'] + '/' + current.Id;
-                        var streetnumpath = '/listings/location/street/number/' + current['StreetNumber'] + '/' + current.Id;
+                            var reqf = (0, _requestPromise2.default)({ headers: oauthHeaders(), uri: 'https://sparkapi.com/v1/listings/' + current.Id + '?_expand=Photos', json: true }).then(function (pb) {
+                                var lkey = dbsnap.child('/id/' + listing.Id + '/ShireKey').val();
+                                var full = Object.assign(current, _firebaseSafekey2.default.safe(pb['D']['Results'][0]['StandardFields']));
+                                var entry = {};
+                                var most = {
+                                    Id: full.Id,
+                                    City: full.City,
+                                    CityKey: '',
+                                    ShireKey: '',
+                                    Zip: full.PostalCode,
+                                    StreetAddressOnly: full.StreetAddressOnly,
+                                    FullAddress: full.FullAddress,
+                                    Price: full.ListPrice,
+                                    Beds: full.BedsTotal,
+                                    Baths: full.BathsTotal,
+                                    Acres: full.LotSizeAcres,
+                                    Photo300: full.Photo300,
+                                    PhotoLarge: full.PhotoLarge,
+                                    PhotoThumb: full.PhotoThumb,
+                                    PhotoCaption: full.PhotoCaption,
+                                    YearBuilt: full.YearBuilt,
+                                    LivingArea: full.LivingArea,
+                                    HighSchool: full.HighSchool,
+                                    MiddleOrJuniorSchool: full.MiddleOrJuniorSchool,
+                                    ElementarySchool: full.ElementarySchool,
+                                    Neighborhood: full.SubdivisionName,
+                                    BuildingArea: full.BuildingAreaTotal,
+                                    Type: full.PropertySubType,
+                                    ListPrice: full.ListPrice,
+                                    Latitude: full.Latitude,
+                                    Longitude: full.Longitude,
+                                    MlsStatus: full.MlsStatus,
+                                    PublicRemarks: full.PublicRemarks,
+                                    StreetNumber: full.StreetNumber,
+                                    StreetName: full.StreetName,
+                                    StreetSuffix: full.StreetSuffix
+                                };
+                                if (full.Videos.length > 0) {
+                                    most['Videos'] = full.Videos;
+                                }
+                                if (full.Photos.length > 0) {
+                                    most['PrimaryPhotos'] = current.PrimaryPhotos;
+                                }
+                                var basic = {
+                                    Id: full.Id,
+                                    ShireKey: full.ShireKey,
+                                    City: full.City,
+                                    CityKey: full.CityKey,
+                                    Photo300: full.Photo300.url,
+                                    PhotoLarge: full.PhotoLarge.url,
+                                    PhotoThumb: full.PhotoThumb.url,
+                                    PublicRemarks: full.PublicRemarks,
+                                    StreetAddress: full.StreetAddress
+                                };
+                                basic = Object.assign({}, _firebaseSafekey2.default.safe(basic));
+                                ShireKey = current.ShireKey;
+                                var citykey = current.CityKey;
+                                var keypath = '/listings/keys/' + current.ShireKey;
+                                var idpath = '/listings/id/' + current.Id;
+                                var citykeypath = '/listings/location/city/' + current.City + '/keys/' + citykey;
+                                var cityidpath = '/listings/location/city/' + current.City + '/Id/' + current.Id;
+                                var zippath = '/listings/location/zip/' + current.Zip + '/' + current.Id;
+                                var streetnamepath = '/listings/location/street/name/' + current['StreetName'] + '/' + current.Id;
+                                var streetnumpath = '/listings/location/street/number/' + current['StreetNumber'] + '/' + current.Id;
 
-                        return sizeAndSave(current, basic, keypath, idpath, citykeypath, cityidpath, zippath, streetnamepath, streetnumpath);
+                                entry[idpath] = most;
+                                entry[keypath] = full;
+                                entry[citykey] = basic;
+                                entry[cityid] = basic;
+                                entry[zippath] = basic;
+                                entry[streetpath] = basic;
+                                entry[streetnumpath] = basic;
+                                dB.ref('/').update(entry);
+                                return sizeAndSave(most, full, basic, keypath, idpath, citykeypath, cityidpath, zippath, streetnamepath, streetnumpath);
+                            });
 
-                        console.log('Price :' + current.ListPrice + ' City:' + current.City + 'CityKey : ' + current.CityKey + ' key :' + ShireKey);
+                            console.log('Price :' + current.ListPrice + ' City:' + current.City + 'CityKey : ' + current.CityKey + ' key :' + ShireKey);
+                        })();
                     } else {
                         var parr = [{
                             ResourceUri: "unset",
@@ -251,6 +295,10 @@ function promiseSaveListings(listings) {
                         }
 
                         var photoentry = Object.assign(parr[0], primaryphotos);
+                        var vids = [];
+                        if (sf.VideosCount > 0) {
+                            vids = sf.Videos;
+                        }
                         var uplist = {
                             Id: listing.Id,
                             City: sf.City,
@@ -282,13 +330,16 @@ function promiseSaveListings(listings) {
                             PublicRemarks: sf.PublicRemarks,
                             StreetNumber: sf.StreetNumber,
                             StreetName: sf.StreetName,
-                            StreetSuffix: sf.StreetSuffix,
-                            Videos: []
+                            StreetSuffix: sf.StreetSuffix
+
                         };
-                        if (sf.Videos) {
+                        if (sf.Videos.length > 0) {
                             uplist['Videos'] = sf.Videos;
                         }
-                        var _basic = {
+                        if (sf.Photos.length > 0) {
+                            uplist['PrimaryPhotos'] = sf.Photos[0];
+                        }
+                        var basic = {
                             Id: listing.Id,
                             ShireKey: '',
                             City: sf.City,
@@ -300,26 +351,27 @@ function promiseSaveListings(listings) {
                             StreetAddress: sf.StreetNumber + ' ' + sf.StreetName + ' ' + sf.StreetSuffix
                         };
                         uplist = Object.assign({}, _firebaseSafekey2.default.safe(uplist));
-                        var full = Object.assign({}, uplist);
+                        basic = Object.assign({}, _firebaseSafekey2.default.safe(basic));
+                        var full = Object.assign(uplist, _firebaseSafekey2.default.safe(sf));
                         ShireKey = dB.ref('/listings/keys/').push(full).key;
-                        _basic.ShireKey = ShireKey;
+                        basic.ShireKey = ShireKey;
                         uplist['ShireKey'] = ShireKey;
                         full['ShireKey'] = ShireKey;
 
-                        var _citykey = dB.ref('/listings/location/city/' + uplist.City + '/keys').push(_basic).key;
-                        uplist.CityKey = _citykey;
-                        _basic.CityKey = _citykey;
+                        var citykey = dB.ref('/listings/location/city/' + uplist.City + '/keys').push(basic).key;
+                        uplist.CityKey = citykey;
+                        basic.CityKey = citykey;
                         dB.ref('/listings/keys/' + ShireKey).update(uplist);
-                        dB.ref('/listings/location/city/' + uplist.City + '/keys/' + _citykey).update(_basic);
-                        var _keypath = '/listings/keys/' + uplist.ShireKey;
-                        var _idpath = '/listings/id/' + uplist.Id;
-                        var _citykeypath = '/listings/location/city/' + uplist.City + '/keys/' + _citykey;
-                        var _cityidpath = '/listings/location/city/' + uplist.City + '/Id/' + uplist.Id;
-                        var _zippath = '/listings/location/zip/' + uplist.Zip + '/' + uplist.Id;
-                        var _streetnamepath = '/listings/location/street/name/' + uplist['StreetName'] + '/' + uplist.Id;
-                        var _streetnumpath = '/listings/location/street/number/' + uplist['StreetNumber'] + '/' + uplist.Id;
+                        dB.ref('/listings/location/city/' + uplist.City + '/keys/' + citykey).update(basic);
+                        var keypath = '/listings/keys/' + uplist.ShireKey;
+                        var idpath = '/listings/id/' + uplist.Id;
+                        var citykeypath = '/listings/location/city/' + uplist.City + '/keys/' + citykey;
+                        var cityidpath = '/listings/location/city/' + uplist.City + '/Id/' + uplist.Id;
+                        var zippath = '/listings/location/zip/' + uplist.Zip + '/' + uplist.Id;
+                        var streetnamepath = '/listings/location/street/name/' + uplist['StreetName'] + '/' + uplist.Id;
+                        var streetnumpath = '/listings/location/street/number/' + uplist['StreetNumber'] + '/' + uplist.Id;
 
-                        return sizeAndSave(uplist, _basic, _keypath, _idpath, _citykeypath, _cityidpath, _zippath, _streetnamepath, _streetnumpath);
+                        return sizeAndSave(uplist, uplist, basic, keypath, idpath, citykeypath, cityidpath, zippath, streetnamepath, streetnumpath);
                     }
                 });
                 return Promise.all(dopromises).then(function (idid) {});

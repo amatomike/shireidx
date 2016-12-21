@@ -106,25 +106,13 @@ function oauthHeaders(){
 function requestWithPageOps(ops){
     return Promise.resolve(rp(ops))
 }
-function sizeAndSave(full,basic,keypath,idpath,citykey,cityid,zippath,streetpath,streetnumpath){
+function sizeAndSave(most,full,basic,keypath,idpath,citykey,cityid,zippath,streetpath,streetnumpath){
 
-        let most = Object.assign({},full)
-        let reqf = rp({headers: oauthHeaders(), uri:'https://sparkapi.com/v1/listings/'+basic.Id+'?_expand=Photos', json: true})
-            .then(pb=>{
-            full = Object.assign(full,pb['D']['Results'][0]['StandardFields'])
-                    let entry = {}
-                entry[idpath] = most;
-                entry[keypath] = full;
-                entry[citykey] = basic;
-                entry[cityid] = basic;
-                entry[zippath]=basic;
-                entry[streetpath]=basic;
-                entry[streetnumpath]=basic;
-                 dB.ref('/').update(entry)
-            })
         let sizeLarge = size({url: basic.PhotoLarge},function (err, dimensions, length) {
             full['PhotoLarge']['size'] = dimensions;
             let entry={};
+
+           // let most = Object.assign({},mostof)
 
             // idpath.update(nbasic);
             // citypath.update(nbasic);
@@ -143,6 +131,7 @@ function sizeAndSave(full,basic,keypath,idpath,citykey,cityid,zippath,streetpath
         let size300 = size({url: basic.Photo300},function (err, dimensions, length) {
             full['Photo300']['size'] = dimensions;
             let entry={};
+            // let most = Object.assign({},full)
 
             // idpath.update(nbasic);
             // citypath.update(nbasic);
@@ -159,7 +148,7 @@ function sizeAndSave(full,basic,keypath,idpath,citykey,cityid,zippath,streetpath
             return dB.ref('/').update(entry)
         });
 
-       return Promise.all([sizeLarge,size300,reqf]).then(donedoing=>{
+       return Promise.all([sizeLarge,size300]).then(donedoing=>{
             console.log('sized-'+JSON.stringify({donedoing}))
         }).catch(e=>{
            console.log(e)
@@ -185,32 +174,86 @@ function promiseSaveListings(listings){
                 let dopromises = lsts['D']['Results'].map(listing => {
                     let exists = dbsnap.child('/id/' + listing.Id).exists();
                     if (exists == true) {
-                        let lkey = dbsnap.child('/id/' + listing.Id+'/ShireKey').val();
                         let current = dbsnap.child('/id/' + listing.Id).val();
-                        let basic = {
-                            Id: current.Id,
-                            ShireKey:current.ShireKey,
-                            City: current.City,
-                            CityKey:current.CityKey,
-                            Photo300:current.Photo300.url,
-                            PhotoLarge:current.PhotoLarge.url,
-                            PhotoThumb:current.PhotoThumb.url,
-                            PublicRemarks:current.PublicRemarks,
-                            StreetAddress: current.StreetAddress,
-                        };
 
-                        ShireKey = current.ShireKey;
-                        let citykey = current.CityKey;
-                        let keypath = '/listings/keys/' + current.ShireKey;
-                        let idpath = '/listings/id/' + current.Id;
-                        let citykeypath = '/listings/location/city/' + current.City + '/keys/' + citykey;
-                        let cityidpath = '/listings/location/city/' + current.City + '/Id/' + current.Id;
-                        let zippath = '/listings/location/zip/' + current.Zip + '/' + current.Id;
-                        let streetnamepath = '/listings/location/street/name/'+ current['StreetName']+'/'+current.Id;
-                        let streetnumpath = '/listings/location/street/number/' + current['StreetNumber']+'/'+current.Id;
+                        let reqf = rp({headers: oauthHeaders(), uri:'https://sparkapi.com/v1/listings/'+current.Id+'?_expand=Photos', json: true})
+                            .then(pb=>{
+                                let lkey = dbsnap.child('/id/' + listing.Id+'/ShireKey').val();
+                                let full = Object.assign(current,safekey.safe(pb['D']['Results'][0]['StandardFields']))
+                                let entry = {};
+                                let most = {
+                                    Id: full.Id,
+                                    City: full.City,
+                                    CityKey:'',
+                                    ShireKey:'',
+                                    Zip: full.PostalCode,
+                                    StreetAddressOnly: full.StreetAddressOnly,
+                                    FullAddress: full.FullAddress,
+                                    Price: full.ListPrice,
+                                    Beds: full.BedsTotal,
+                                    Baths: full.BathsTotal,
+                                    Acres: full.LotSizeAcres,
+                                    Photo300: full.Photo300,
+                                    PhotoLarge: full.PhotoLarge,
+                                    PhotoThumb: full.PhotoThumb,
+                                    PhotoCaption: full.PhotoCaption,
+                                    YearBuilt: full.YearBuilt,
+                                    LivingArea: full.LivingArea,
+                                    HighSchool: full.HighSchool,
+                                    MiddleOrJuniorSchool: full.MiddleOrJuniorSchool,
+                                    ElementarySchool: full.ElementarySchool,
+                                    Neighborhood: full.SubdivisionName,
+                                    BuildingArea: full.BuildingAreaTotal,
+                                    Type: full.PropertySubType,
+                                    ListPrice: full.ListPrice,
+                                    Latitude: full.Latitude,
+                                    Longitude: full.Longitude,
+                                    MlsStatus: full.MlsStatus,
+                                    PublicRemarks:full.PublicRemarks,
+                                    StreetNumber:full.StreetNumber,
+                                    StreetName:full.StreetName,
+                                    StreetSuffix:full.StreetSuffix
+                                };
+                                if(full.Videos.length>0){
+                                    most['Videos'] = full.Videos;
+                                }
+                                if(full.Photos.length>0){
+                                    most['PrimaryPhotos']=current.PrimaryPhotos;
+                                }
+                                let basic = {
+                                    Id: full.Id,
+                                    ShireKey:full.ShireKey,
+                                    City: full.City,
+                                    CityKey:full.CityKey,
+                                    Photo300:full.Photo300.url,
+                                    PhotoLarge:full.PhotoLarge.url,
+                                    PhotoThumb:full.PhotoThumb.url,
+                                    PublicRemarks:full.PublicRemarks,
+                                    StreetAddress: full.StreetAddress
+                                };
+                                basic = Object.assign({},safekey.safe(basic))
+                                ShireKey = current.ShireKey;
+                                let citykey = current.CityKey;
+                                let keypath = '/listings/keys/' + current.ShireKey;
+                                let idpath = '/listings/id/' + current.Id;
+                                let citykeypath = '/listings/location/city/' + current.City + '/keys/' + citykey;
+                                let cityidpath = '/listings/location/city/' + current.City + '/Id/' + current.Id;
+                                let zippath = '/listings/location/zip/' + current.Zip + '/' + current.Id;
+                                let streetnamepath = '/listings/location/street/name/'+ current['StreetName']+'/'+current.Id;
+                                let streetnumpath = '/listings/location/street/number/' + current['StreetNumber']+'/'+current.Id;
 
+                                entry[idpath] = most;
+                                entry[keypath] = full;
+                                entry[citykey] = basic;
+                                entry[cityid] = basic;
+                                entry[zippath]=basic;
+                                entry[streetpath]=basic;
+                                entry[streetnumpath]=basic;
+                                dB.ref('/').update(entry)
+                                return sizeAndSave(most,full,basic,keypath,idpath,citykeypath,cityidpath,zippath,streetnamepath,streetnumpath)
 
-                        return sizeAndSave(current,basic,keypath,idpath,citykeypath,cityidpath,zippath,streetnamepath,streetnumpath)
+                            })
+
 
                         console.log('Price :' + current.ListPrice + ' City:' + current.City + 'CityKey : ' + current.CityKey + ' key :' + ShireKey)
                     } else {
@@ -239,6 +282,11 @@ function promiseSaveListings(listings){
                         }
 
                         let photoentry = Object.assign(parr[0], primaryphotos)
+                        let vids=[];
+                        if(sf.VideosCount>0)
+                        {
+                            vids=sf.Videos
+                        }
                         let uplist = {
                             Id: listing.Id,
                             City: sf.City,
@@ -271,10 +319,13 @@ function promiseSaveListings(listings){
                             StreetNumber:sf.StreetNumber,
                             StreetName:sf.StreetName,
                             StreetSuffix:sf.StreetSuffix,
-                            Videos:[]
+
                         }
-                        if(sf.Videos){
+                        if(sf.Videos.length>0){
                             uplist['Videos'] = sf.Videos;
+                        }
+                        if(sf.Photos.length>0){
+                            uplist['PrimaryPhotos']=sf.Photos[0];
                         }
                         let basic = {
                             Id: listing.Id,
@@ -285,10 +336,11 @@ function promiseSaveListings(listings){
                             PhotoLarge:photoentry.UriLarge,
                             PhotoThumb: photoentry.UriThumb,
                             PublicRemarks:sf.PublicRemarks,
-                            StreetAddress: sf.StreetNumber + ' ' + sf.StreetName + ' ' + sf.StreetSuffix,
+                            StreetAddress: sf.StreetNumber + ' ' + sf.StreetName + ' ' + sf.StreetSuffix
                         }
                         uplist = Object.assign({}, safekey.safe(uplist))
-                        let full = Object.assign({}, uplist)
+                        basic = Object.assign({},safekey.safe(basic))
+                        let full = Object.assign(uplist, safekey.safe(sf))
                         ShireKey = dB.ref('/listings/keys/').push(full).key;
                         basic.ShireKey = ShireKey;
                         uplist['ShireKey'] = ShireKey;
@@ -307,7 +359,7 @@ function promiseSaveListings(listings){
                         let streetnamepath = '/listings/location/street/name/'+ uplist['StreetName']+'/'+uplist.Id;
                         let streetnumpath = '/listings/location/street/number/' + uplist['StreetNumber']+'/'+uplist.Id;
 
-                        return sizeAndSave(uplist,basic,keypath,idpath,citykeypath,cityidpath,zippath,streetnamepath,streetnumpath)
+                        return sizeAndSave(uplist,uplist,basic,keypath,idpath,citykeypath,cityidpath,zippath,streetnamepath,streetnumpath)
 
                     }
                 })
