@@ -2,13 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9eea8871-1bc9-42ed-8d64-f6d0b78aeac7" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dist/src/views/pages/404.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dist/src/views/pages/app.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dist/src/views/pages/app.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dist/src/views/pages/example.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dist/src/views/pages/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/src/index.js" afterPath="$PROJECT_DIR$/dist/src/index.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dist/src/index.js.map" afterPath="$PROJECT_DIR$/dist/src/index.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/node_modules/.yarn-integrity" afterPath="$PROJECT_DIR$/node_modules/.yarn-integrity" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/index.js" afterPath="$PROJECT_DIR$/src/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/yarn.lock" afterPath="$PROJECT_DIR$/yarn.lock" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -56,8 +58,8 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="321">
-              <caret line="190" column="0" lean-forward="true" selection-start-line="190" selection-start-column="0" selection-end-line="190" selection-end-column="0" />
+            <state relative-caret-position="300">
+              <caret line="542" column="6" lean-forward="false" selection-start-line="542" selection-start-column="6" selection-end-line="542" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -69,25 +71,26 @@
             <state relative-caret-position="1200">
               <caret line="90" column="22" lean-forward="false" selection-start-line="90" selection-start-column="22" selection-end-line="90" selection-end-column="22" />
               <folding>
-                <marker date="1482272195895" expanded="true" signature="27880:31022" ph="{...}" />
-                <marker date="1482272195895" expanded="true" signature="28042:28120" ph="{...}" />
-                <marker date="1482272195895" expanded="true" signature="28161:28239" ph="{...}" />
-                <marker date="1482272195895" expanded="true" signature="28375:28433" ph="{...}" />
-                <marker date="1482272195895" expanded="true" signature="28533:28694" ph="{...}" />
-                <marker date="1482272195895" expanded="true" signature="28625:28686" ph="{...}" />
-                <marker date="1482272195895" expanded="true" signature="28700:28812" ph="{...}" />
-                <marker date="1482272195895" expanded="true" signature="28992:30078" ph="{...}" />
-                <marker date="1482272195895" expanded="true" signature="29012:29559" ph="{&quot;method&quot;: 'POST'...}" />
-                <marker date="1482272195895" expanded="true" signature="29120:29240" ph="{&quot;X-SparkApi-User-Agent&quot;: 'Idx Agent'...}" />
-                <marker date="1482272195895" expanded="true" signature="29260:29525" ph="{&quot;grant_type&quot;: 'authorization_code'...}" />
-                <marker date="1482272195895" expanded="true" signature="30103:30171" ph="{...}" />
-                <marker date="1482272195895" expanded="true" signature="30190:31018" ph="{...}" />
-                <marker date="1482272195895" expanded="true" signature="30258:30853" ph="{...}" />
-                <marker date="1482272195895" expanded="true" signature="30329:30439" ph="{...}" />
-                <marker date="1482272195895" expanded="true" signature="30375:30436" ph="{...}" />
-                <marker date="1482272195895" expanded="true" signature="30454:30843" ph="//..." />
-                <marker date="1482272195895" expanded="true" signature="30876:31010" ph="{...}" />
-                <marker date="1482272195895" expanded="true" signature="31063:31522" ph="{...}" />
+                <marker date="1482287078957" expanded="true" signature="25256:28645" ph="{...}" />
+                <marker date="1482287078957" expanded="true" signature="28689:31777" ph="{...}" />
+                <marker date="1482287078957" expanded="true" signature="28797:28875" ph="{...}" />
+                <marker date="1482287078957" expanded="true" signature="28916:28994" ph="{...}" />
+                <marker date="1482287078957" expanded="true" signature="29130:29188" ph="{...}" />
+                <marker date="1482287078957" expanded="true" signature="29288:29449" ph="{...}" />
+                <marker date="1482287078957" expanded="true" signature="29380:29441" ph="{...}" />
+                <marker date="1482287078957" expanded="true" signature="29455:29567" ph="{...}" />
+                <marker date="1482287078957" expanded="true" signature="29747:30833" ph="{...}" />
+                <marker date="1482287078957" expanded="true" signature="29767:30314" ph="{&quot;method&quot;: 'POST'...}" />
+                <marker date="1482287078957" expanded="true" signature="29875:29995" ph="{&quot;X-SparkApi-User-Agent&quot;: 'Idx Agent'...}" />
+                <marker date="1482287078957" expanded="true" signature="30015:30280" ph="{&quot;grant_type&quot;: 'authorization_code'...}" />
+                <marker date="1482287078957" expanded="true" signature="30858:30926" ph="{...}" />
+                <marker date="1482287078957" expanded="true" signature="30945:31773" ph="{...}" />
+                <marker date="1482287078957" expanded="true" signature="31013:31608" ph="{...}" />
+                <marker date="1482287078957" expanded="true" signature="31084:31194" ph="{...}" />
+                <marker date="1482287078957" expanded="true" signature="31130:31191" ph="{...}" />
+                <marker date="1482287078957" expanded="true" signature="31209:31598" ph="//..." />
+                <marker date="1482287078957" expanded="true" signature="31631:31765" ph="{...}" />
+                <marker date="1482287078957" expanded="true" signature="31818:32277" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -112,15 +115,21 @@
       <find>listings</find>
       <find>size</find>
       <find>listingkey</find>
+      <find>current</find>
+      <find>key</find>
       <find>uplist</find>
+      <find>ListingKey</find>
+      <find>/listings/</find>
     </findStrings>
     <replaceStrings>
       <replace>$1:</replace>
       <replace>Uri$1: &quot;https://searchidx.herokuapp.com/placeholders/shire$1.png&quot;</replace>
-      <replace>uplist</replace>
       <replace>lsts</replace>
       <replace>ListingKey</replace>
+      <replace>uplist</replace>
+      <replace>basic</replace>
       <replace>current</replace>
+      <replace>ShireKey</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -292,26 +301,8 @@
               <option name="myItemId" value="views" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
-          </PATH>
-          <PATH>
             <PATH_ELEMENT>
-              <option name="myItemId" value="searchidx" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="searchidx" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dist" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
+              <option name="myItemId" value="partials" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -333,11 +324,33 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
+              <option name="myItemId" value="views" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="placeholders" />
+              <option name="myItemId" value="pages" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="searchidx" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="searchidx" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dist" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
@@ -360,13 +373,14 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/dist/src/public" />
       <recent name="$PROJECT_DIR$/dist/src/public/placeholders" />
       <recent name="$PROJECT_DIR$/dist/src/views/pages" />
-      <recent name="$PROJECT_DIR$/dist/src/public" />
       <recent name="$PROJECT_DIR$/dist/src/public/stylesheets" />
       <recent name="$PROJECT_DIR$/dist/src" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/dist/src/views/pages" />
       <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$/dist/src" />
     </key>
@@ -485,14 +499,7 @@
       <updated>1482051088711</updated>
       <workItem from="1482058896277" duration="6394000" />
       <workItem from="1482113162746" duration="3431000" />
-      <workItem from="1482137910413" duration="39181000" />
-    </task>
-    <task id="LOCAL-00035" summary="k">
-      <created>1482114710892</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1482114710892</updated>
+      <workItem from="1482137910413" duration="50743000" />
     </task>
     <task id="LOCAL-00036" summary="k">
       <created>1482114864467</created>
@@ -830,15 +837,22 @@
       <option name="project" value="LOCAL" />
       <updated>1482194281329</updated>
     </task>
-    <option name="localTasksCounter" value="84" />
+    <task id="LOCAL-00084" summary="k">
+      <created>1482272372619</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1482272372620</updated>
+    </task>
+    <option name="localTasksCounter" value="85" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="49006000" />
+    <option name="totallyTimeSpent" value="60568000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="45" y="24" width="1875" height="1056" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="eSnippet Pro" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -854,6 +868,7 @@
       <window_info id="Get Gist" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Compare Directories" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="CSS-X-Fire" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -864,7 +879,6 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1189,33 +1203,34 @@
         <state relative-caret-position="1200">
           <caret line="90" column="22" lean-forward="false" selection-start-line="90" selection-start-column="22" selection-end-line="90" selection-end-column="22" />
           <folding>
-            <marker date="1482272195895" expanded="true" signature="27880:31022" ph="{...}" />
-            <marker date="1482272195895" expanded="true" signature="28042:28120" ph="{...}" />
-            <marker date="1482272195895" expanded="true" signature="28161:28239" ph="{...}" />
-            <marker date="1482272195895" expanded="true" signature="28375:28433" ph="{...}" />
-            <marker date="1482272195895" expanded="true" signature="28533:28694" ph="{...}" />
-            <marker date="1482272195895" expanded="true" signature="28625:28686" ph="{...}" />
-            <marker date="1482272195895" expanded="true" signature="28700:28812" ph="{...}" />
-            <marker date="1482272195895" expanded="true" signature="28992:30078" ph="{...}" />
-            <marker date="1482272195895" expanded="true" signature="29012:29559" ph="{&quot;method&quot;: 'POST'...}" />
-            <marker date="1482272195895" expanded="true" signature="29120:29240" ph="{&quot;X-SparkApi-User-Agent&quot;: 'Idx Agent'...}" />
-            <marker date="1482272195895" expanded="true" signature="29260:29525" ph="{&quot;grant_type&quot;: 'authorization_code'...}" />
-            <marker date="1482272195895" expanded="true" signature="30103:30171" ph="{...}" />
-            <marker date="1482272195895" expanded="true" signature="30190:31018" ph="{...}" />
-            <marker date="1482272195895" expanded="true" signature="30258:30853" ph="{...}" />
-            <marker date="1482272195895" expanded="true" signature="30329:30439" ph="{...}" />
-            <marker date="1482272195895" expanded="true" signature="30375:30436" ph="{...}" />
-            <marker date="1482272195895" expanded="true" signature="30454:30843" ph="//..." />
-            <marker date="1482272195895" expanded="true" signature="30876:31010" ph="{...}" />
-            <marker date="1482272195895" expanded="true" signature="31063:31522" ph="{...}" />
+            <marker date="1482287078957" expanded="true" signature="25256:28645" ph="{...}" />
+            <marker date="1482287078957" expanded="true" signature="28689:31777" ph="{...}" />
+            <marker date="1482287078957" expanded="true" signature="28797:28875" ph="{...}" />
+            <marker date="1482287078957" expanded="true" signature="28916:28994" ph="{...}" />
+            <marker date="1482287078957" expanded="true" signature="29130:29188" ph="{...}" />
+            <marker date="1482287078957" expanded="true" signature="29288:29449" ph="{...}" />
+            <marker date="1482287078957" expanded="true" signature="29380:29441" ph="{...}" />
+            <marker date="1482287078957" expanded="true" signature="29455:29567" ph="{...}" />
+            <marker date="1482287078957" expanded="true" signature="29747:30833" ph="{...}" />
+            <marker date="1482287078957" expanded="true" signature="29767:30314" ph="{&quot;method&quot;: 'POST'...}" />
+            <marker date="1482287078957" expanded="true" signature="29875:29995" ph="{&quot;X-SparkApi-User-Agent&quot;: 'Idx Agent'...}" />
+            <marker date="1482287078957" expanded="true" signature="30015:30280" ph="{&quot;grant_type&quot;: 'authorization_code'...}" />
+            <marker date="1482287078957" expanded="true" signature="30858:30926" ph="{...}" />
+            <marker date="1482287078957" expanded="true" signature="30945:31773" ph="{...}" />
+            <marker date="1482287078957" expanded="true" signature="31013:31608" ph="{...}" />
+            <marker date="1482287078957" expanded="true" signature="31084:31194" ph="{...}" />
+            <marker date="1482287078957" expanded="true" signature="31130:31191" ph="{...}" />
+            <marker date="1482287078957" expanded="true" signature="31209:31598" ph="//..." />
+            <marker date="1482287078957" expanded="true" signature="31631:31765" ph="{...}" />
+            <marker date="1482287078957" expanded="true" signature="31818:32277" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
-          <caret line="190" column="0" lean-forward="true" selection-start-line="190" selection-start-column="0" selection-end-line="190" selection-end-column="0" />
+        <state relative-caret-position="300">
+          <caret line="542" column="6" lean-forward="false" selection-start-line="542" selection-start-column="6" selection-end-line="542" selection-end-column="6" />
           <folding />
         </state>
       </provider>
