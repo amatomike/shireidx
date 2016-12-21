@@ -109,58 +109,61 @@ function requestWithPageOps(ops){
 function sizeAndSave(full,basic,keypath,idpath,citykey,cityid,zippath,streetpath,streetnumpath){
 
         let most = Object.assign({},full)
+        let reqf = rp({headers: oauthHeaders(), uri:'https://sparkapi.com/v1/listings/'+basic.Id+'?_expand=Photos', json: true})
+            .then(pb=>{
+            full = Object.assign(full,pb['D']['Results'][0]['StandardFields'])
+                    let entry = {}
+                entry[idpath] = most;
+                entry[keypath] = full;
+                entry[citykey] = basic;
+                entry[cityid] = basic;
+                entry[zippath]=basic;
+                entry[streetpath]=basic;
+                entry[streetnumpath]=basic;
+                 dB.ref('/').update(entry)
+            })
+        let sizeLarge = size({url: basic.PhotoLarge},function (err, dimensions, length) {
+            full['PhotoLarge']['size'] = dimensions;
+            let entry={};
 
-        // let sizeLarge = size({url: basic.PhotoLarge},function (err, dimensions, length) {
-        //     let entry={};
-        //
-        //     full['PhotoLarge']['size'] = dimensions;
-        //     // idpath.update(nbasic);
-        //     // citypath.update(nbasic);
-        //     // zippath.update(nbasic);
-        //     // streetpath.update(nbasic);
-        //     // streetnumpath.update(nbasic);
-        //     entry[idpath] = most;
-        //     entry[keypath] = full;
-        //     entry[citykey] = basic;
-        //     entry[cityid] = basic;
-        //     entry[zippath]=basic;
-        //     entry[streetpath]=basic;
-        //     entry[streetnumpath]=basic;
-        //     return dB.ref('/').update(entry)
-        // });
-        // let size300 = size({url: basic.Photo300},function (err, dimensions, length) {
-        //     let entry={};
-        //
-        //     full['Photo300']['size'] = {height:dimensions.height,width:dimensions.width,type:'0'};
-        //     // idpath.update(nbasic);
-        //     // citypath.update(nbasic);
-        //     // zippath.update(nbasic);
-        //     // streetpath.update(nbasic);
-        //     // streetnumpath.update(nbasic);
-        //     entry[keypath] = full;
-        //     entry[idpath] = most;
-        //     entry[citykey] = basic;
-        //     entry[cityid] = basic;
-        //     entry[zippath]=basic;
-        //     entry[streetpath]=basic;
-        //     entry[streetnumpath]=basic;
-        //     return dB.ref('/').update(entry)
-        // });
-let reqfull =    rp({headers: oauthHeaders(), uri:'https://sparkapi.com/v1/listings/'+basic.Id+'?_expand=Photos', json: true})
-        .then(pb=>{
-            let entry ={};
-            let tfull = Object.assign(full,pb['D']['Results'][0]['StandardFields'])
-            entry['listings/keys/'+full['ShireKey']] = tfull;
-            entry['listings/id/'+full['id']] = most;
+            // idpath.update(nbasic);
+            // citypath.update(nbasic);
+            // zippath.update(nbasic);
+            // streetpath.update(nbasic);
+            // streetnumpath.update(nbasic);
+            entry[idpath] = most;
+            entry[keypath] = full;
             entry[citykey] = basic;
             entry[cityid] = basic;
             entry[zippath]=basic;
             entry[streetpath]=basic;
             entry[streetnumpath]=basic;
+            return dB.ref('/').update(entry)
+        });
+        let size300 = size({url: basic.Photo300},function (err, dimensions, length) {
+            full['Photo300']['size'] = dimensions;
+            let entry={};
 
-            dB.ref('/').update(entry)
-        })
-       return Promise.all([reqfull])
+            // idpath.update(nbasic);
+            // citypath.update(nbasic);
+            // zippath.update(nbasic);
+            // streetpath.update(nbasic);
+            // streetnumpath.update(nbasic);
+            entry[keypath] = full;
+            entry[idpath] = most;
+            entry[citykey] = basic;
+            entry[cityid] = basic;
+            entry[zippath]=basic;
+            entry[streetpath]=basic;
+            entry[streetnumpath]=basic;
+            return dB.ref('/').update(entry)
+        });
+
+       return Promise.all([sizeLarge,size300,reqf]).then(donedoing=>{
+            console.log('sized-'+JSON.stringify({donedoing}))
+        }).catch(e=>{
+           console.log(e)
+                })
 
 
 }
@@ -248,8 +251,8 @@ function promiseSaveListings(listings){
                             Beds: sf.BedsTotal,
                             Baths: sf.BathsTotal,
                             Acres: sf.LotSizeAcres,
-                            Photo300: {url: photoentry.Uri300, size:{height:'0',width:'0',type:'0'}, key: 'Photo300'},
-                            PhotoLarge: {url: photoentry.UriLarge, size:{height:'0',width:'0',type:'0'}, key: 'PhotoLarge'},
+                            Photo300: {url: photoentry.Uri300, size:{height:'',width:'',type:''}, key: 'Photo300'},
+                            PhotoLarge: {url: photoentry.UriLarge, size:{height:'',width:'',type:''}, key: 'PhotoLarge'},
                             PhotoThumb: {url: photoentry.UriThumb},
                             PhotoCaption: photoentry.Caption,
                             YearBuilt: sf.YearBuilt,
@@ -308,7 +311,8 @@ function promiseSaveListings(listings){
 
                     }
                 })
-                return Promise.all(dopromises)
+                return Promise.all(dopromises).then(idid => {
+                })
             }
         }})
 }

@@ -128,57 +128,60 @@ function requestWithPageOps(ops) {
 function sizeAndSave(full, basic, keypath, idpath, citykey, cityid, zippath, streetpath, streetnumpath) {
 
     var most = Object.assign({}, full);
-
-    // let sizeLarge = size({url: basic.PhotoLarge},function (err, dimensions, length) {
-    //     let entry={};
-    //
-    //     full['PhotoLarge']['size'] = dimensions;
-    //     // idpath.update(nbasic);
-    //     // citypath.update(nbasic);
-    //     // zippath.update(nbasic);
-    //     // streetpath.update(nbasic);
-    //     // streetnumpath.update(nbasic);
-    //     entry[idpath] = most;
-    //     entry[keypath] = full;
-    //     entry[citykey] = basic;
-    //     entry[cityid] = basic;
-    //     entry[zippath]=basic;
-    //     entry[streetpath]=basic;
-    //     entry[streetnumpath]=basic;
-    //     return dB.ref('/').update(entry)
-    // });
-    // let size300 = size({url: basic.Photo300},function (err, dimensions, length) {
-    //     let entry={};
-    //
-    //     full['Photo300']['size'] = {height:dimensions.height,width:dimensions.width,type:'0'};
-    //     // idpath.update(nbasic);
-    //     // citypath.update(nbasic);
-    //     // zippath.update(nbasic);
-    //     // streetpath.update(nbasic);
-    //     // streetnumpath.update(nbasic);
-    //     entry[keypath] = full;
-    //     entry[idpath] = most;
-    //     entry[citykey] = basic;
-    //     entry[cityid] = basic;
-    //     entry[zippath]=basic;
-    //     entry[streetpath]=basic;
-    //     entry[streetnumpath]=basic;
-    //     return dB.ref('/').update(entry)
-    // });
-    var reqfull = (0, _requestPromise2.default)({ headers: oauthHeaders(), uri: 'https://sparkapi.com/v1/listings/' + basic.Id + '?_expand=Photos', json: true }).then(function (pb) {
+    var reqf = (0, _requestPromise2.default)({ headers: oauthHeaders(), uri: 'https://sparkapi.com/v1/listings/' + basic.Id + '?_expand=Photos', json: true }).then(function (pb) {
+        full = Object.assign(full, pb['D']['Results'][0]['StandardFields']);
         var entry = {};
-        var tfull = Object.assign(full, pb['D']['Results'][0]['StandardFields']);
-        entry['listings/keys/' + full['ShireKey']] = tfull;
-        entry['listings/id/' + full['id']] = most;
+        entry[idpath] = most;
+        entry[keypath] = full;
         entry[citykey] = basic;
         entry[cityid] = basic;
         entry[zippath] = basic;
         entry[streetpath] = basic;
         entry[streetnumpath] = basic;
-
         dB.ref('/').update(entry);
     });
-    return Promise.all([reqfull]);
+    var sizeLarge = size({ url: basic.PhotoLarge }, function (err, dimensions, length) {
+        full['PhotoLarge']['size'] = dimensions;
+        var entry = {};
+
+        // idpath.update(nbasic);
+        // citypath.update(nbasic);
+        // zippath.update(nbasic);
+        // streetpath.update(nbasic);
+        // streetnumpath.update(nbasic);
+        entry[idpath] = most;
+        entry[keypath] = full;
+        entry[citykey] = basic;
+        entry[cityid] = basic;
+        entry[zippath] = basic;
+        entry[streetpath] = basic;
+        entry[streetnumpath] = basic;
+        return dB.ref('/').update(entry);
+    });
+    var size300 = size({ url: basic.Photo300 }, function (err, dimensions, length) {
+        full['Photo300']['size'] = dimensions;
+        var entry = {};
+
+        // idpath.update(nbasic);
+        // citypath.update(nbasic);
+        // zippath.update(nbasic);
+        // streetpath.update(nbasic);
+        // streetnumpath.update(nbasic);
+        entry[keypath] = full;
+        entry[idpath] = most;
+        entry[citykey] = basic;
+        entry[cityid] = basic;
+        entry[zippath] = basic;
+        entry[streetpath] = basic;
+        entry[streetnumpath] = basic;
+        return dB.ref('/').update(entry);
+    });
+
+    return Promise.all([sizeLarge, size300, reqf]).then(function (donedoing) {
+        console.log('sized-' + JSON.stringify({ donedoing: donedoing }));
+    }).catch(function (e) {
+        console.log(e);
+    });
 }
 function promiseSaveListings(listings) {
 
@@ -260,8 +263,8 @@ function promiseSaveListings(listings) {
                             Beds: sf.BedsTotal,
                             Baths: sf.BathsTotal,
                             Acres: sf.LotSizeAcres,
-                            Photo300: { url: photoentry.Uri300, size: { height: '0', width: '0', type: '0' }, key: 'Photo300' },
-                            PhotoLarge: { url: photoentry.UriLarge, size: { height: '0', width: '0', type: '0' }, key: 'PhotoLarge' },
+                            Photo300: { url: photoentry.Uri300, size: { height: '', width: '', type: '' }, key: 'Photo300' },
+                            PhotoLarge: { url: photoentry.UriLarge, size: { height: '', width: '', type: '' }, key: 'PhotoLarge' },
                             PhotoThumb: { url: photoentry.UriThumb },
                             PhotoCaption: photoentry.Caption,
                             YearBuilt: sf.YearBuilt,
@@ -319,7 +322,7 @@ function promiseSaveListings(listings) {
                         return sizeAndSave(uplist, _basic, _keypath, _idpath, _citykeypath, _cityidpath, _zippath, _streetnamepath, _streetnumpath);
                     }
                 });
-                return Promise.all(dopromises);
+                return Promise.all(dopromises).then(function (idid) {});
             }
         }
     });
