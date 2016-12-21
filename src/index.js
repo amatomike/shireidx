@@ -67,9 +67,18 @@ fbinit.database().ref('/sparkauth/oauth').on("value", function(snapshot) {
 }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
 });
-let dbsnap;
-fbinit.database().ref('/listings').on("value", function(snapshot) {
-    dbsnap = snapshot;}, function (errorObject) {
+let idsnap;
+let keysnap;
+fbinit.database().ref('/listings/keys').on("value", function(snapshot) {
+    keysnap = snapshot;
+
+}, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+});
+fbinit.database().ref('/listings/id').on("value", function(snapshot) {
+    idsnap = snapshot;
+
+}, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
 });
 
@@ -172,10 +181,12 @@ function promiseSaveListings(listings){
             if (lsts['D']['Results']) {
 
                 let dopromises = lsts['D']['Results'].map(listing => {
-                    let exists = dbsnap.child('/id/' + listing.Id).exists();
+                    let exists = idsnap.child('/id/' + listing.Id).exists();
                     if (exists == true) {
-                        let current = dbsnap.child('/id/' + listing.Id).val();
+                        let currentkey = dbsnap.child('/id/' + listing.Id).val();
+                        fbinit.database().ref('/listings/keys/'+currentkey).once("value", function(snapshot) {
 
+                        let current = snapshot.val();
                         let reqf = rp({headers: oauthHeaders(), uri:'https://sparkapi.com/v1/listings/'+current.Id+'?_expand=Photos', json: true})
                             .then(pb=>{
                                 let lkey = dbsnap.child('/id/' + listing.Id+'/ShireKey').val();
@@ -252,7 +263,7 @@ function promiseSaveListings(listings){
                                 dB.ref('/').update(entry)
                                 return sizeAndSave(most,full,basic,keypath,idpath,citykeypath,cityidpath,zippath,streetnamepath,streetnumpath)
 
-                            })
+                            })});
 
 
                         console.log('Price :' + current.ListPrice + ' City:' + current.City + 'CityKey : ' + current.CityKey + ' key :' + ShireKey)
@@ -524,7 +535,7 @@ app.get('/addr/:addr', function (req, res) {
         })})
 app.get('/primary', function (req, res) {
     fbinit.database().ref('/listings/id').once("value", function(snapshot) {
-        dbsnap = snapshot;
+        idsnap = snapshot;
   ls = [];
     let cities = ['Manasquan','Wall','Avon-by-the-sea','Sea Girt','Belmar','Spring Lake','Spring Lake Heights','Brielle','Point Pleasant','Point Pleasant Beach','Bay Head','Bradley Beach','Ocean Grove','Neptune','West Belmar','Asbury Park'];
 cities.forEach(addr=>{
