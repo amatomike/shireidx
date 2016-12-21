@@ -194,90 +194,90 @@ function promiseSaveListings(listings) {
             if (lsts['D']['Results']) {
 
                 var dopromises = lsts['D']['Results'].map(function (listing) {
-                    var exists = idsnap.child('/id/' + listing.Id).exists();
+                    var exists = idsnap.child(listing.Id).exists();
                     if (exists == true) {
-                        var currentkey = dbsnap.child('/id/' + listing.Id).val();
-                        fbinit.database().ref('/listings/keys/' + currentkey).once("value", function (snapshot) {
+                        (function () {
+                            var currentkey = idsnap.child(listing.Id).val();
+                            fbinit.database().ref('/listings/keys/' + currentkey).once("value", function (snapshot) {
 
-                            var current = snapshot.val();
-                            var reqf = (0, _requestPromise2.default)({ headers: oauthHeaders(), uri: 'https://sparkapi.com/v1/listings/' + current.Id + '?_expand=Photos', json: true }).then(function (pb) {
-                                var lkey = dbsnap.child('/id/' + listing.Id + '/ShireKey').val();
-                                var full = Object.assign(current, _firebaseSafekey2.default.safe(pb['D']['Results'][0]['StandardFields']));
-                                var entry = {};
-                                var most = {
-                                    Id: full.Id,
-                                    City: full.City,
-                                    CityKey: '',
-                                    ShireKey: '',
-                                    Zip: full.PostalCode,
-                                    StreetAddressOnly: full.StreetAddressOnly,
-                                    FullAddress: full.FullAddress,
-                                    Price: full.ListPrice,
-                                    Beds: full.BedsTotal,
-                                    Baths: full.BathsTotal,
-                                    Acres: full.LotSizeAcres,
-                                    Photo300: full.Photo300,
-                                    PhotoLarge: full.PhotoLarge,
-                                    PhotoThumb: full.PhotoThumb,
-                                    PhotoCaption: full.PhotoCaption,
-                                    YearBuilt: full.YearBuilt,
-                                    LivingArea: full.LivingArea,
-                                    HighSchool: full.HighSchool,
-                                    MiddleOrJuniorSchool: full.MiddleOrJuniorSchool,
-                                    ElementarySchool: full.ElementarySchool,
-                                    Neighborhood: full.SubdivisionName,
-                                    BuildingArea: full.BuildingAreaTotal,
-                                    Type: full.PropertySubType,
-                                    ListPrice: full.ListPrice,
-                                    Latitude: full.Latitude,
-                                    Longitude: full.Longitude,
-                                    MlsStatus: full.MlsStatus,
-                                    PublicRemarks: full.PublicRemarks,
-                                    StreetNumber: full.StreetNumber,
-                                    StreetName: full.StreetName,
-                                    StreetSuffix: full.StreetSuffix
-                                };
-                                if (full.Videos.length > 0) {
-                                    most['Videos'] = full.Videos;
-                                }
-                                if (full.Photos.length > 0) {
-                                    most['PrimaryPhotos'] = current.PrimaryPhotos;
-                                }
-                                var basic = {
-                                    Id: full.Id,
-                                    ShireKey: full.ShireKey,
-                                    City: full.City,
-                                    CityKey: full.CityKey,
-                                    Photo300: full.Photo300.url,
-                                    PhotoLarge: full.PhotoLarge.url,
-                                    PhotoThumb: full.PhotoThumb.url,
-                                    PublicRemarks: full.PublicRemarks,
-                                    StreetAddress: full.StreetAddress
-                                };
-                                basic = Object.assign({}, _firebaseSafekey2.default.safe(basic));
-                                ShireKey = current.ShireKey;
-                                var citykey = current.CityKey;
-                                var keypath = '/listings/keys/' + current.ShireKey;
-                                var idpath = '/listings/id/' + current.Id;
-                                var citykeypath = '/listings/location/city/' + current.City + '/keys/' + citykey;
-                                var cityidpath = '/listings/location/city/' + current.City + '/Id/' + current.Id;
-                                var zippath = '/listings/location/zip/' + current.Zip + '/' + current.Id;
-                                var streetnamepath = '/listings/location/street/name/' + current['StreetName'] + '/' + current.Id;
-                                var streetnumpath = '/listings/location/street/number/' + current['StreetNumber'] + '/' + current.Id;
+                                var current = snapshot.val();
+                                var reqf = (0, _requestPromise2.default)({ headers: oauthHeaders(), uri: 'https://sparkapi.com/v1/listings/' + current.Id + '?_expand=Photos', json: true }).then(function (pb) {
+                                    var lkey = currentkey;
+                                    var full = Object.assign(current, _firebaseSafekey2.default.safe(pb['D']['Results'][0]['StandardFields']));
+                                    var entry = {};
+                                    var most = {
+                                        Id: full.Id,
+                                        City: full.City,
+                                        CityKey: full.CityKey,
+                                        ShireKey: full.ShireKey,
+                                        Zip: full.PostalCode,
+                                        StreetAddressOnly: full.StreetAddressOnly,
+                                        FullAddress: full.FullAddress,
+                                        Price: full.ListPrice,
+                                        Beds: full.BedsTotal,
+                                        Baths: full.BathsTotal,
+                                        Acres: full.LotSizeAcres,
+                                        Photo300: full.Photo300,
+                                        PhotoLarge: full.PhotoLarge,
+                                        PhotoThumb: full.PhotoThumb,
+                                        PhotoCaption: full.PhotoCaption,
+                                        YearBuilt: full.YearBuilt,
+                                        LivingArea: full.LivingArea,
+                                        HighSchool: full.HighSchool,
+                                        MiddleOrJuniorSchool: full.MiddleOrJuniorSchool,
+                                        ElementarySchool: full.ElementarySchool,
+                                        Neighborhood: full.SubdivisionName,
+                                        BuildingArea: full.BuildingAreaTotal,
+                                        Type: full.PropertySubType,
+                                        ListPrice: full.ListPrice,
+                                        Latitude: full.Latitude,
+                                        Longitude: full.Longitude,
+                                        MlsStatus: full.MlsStatus,
+                                        PublicRemarks: full.PublicRemarks,
+                                        StreetNumber: full.StreetNumber,
+                                        StreetName: full.StreetName,
+                                        StreetSuffix: full.StreetSuffix
+                                    };
+                                    if (full.Videos) {
+                                        most['Videos'] = full.Videos;
+                                    }
+                                    if (full.Photos) {
+                                        most['PrimaryPhotos'] = current.PrimaryPhotos;
+                                    }
+                                    var basic = {
+                                        Id: full.Id,
+                                        ShireKey: full.ShireKey,
+                                        City: full.City,
+                                        CityKey: full.CityKey,
+                                        Photo300: full.Photo300.url,
+                                        PhotoLarge: full.PhotoLarge.url,
+                                        PhotoThumb: full.PhotoThumb.url,
+                                        PublicRemarks: full.PublicRemarks,
+                                        StreetAddress: full.StreetAddress
+                                    };
+                                    basic = Object.assign({}, _firebaseSafekey2.default.safe(basic));
+                                    ShireKey = current.ShireKey;
+                                    var citykey = current.CityKey;
+                                    var keypath = '/listings/keys/' + current.ShireKey;
+                                    var idpath = '/listings/id/' + current.Id;
+                                    var citykeypath = '/listings/location/city/' + current.City + '/keys/' + citykey;
+                                    var cityidpath = '/listings/location/city/' + current.City + '/Id/' + current.Id;
+                                    var zippath = '/listings/location/zip/' + current.Zip + '/' + current.Id;
+                                    var streetnamepath = '/listings/location/street/name/' + current['StreetName'] + '/' + current.Id;
+                                    var streetnumpath = '/listings/location/street/number/' + current['StreetNumber'] + '/' + current.Id;
 
-                                entry[idpath] = most.ShireKey;
-                                entry[keypath] = full;
-                                entry[citykeypath] = basic;
-                                entry[cityidpath] = basic;
-                                entry[zippath] = basic;
-                                entry[streetnamepath] = basic;
-                                entry[streetnumpath] = basic;
-                                dB.ref('/').update(entry);
-                                return sizeAndSave(most, full, basic, keypath, idpath, citykeypath, cityidpath, zippath, streetnamepath, streetnumpath);
+                                    entry[idpath] = most.ShireKey;
+                                    entry[keypath] = full;
+                                    entry[citykeypath] = basic;
+                                    entry[cityidpath] = basic;
+                                    entry[zippath] = basic;
+                                    entry[streetnamepath] = basic;
+                                    entry[streetnumpath] = basic;
+                                    dB.ref('/').update(entry);
+                                    return sizeAndSave(most, full, basic, keypath, idpath, citykeypath, cityidpath, zippath, streetnamepath, streetnumpath);
+                                });
                             });
-                        });
-
-                        console.log('Price :' + current.ListPrice + ' City:' + current.City + 'CityKey : ' + current.CityKey + ' key :' + ShireKey);
+                        })();
                     } else {
                         var parr = [{
                             ResourceUri: "unset",
