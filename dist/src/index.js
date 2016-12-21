@@ -138,7 +138,7 @@ function sizeAndSave(most, full, basic, keypath, idpath, citykey, cityid, zippat
         // zippath.update(nbasic);
         // streetpath.update(nbasic);
         // streetnumpath.update(nbasic);
-        entry[idpath] = most;
+        entry[idpath] = most.ShireKey;
         entry[keypath] = full;
         entry[citykey] = basic;
         entry[cityid] = basic;
@@ -158,7 +158,7 @@ function sizeAndSave(most, full, basic, keypath, idpath, citykey, cityid, zippat
         // streetpath.update(nbasic);
         // streetnumpath.update(nbasic);
         entry[keypath] = full;
-        entry[idpath] = most;
+        entry[idpath] = most.ShireKey;
         entry[citykey] = basic;
         entry[cityid] = basic;
         entry[zippath] = basic;
@@ -258,7 +258,7 @@ function promiseSaveListings(listings) {
                                 var streetnamepath = '/listings/location/street/name/' + current['StreetName'] + '/' + current.Id;
                                 var streetnumpath = '/listings/location/street/number/' + current['StreetNumber'] + '/' + current.Id;
 
-                                entry[idpath] = most;
+                                entry[idpath] = most.ShireKey;
                                 entry[keypath] = full;
                                 entry[citykeypath] = basic;
                                 entry[cityidpath] = basic;
@@ -541,83 +541,88 @@ app.get('/addr/:addr', function (req, res) {
     });
 });
 app.get('/primary', function (req, res) {
-    ls = [];
-    var cities = ['Manasquan', 'Wall', 'Avon-by-the-sea', 'Sea Girt', 'Belmar', 'Spring Lake', 'Spring Lake Heights', 'Brielle', 'Point Pleasant', 'Point Pleasant Beach', 'Bay Head', 'Bradley Beach', 'Ocean Grove', 'Neptune', 'West Belmar', 'Asbury Park'];
-    cities.forEach(function (addr) {
-        var filter = "PropertyType Eq 'A' And MlsStatus Eq 'Active' And (City Eq '" + addr + "' Or StreetAddress Eq '" + addr + "')";
-        console.log(filter);
-        var combo = [];
-        var obj = [];
-        var pageops = [];
-        var setargs = {
-            _filter: filter
-        };
-        var pagearr = [];
+    fbinit.database().ref('/listings/id').once("value", function (snapshot) {
+        dbsnap = snapshot;
+        ls = [];
+        var cities = ['Manasquan', 'Wall', 'Avon-by-the-sea', 'Sea Girt', 'Belmar', 'Spring Lake', 'Spring Lake Heights', 'Brielle', 'Point Pleasant', 'Point Pleasant Beach', 'Bay Head', 'Bradley Beach', 'Ocean Grove', 'Neptune', 'West Belmar', 'Asbury Park'];
+        cities.forEach(function (addr) {
+            var filter = "PropertyType Eq 'A' And MlsStatus Eq 'Active' And (City Eq '" + addr + "' Or StreetAddress Eq '" + addr + "')";
+            console.log(filter);
+            var combo = [];
+            var obj = [];
+            var pageops = [];
+            var setargs = {
+                _filter: filter
+            };
+            var pagearr = [];
 
-        var opsurl = makeUrl(setargs, null, 'A', 'https://sparkapi.com/v1/listings?', 'Active');
-        var authops = {
-            headers: oauthHeaders(),
-            uri: opsurl + '&_pagination=count&_page=1',
-            json: true
-        };
-        console.log('about to request...' + JSON.stringify(authops));
-        (0, _requestPromise2.default)(authops).then(function (pb) {
-            // results.concat(pb['D']['Results']);
-            console.log('pagei:' + JSON.stringify(pb['D']['Pagination']));
+            var opsurl = makeUrl(setargs, null, 'A', 'https://sparkapi.com/v1/listings?', 'Active');
+            var authops = {
+                headers: oauthHeaders(),
+                uri: opsurl + '&_pagination=count&_page=1',
+                json: true
+            };
+            console.log('about to request...' + JSON.stringify(authops));
+            (0, _requestPromise2.default)(authops).then(function (pb) {
+                // results.concat(pb['D']['Results']);
+                console.log('pagei:' + JSON.stringify(pb['D']['Pagination']));
 
-            var pages = pb['D']['Pagination']['TotalPages'];
-            var currentpage = pb['D']['Pagination']['CurrentPage'];
-            pagearr.push({ headers: oauthHeaders(), uri: opsurl + '&_pagination=1&_page=' + pages, json: true });
+                var pages = pb['D']['Pagination']['TotalPages'];
+                var currentpage = pb['D']['Pagination']['CurrentPage'];
+                pagearr.push({ headers: oauthHeaders(), uri: opsurl + '&_pagination=1&_page=' + pages, json: true });
 
-            for (var page = 1; page < pages; page++) {
-                var pageReq = {};
-                var newops = { headers: oauthHeaders(), uri: opsurl + '&_pagination=1&_page=' + page, json: true };
-                pagearr.push(newops);
-            }
+                for (var page = 1; page < pages; page++) {
+                    var pageReq = {};
+                    var newops = { headers: oauthHeaders(), uri: opsurl + '&_pagination=1&_page=' + page, json: true };
+                    pagearr.push(newops);
+                }
 
-            var promisedPages = pagearr.map(function (ops) {
-                console.log('mapping ops :' + JSON.stringify(ops));
+                var promisedPages = pagearr.map(function (ops) {
+                    console.log('mapping ops :' + JSON.stringify(ops));
 
-                return requestWithPageOps(ops);
+                    return requestWithPageOps(ops);
+                });
+                Promise.all(promisedPages).then(function (pb) {
+                    promiseSaveListings(pb);
+                });
+            }).catch(_errors2.default.StatusCodeError, function (reason) {
+                // The server responded with a status codes other than 2xx.
+                // Check
+                if (reason.statusCode == 401) {
+                    console.log(reason);
+                    refreshAuth(oauthData);
+                }
+            })
+            // .catch(this.checkStatus)
+            .catch(_errors2.default.RequestError, function (reason) {
+                // reason.cause is the Error object Request would pass into a callback.
+                console.log(reason.cause);
+            }).catch(function (e) {
+                // reason.cause is the Error object Request would pass into a callback.
+                console.log('e:' + e);
+            }).catch(_errors2.default.StatusCodeError, function (reason) {
+                // The server responded with a status codes other than 2xx.
+                // Check
+                if (reason.statusCode == 401) {
+                    console.log(reason);
+                    refreshAuth(oauthData);
+                }
+            })
+            // .catch(this.checkStatus)
+            .catch(_errors2.default.RequestError, function (reason) {
+                // reason.cause is the Error object Request would pass into a callback.
+                console.log(reason.cause);
+            }).catch(function (e) {
+                // reason.cause is the Error object Request would pass into a callback.
+                console.log('e:' + e);
             });
-            Promise.all(promisedPages).then(function (pb) {
-                promiseSaveListings(pb);
-            });
-        }).catch(_errors2.default.StatusCodeError, function (reason) {
-            // The server responded with a status codes other than 2xx.
-            // Check
-            if (reason.statusCode == 401) {
-                console.log(reason);
-                refreshAuth(oauthData);
-            }
-        })
-        // .catch(this.checkStatus)
-        .catch(_errors2.default.RequestError, function (reason) {
-            // reason.cause is the Error object Request would pass into a callback.
-            console.log(reason.cause);
-        }).catch(function (e) {
-            // reason.cause is the Error object Request would pass into a callback.
-            console.log('e:' + e);
-        }).catch(_errors2.default.StatusCodeError, function (reason) {
-            // The server responded with a status codes other than 2xx.
-            // Check
-            if (reason.statusCode == 401) {
-                console.log(reason);
-                refreshAuth(oauthData);
-            }
-        })
-        // .catch(this.checkStatus)
-        .catch(_errors2.default.RequestError, function (reason) {
-            // reason.cause is the Error object Request would pass into a callback.
-            console.log(reason.cause);
-        }).catch(function (e) {
-            // reason.cause is the Error object Request would pass into a callback.
-            console.log('e:' + e);
         });
-    });
-    res.render('pages/spark', { results: Object.keys(ls).map(function (key) {
-            return key = f[key];
-        })
+        res.render('pages/spark', { results: Object.keys(ls).map(function (key) {
+                return key = f[key];
+            })
+        });
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
     });
 });
 app.get('/callback', function (req, res) {

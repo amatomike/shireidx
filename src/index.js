@@ -119,7 +119,7 @@ function sizeAndSave(most,full,basic,keypath,idpath,citykey,cityid,zippath,stree
             // zippath.update(nbasic);
             // streetpath.update(nbasic);
             // streetnumpath.update(nbasic);
-            entry[idpath] = most;
+            entry[idpath] = most.ShireKey;
             entry[keypath] = full;
             entry[citykey] = basic;
             entry[cityid] = basic;
@@ -139,7 +139,7 @@ function sizeAndSave(most,full,basic,keypath,idpath,citykey,cityid,zippath,stree
             // streetpath.update(nbasic);
             // streetnumpath.update(nbasic);
             entry[keypath] = full;
-            entry[idpath] = most;
+            entry[idpath] = most.ShireKey;
             entry[citykey] = basic;
             entry[cityid] = basic;
             entry[zippath]=basic;
@@ -242,7 +242,7 @@ function promiseSaveListings(listings){
                                 let streetnamepath = '/listings/location/street/name/'+ current['StreetName']+'/'+current.Id;
                                 let streetnumpath = '/listings/location/street/number/' + current['StreetNumber']+'/'+current.Id;
 
-                                entry[idpath] = most;
+                                entry[idpath] = most.ShireKey;
                                 entry[keypath] = full;
                                 entry[citykeypath] = basic;
                                 entry[cityidpath] = basic;
@@ -523,6 +523,8 @@ app.get('/addr/:addr', function (req, res) {
             console.log('e:' + e)
         })})
 app.get('/primary', function (req, res) {
+    fbinit.database().ref('/listings/id').once("value", function(snapshot) {
+        dbsnap = snapshot;
   ls = [];
     let cities = ['Manasquan','Wall','Avon-by-the-sea','Sea Girt','Belmar','Spring Lake','Spring Lake Heights','Brielle','Point Pleasant','Point Pleasant Beach','Bay Head','Bradley Beach','Ocean Grove','Neptune','West Belmar','Asbury Park'];
 cities.forEach(addr=>{
@@ -605,7 +607,10 @@ cities.forEach(addr=>{
         })})
     res.render('pages/spark', {results:Object.keys(ls).map(key=>{
         return key = f[key];})
-})})
+})}, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+    })
 app.get('/callback', function (req, res) {
     let code = ''
     let hascode = false;
