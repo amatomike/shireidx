@@ -108,49 +108,60 @@ function requestWithPageOps(ops){
 }
 function sizeAndSave(full,basic,keypath,idpath,citykey,cityid,zippath,streetpath,streetnumpath){
 
-        let entry={};
         let most = Object.assign({},full)
-        rp({headers: oauthHeaders(), uri:'https://sparkapi.com/v1/listings/'+basic.Id+'?_expand=Photos', json: true})
-            .then(pb=>{
-            full = Object.assign(full,pb['D']['Results'][0]['StandardFields'])
-            console.log('got full');
-        let sizeLarge = size({url: basic.PhotoLarge},function (err, dimensions, length) {
-            full['PhotoLarge']['size'] = dimensions;
-            // idpath.update(nbasic);
-            // citypath.update(nbasic);
-            // zippath.update(nbasic);
-            // streetpath.update(nbasic);
-            // streetnumpath.update(nbasic);
-            entry[idpath] = most;
-            entry[keypath] = full;
-            entry[citykey] = basic;
-            entry[cityid] = basic;
-            entry[zippath]=basic;
-            entry[streetpath]=basic;
-            entry[streetnumpath]=basic;
-            return dB.ref('/').update(entry)
-        });
-        let size300 = size({url: basic.Photo300},function (err, dimensions, length) {
-            full['Photo300']['size'] = dimensions;
-            // idpath.update(nbasic);
-            // citypath.update(nbasic);
-            // zippath.update(nbasic);
-            // streetpath.update(nbasic);
-            // streetnumpath.update(nbasic);
-            entry[keypath] = full;
-            entry[idpath] = most;
-            entry[citykey] = basic;
-            entry[cityid] = basic;
-            entry[zippath]=basic;
-            entry[streetpath]=basic;
-            entry[streetnumpath]=basic;
-            return dB.ref('/').update(entry)
-        });
 
-       return Promise.all([sizeLarge,size300]).then(donedoing=>{
-            console.log('sized-'+JSON.stringify({donedoing}))
+        // let sizeLarge = size({url: basic.PhotoLarge},function (err, dimensions, length) {
+        //     let entry={};
+        //
+        //     full['PhotoLarge']['size'] = dimensions;
+        //     // idpath.update(nbasic);
+        //     // citypath.update(nbasic);
+        //     // zippath.update(nbasic);
+        //     // streetpath.update(nbasic);
+        //     // streetnumpath.update(nbasic);
+        //     entry[idpath] = most;
+        //     entry[keypath] = full;
+        //     entry[citykey] = basic;
+        //     entry[cityid] = basic;
+        //     entry[zippath]=basic;
+        //     entry[streetpath]=basic;
+        //     entry[streetnumpath]=basic;
+        //     return dB.ref('/').update(entry)
+        // });
+        // let size300 = size({url: basic.Photo300},function (err, dimensions, length) {
+        //     let entry={};
+        //
+        //     full['Photo300']['size'] = {height:dimensions.height,width:dimensions.width,type:'0'};
+        //     // idpath.update(nbasic);
+        //     // citypath.update(nbasic);
+        //     // zippath.update(nbasic);
+        //     // streetpath.update(nbasic);
+        //     // streetnumpath.update(nbasic);
+        //     entry[keypath] = full;
+        //     entry[idpath] = most;
+        //     entry[citykey] = basic;
+        //     entry[cityid] = basic;
+        //     entry[zippath]=basic;
+        //     entry[streetpath]=basic;
+        //     entry[streetnumpath]=basic;
+        //     return dB.ref('/').update(entry)
+        // });
+let reqfull =    rp({headers: oauthHeaders(), uri:'https://sparkapi.com/v1/listings/'+basic.Id+'?_expand=Photos', json: true})
+        .then(pb=>{
+            let entry ={};
+            let tfull = Object.assign(full,pb['D']['Results'][0]['StandardFields'])
+            entry['listings/keys/'+full['ShireKey']] = tfull;
+            entry['listings/id/'+full['id']] = most;
+            entry[citykey] = basic;
+            entry[cityid] = basic;
+            entry[zippath]=basic;
+            entry[streetpath]=basic;
+            entry[streetnumpath]=basic;
+
+            dB.ref('/').update(entry)
         })
-            })
+       return Promise.all([reqfull])
+
 
 }
 function promiseSaveListings(listings){
@@ -200,7 +211,6 @@ function promiseSaveListings(listings){
 
                         console.log('Price :' + current.ListPrice + ' City:' + current.City + 'CityKey : ' + current.CityKey + ' key :' + ShireKey)
                     } else {
-                        console.log('new entry');
                         let parr = [
                             {
                                 ResourceUri: "unset",
@@ -238,8 +248,8 @@ function promiseSaveListings(listings){
                             Beds: sf.BedsTotal,
                             Baths: sf.BathsTotal,
                             Acres: sf.LotSizeAcres,
-                            Photo300: {url: photoentry.Uri300, size:{height:'',width:'',type:''}, key: 'Photo300'},
-                            PhotoLarge: {url: photoentry.UriLarge, size:{height:'',width:'',type:''}, key: 'PhotoLarge'},
+                            Photo300: {url: photoentry.Uri300, size:{height:'0',width:'0',type:'0'}, key: 'Photo300'},
+                            PhotoLarge: {url: photoentry.UriLarge, size:{height:'0',width:'0',type:'0'}, key: 'PhotoLarge'},
                             PhotoThumb: {url: photoentry.UriThumb},
                             PhotoCaption: photoentry.Caption,
                             YearBuilt: sf.YearBuilt,
@@ -298,9 +308,7 @@ function promiseSaveListings(listings){
 
                     }
                 })
-                return Promise.all(dopromises).then(idid => {
-                    console.log('Saved '+JSON.stringify(idid));
-                })
+                return Promise.all(dopromises)
             }
         }})
 }
@@ -539,7 +547,9 @@ cities.forEach(addr=>{
             // reason.cause is the Error object Request would pass into a callback.
             console.log('e:' + e)
         })})
-    res.render('pages/index.html')})
+    res.render('pages/spark', {results:Object.keys(ls).map(key=>{
+        return key = f[key];})
+})})
 app.get('/callback', function (req, res) {
     let code = ''
     let hascode = false;
