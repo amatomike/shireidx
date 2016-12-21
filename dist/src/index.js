@@ -260,10 +260,10 @@ function promiseSaveListings(listings) {
 
                                 entry[idpath] = most;
                                 entry[keypath] = full;
-                                entry[citykey] = basic;
+                                entry[citykeypath] = basic;
                                 entry[cityidpath] = basic;
                                 entry[zippath] = basic;
-                                entry[streetpath] = basic;
+                                entry[streetnamepath] = basic;
                                 entry[streetnumpath] = basic;
                                 dB.ref('/').update(entry);
                                 return sizeAndSave(most, full, basic, keypath, idpath, citykeypath, cityidpath, zippath, streetnamepath, streetnumpath);
