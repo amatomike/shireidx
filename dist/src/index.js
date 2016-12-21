@@ -128,7 +128,7 @@ function requestWithPageOps(ops) {
 function sizeAndSave(most, full, basic, keypath, idpath, citykey, cityid, zippath, streetpath, streetnumpath) {
 
     var sizeLarge = size({ url: basic.PhotoLarge }, function (err, dimensions, length) {
-        full['PhotoLarge']['size'] = dimensions;
+        full['PhotoLarge']['size'] = _firebaseSafekey2.default.safe(dimensions);
         var entry = {};
 
         // let most = Object.assign({},mostof)
@@ -148,7 +148,7 @@ function sizeAndSave(most, full, basic, keypath, idpath, citykey, cityid, zippat
         return dB.ref('/').update(entry);
     });
     var size300 = size({ url: basic.Photo300 }, function (err, dimensions, length) {
-        full['Photo300']['size'] = dimensions;
+        full['Photo300']['size'] = _firebaseSafekey2.default.safe(dimensions);
         var entry = {};
         // let most = Object.assign({},full)
 
@@ -311,8 +311,8 @@ function promiseSaveListings(listings) {
                             Beds: sf.BedsTotal,
                             Baths: sf.BathsTotal,
                             Acres: sf.LotSizeAcres,
-                            Photo300: { url: photoentry.Uri300, size: { height: '', width: '', type: '' }, key: 'Photo300' },
-                            PhotoLarge: { url: photoentry.UriLarge, size: { height: '', width: '', type: '' }, key: 'PhotoLarge' },
+                            Photo300: { url: photoentry.Uri300, size: { height: '', width: '', type: '', length: ' ' }, key: 'Photo300' },
+                            PhotoLarge: { url: photoentry.UriLarge, size: { height: '', width: '', type: '', length: ' ' }, key: 'PhotoLarge' },
                             PhotoThumb: { url: photoentry.UriThumb },
                             PhotoCaption: photoentry.Caption,
                             YearBuilt: sf.YearBuilt,
