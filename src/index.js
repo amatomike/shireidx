@@ -245,7 +245,7 @@ function promiseSaveListings(listings){
                                 entry[idpath] = most;
                                 entry[keypath] = full;
                                 entry[citykey] = basic;
-                                entry[cityid] = basic;
+                                entry[cityidpath] = basic;
                                 entry[zippath]=basic;
                                 entry[streetpath]=basic;
                                 entry[streetnumpath]=basic;
