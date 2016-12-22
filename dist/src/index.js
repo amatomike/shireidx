@@ -116,7 +116,7 @@ function checkStatus(response) {
     }
 }
 function saveOauthData(od) {
-    console.log("saving OauthData ->" + od);
+    console.log("saving OauthData ->" + JSON.stringify(od));
     return dB.ref('/sparkauth/oauth').update(od);
 }
 function handleCallback(req, res) {}
@@ -144,7 +144,7 @@ function sizeAndSave(most, full, basic, keypath, idpath, citykey, cityid, zippat
         // zippath.update(nbasic);
         // streetpath.update(nbasic);
         // streetnumpath.update(nbasic);
-        entry[idpath] = most.ShireKey;
+        entry[idpath] = most.ShireKey; //entry[idpath] = {ShireKey:most.ShireKey,City:most.City,PhotoThumb:full.PhotoThumb.url,StreetAddressOnly:full.StreetAddressOnly};
         entry[keypath] = full;
         entry[citykey] = basic;
         entry[cityid] = basic;
@@ -164,7 +164,7 @@ function sizeAndSave(most, full, basic, keypath, idpath, citykey, cityid, zippat
         // streetpath.update(nbasic);
         // streetnumpath.update(nbasic);
         entry[keypath] = full;
-        entry[idpath] = most.ShireKey;
+        entry[idpath] = most.ShireKey; //entry[idpath] = {ShireKey:most.ShireKey,City:most.City,PhotoThumb:full.PhotoThumb.url,StreetAddressOnly:full.StreetAddressOnly};
         entry[citykey] = basic;
         entry[cityid] = basic;
         entry[zippath] = basic;
@@ -185,6 +185,7 @@ function promiseSaveListings(listings) {
     var obj = [];
     var allupdates = [];
     var ShireKey = void 0;
+    var BasicKey = void 0;
     var entries = void 0;
     listings.forEach(function (lsts) {
         if (!lsts.D) {
@@ -210,6 +211,7 @@ function promiseSaveListings(listings) {
                                         City: full.City,
                                         CityKey: full.CityKey,
                                         ShireKey: full.ShireKey,
+                                        BasicKey: full.BasicKey,
                                         Zip: full.PostalCode,
                                         StreetAddressOnly: full.StreetAddressOnly,
                                         FullAddress: full.FullAddress,
@@ -247,26 +249,34 @@ function promiseSaveListings(listings) {
                                     var basic = {
                                         Id: full.Id,
                                         ShireKey: full.ShireKey,
+                                        BasicKey: full.BasicKey,
                                         City: full.City,
                                         CityKey: full.CityKey,
                                         Photo300: full.Photo300.url,
                                         PhotoLarge: full.PhotoLarge.url,
                                         PhotoThumb: full.PhotoThumb.url,
                                         PublicRemarks: full.PublicRemarks,
-                                        StreetAddress: full.StreetAddress
+                                        StreetAddressOnly: full.StreetAddressOnly,
+                                        ListPrice: full.ListPrice,
+                                        BedsTotal: full.BedsTotal,
+                                        BathsTotal: full.BathsTotal
                                     };
+
                                     basic = Object.assign({}, _firebaseSafekey2.default.safe(basic));
                                     ShireKey = current.ShireKey;
+                                    BasicKey = current.BasicKey;
                                     var citykey = current.CityKey;
                                     var keypath = '/listings/keys/' + current.ShireKey;
                                     var idpath = '/listings/id/' + current.Id;
+                                    var basicpath = '/listings/basic/';
+
                                     var citykeypath = '/listings/location/city/' + current.City + '/keys/' + citykey;
                                     var cityidpath = '/listings/location/city/' + current.City + '/Id/' + current.Id;
                                     var zippath = '/listings/location/zip/' + current.Zip + '/' + current.Id;
                                     var streetnamepath = '/listings/location/street/name/' + current['StreetName'] + '/' + current.Id;
                                     var streetnumpath = '/listings/location/street/number/' + current['StreetNumber'] + '/' + current.Id;
-
-                                    entry[idpath] = most.ShireKey;
+                                    entry[basicpath] = basic;
+                                    entry[idpath] = most.ShireKey; //entry[idpath] = {ShireKey:most.ShireKey,City:most.City,PhotoThumb:full.PhotoThumb.url,StreetAddressOnly:full.StreetAddressOnly};
                                     entry[keypath] = full;
                                     entry[citykeypath] = basic;
                                     entry[cityidpath] = basic;
@@ -311,8 +321,9 @@ function promiseSaveListings(listings) {
                             City: sf.City,
                             CityKey: '',
                             ShireKey: '',
+                            BasicKey: '',
                             Zip: sf.PostalCode,
-                            StreetAddress: sf.StreetNumber + ' ' + sf.StreetName + ' ' + sf.StreetSuffix,
+                            StreetAddressOnly: sf.StreetNumber + ' ' + sf.StreetName + ' ' + sf.StreetSuffix,
                             FullAddress: sf.UnparsedAddress,
                             Price: sf.ListPrice,
                             Beds: sf.BedsTotal,
@@ -349,26 +360,36 @@ function promiseSaveListings(listings) {
                         var basic = {
                             Id: listing.Id,
                             ShireKey: '',
+                            BasicKey: '',
                             City: sf.City,
                             CityKey: '',
                             Photo300: photoentry.Uri300,
                             PhotoLarge: photoentry.UriLarge,
                             PhotoThumb: photoentry.UriThumb,
                             PublicRemarks: sf.PublicRemarks,
-                            StreetAddress: sf.StreetNumber + ' ' + sf.StreetName + ' ' + sf.StreetSuffix
+                            StreetAddressOnly: sf.StreetNumber + ' ' + sf.StreetName + ' ' + sf.StreetSuffix,
+                            ListPrice: sf.ListPrice,
+                            BedsTotal: sf.BedsTotal,
+                            BathsTotal: sf.BathsTotal
                         };
                         uplist = Object.assign({}, _firebaseSafekey2.default.safe(uplist));
                         basic = Object.assign({}, _firebaseSafekey2.default.safe(basic));
                         var full = Object.assign(uplist, _firebaseSafekey2.default.safe(sf));
                         ShireKey = dB.ref('/listings/keys/').push(full).key;
+                        BasicKey = dB.ref('/listings/basic/').push(basic).key;
+                        var citykey = dB.ref('/listings/location/city/' + uplist.City + '/keys').push(basic).key;
+
                         basic.ShireKey = ShireKey;
                         uplist['ShireKey'] = ShireKey;
                         full['ShireKey'] = ShireKey;
+                        basic.BasicKey = BasicKey;
+                        uplist['BasicKey'] = BasicKey;
+                        full['BasicKey'] = BasicKey;
 
-                        var citykey = dB.ref('/listings/location/city/' + uplist.City + '/keys').push(basic).key;
                         uplist.CityKey = citykey;
                         basic.CityKey = citykey;
                         dB.ref('/listings/keys/' + ShireKey).update(uplist);
+                        dB.ref('/listings/basic/' + BasicKey).update(basic);
                         dB.ref('/listings/location/city/' + uplist.City + '/keys/' + citykey).update(basic);
                         var keypath = '/listings/keys/' + uplist.ShireKey;
                         var idpath = '/listings/id/' + uplist.Id;
@@ -443,18 +464,19 @@ function refreshAuth(oa) {
         'X-SparkApi-User-Agent': 'IDX Agent',
         'Content-Type': 'application/json'
     };
+    var authbody = Object.assign(oauthData, { grant_type: 'refresh_token' });
     var rauth = {
         url: 'https://sparkapi.com/v1/oauth2/grant',
         method: 'POST',
         headers: headers,
-        body: oa,
+        body: authbody,
         json: true
     };
 
-    rauth.body['grant_type'] = "refresh_token";
-    console.log('refreshing with :' + JSON.stringify(rauth));
+    console.log('refreshing with :' + JSON.stringify(rauth.body));
 
-    (0, _requestPromise2.default)(rauth, function (err, res, body) {}).then(function (pb) {
+    (0, _requestPromise2.default)(rauth).then(function (pb) {
+        console.log('got response ... :' + pb);
         saveOauthData(pb);
     }).catch(_errors2.default.StatusCodeError, function (reason) {
         console.log('Reason:' + reason + '          #####################   Status Code : ' + reason.statusCode);
@@ -601,7 +623,7 @@ app.get('/primary', function (req, res) {
                 // The server responded with a status codes other than 2xx.
                 // Check
                 if (reason.statusCode == 401) {
-                    console.log(reason);
+                    console.log('refreshing got code: ' + reason.statusCode);
                     refreshAuth(oauthData);
                 }
             })
