@@ -1,0 +1,69 @@
+{
+  "rules": {
+    "sparkauth":{
+      "oauth":{
+        ".write": "auth != null",
+        ".read": true
+    }},
+    "listings": {
+      ".write": "auth != null",
+      "basic":{
+        ".write": "auth != null",
+        ".read": true,
+        ".indexOn": [".value",".key"],
+        "$basicId":{
+        ".indexOn": [".value",".key","City","StreetAddressOnly","CityKey","Id","ListPrice","ShireKey"]
+      }},
+      "keys":{
+        ".write": "auth != null",
+        ".read": true,
+        ".indexOn": [".value",".key"],
+        "$keyId":{
+        ".indexOn": [".value",".key","City","StreetName","StreetNumber","PostalCode","ListPrice","Id","CityKey","StreetAddressOnly","MlsStatus","PostalCode"]
+      }},
+      "id":{
+        ".write": "auth != null",
+        ".read": true,
+      "$idId":{
+        ".indexOn": [".value",".key"]
+      }},
+    "location":{
+      "city":{
+        ".write": "auth != null",
+        ".read": true,
+        ".indexOn": [".value",".key"],
+        "$city":{
+            "id":{
+              ".indexOn": [".value",".key"],
+              "$id":{
+              ".indexOn": [".value",".key","ShireKey","StreetName","StreetNumber","PostalCode","ListPrice","Id","CityKey","StreetAddressOnly","MlsStatus","PostalCode"]
+            }},
+              "keys":{
+                ".indexOn": [".value",".key"],
+                "$key":{
+                  ".indexOn": [".value",".key","ShireKey","StreetName","StreetNumber","PostalCode","ListPrice","Id","CityKey","StreetAddressOnly","MlsStatus","PostalCode"]
+                }}}},
+      "street":{
+        ".write": "auth != null",
+        ".read": true,
+        "name":{
+          ".indexOn": [".value",".key"],
+          "$nameId":{
+          ".indexOn": [".value",".key","City","StreetName","StreetNumber","PostalCode","ListPrice","Id","ShireKey","CityKey","StreetAddressOnly","MlsStatus","PostalCode"]
+        }},
+        "number":{
+          ".indexOn": [".value",".key"],
+          "$numberId":{
+          ".indexOn": [".value",".key","City","StreetName","StreetNumber","PostalCode","ListPrice","Id","ShireKey","CityKey","StreetAddressOnly","MlsStatus","PostalCode"]
+        }}
+      },
+      "zip":{
+        ".write": "auth != null",
+        ".read": true,
+        ".indexOn": [".value",".key"],
+        "$zipId":{
+        ".indexOn": [".value",".key","City","StreetName","StreetNumber","PostalCode","ListPrice","Id","ShireKey","CityKey","StreetAddressOnly","MlsStatus","PostalCode"]
+      }}
+    }}
+  }
+}
