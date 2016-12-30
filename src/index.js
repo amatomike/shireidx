@@ -255,7 +255,7 @@ function promiseSaveListings(listings){
                                     let citykey = current.CityKey;
                                     let keypath = '/listings/keys/' + current.ShireKey;
                                     let idpath = '/listings/id/' + current.Id;
-                                    let basicpath = '/listings/basic/';
+                                    let basicpath = '/listings/basic/'+current.BasicKey;
 
                                     let citykeypath = '/listings/location/city/' + current.City + '/keys/' + citykey;
                                     let cityidpath = '/listings/location/city/' + current.City + '/Id/' + current.Id;
