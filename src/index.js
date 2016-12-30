@@ -192,6 +192,7 @@ function promiseSaveListings(listings){
                                 .then(pb=>{
                                      let lkey = currentkey;
                                     let full = Object.assign(current,safekey.safe(pb['D']['Results'][0]['StandardFields']));
+                                    let all = Object.assign(full,safekey.safe(pb['D']['Results'][0]['CustomFields']));
                                     let entry = {};
                                     let most = {
                                         Id: full.Id,
@@ -225,7 +226,8 @@ function promiseSaveListings(listings){
                                         PublicRemarks:full.PublicRemarks,
                                         StreetNumber:full.StreetNumber,
                                         StreetName:full.StreetName,
-                                        StreetSuffix:full.StreetSuffix
+                                        StreetSuffix:full.StreetSuffix,
+                                        All:all
                                     };
                                     if(full.Videos){
                                         most['Videos'] = full.Videos;
@@ -246,7 +248,11 @@ function promiseSaveListings(listings){
                                         StreetAddressOnly: full.StreetAddressOnly,
                                         ListPrice:full.ListPrice,
                                         BedsTotal:full.BedsTotal,
-                                        BathsTotal:full.BathsTotal
+                                        BathsTotal:full.BathsTotal,
+                                        MlsStatus: full.MlsStatus,
+                                        Latitude: full.Latitude,
+                                        Longitude: full.Longitude,
+                                        Zip: full.PostalCode
                                     };
 
                                     basic = Object.assign({},safekey.safe(basic));
@@ -258,20 +264,20 @@ function promiseSaveListings(listings){
                                     let basicpath = '/listings/basic/'+current.BasicKey;
 
                                     let citykeypath = '/listings/location/city/' + current.City + '/keys/' + citykey;
-                                    let cityidpath = '/listings/location/city/' + current.City + '/Id/' + current.Id;
+                                    let cityidpath = '/listings/location/city/' + current.City + '/id/' + current.Id;
                                     let zippath = '/listings/location/zip/' + current.Zip + '/' + current.Id;
                                     let streetnamepath = '/listings/location/street/name/'+ current['StreetName']+'/'+current.Id;
                                     let streetnumpath = '/listings/location/street/number/' + current['StreetNumber']+'/'+current.Id;
                                     entry[basicpath]=basic;
                                     entry[idpath] = most.ShireKey;//entry[idpath] = {ShireKey:most.ShireKey,City:most.City,PhotoThumb:full.PhotoThumb.url,StreetAddressOnly:full.StreetAddressOnly};
-                                    entry[keypath] = full;
+                                    entry[keypath] = most;
                                     entry[citykeypath] = basic;
                                     entry[cityidpath] = basic;
                                     entry[zippath]=basic;
                                     entry[streetnamepath]=basic;
                                     entry[streetnumpath]=basic;
                                     dB.ref('/').update(entry);
-                                     sizeAndSave(most,full,basic,keypath,idpath,citykeypath,cityidpath,zippath,streetnamepath,streetnumpath)
+                                     sizeAndSave(most,most,basic,keypath,idpath,citykeypath,cityidpath,zippath,streetnamepath,streetnumpath)
                                 })});
 
                     } else {
@@ -305,6 +311,8 @@ function promiseSaveListings(listings){
                         {
                             vids=sf.Videos
                         }
+                        let suf = sf.StreetSuffix?sf.StreetSuffix:'';
+                        let sao = sf.StreetNumber + ' ' + sf.StreetName + ' ' + suf;
                         let uplist = {
                             Id: listing.Id,
                             City: sf.City,
@@ -312,7 +320,7 @@ function promiseSaveListings(listings){
                             ShireKey:'',
                             BasicKey:'',
                             Zip: sf.PostalCode,
-                            StreetAddressOnly: sf.StreetNumber + ' ' + sf.StreetName + ' ' + sf.StreetSuffix,
+                            StreetAddressOnly:sao ,
                             FullAddress: sf.UnparsedAddress,
                             Price: sf.ListPrice,
                             Beds: sf.BedsTotal,
@@ -337,8 +345,7 @@ function promiseSaveListings(listings){
                             PublicRemarks:sf.PublicRemarks,
                             StreetNumber:sf.StreetNumber,
                             StreetName:sf.StreetName,
-                            StreetSuffix:sf.StreetSuffix,
-
+                            StreetSuffix:sf.StreetSuffix
                         };
                         if(sf.Videos.length>0){
                             uplist['Videos'] = sf.Videos;
@@ -356,10 +363,15 @@ function promiseSaveListings(listings){
                             PhotoLarge:photoentry.UriLarge,
                             PhotoThumb: photoentry.UriThumb,
                             PublicRemarks:sf.PublicRemarks,
-                            StreetAddressOnly: sf.StreetNumber + ' ' + sf.StreetName + ' ' + sf.StreetSuffix,
+                            StreetAddressOnly: sao,
                             ListPrice:sf.ListPrice,
                             BedsTotal:sf.BedsTotal,
-                            BathsTotal:sf.BathsTotal
+                            BathsTotal:sf.BathsTotal,
+                            MlsStatus: sf.MlsStatus,
+                            Latitude: sf.Latitude,
+                            Longitude: sf.Longitude,
+                            Zip: sf.PostalCode
+
                         };
                         uplist = Object.assign({}, safekey.safe(uplist));
                         basic = Object.assign({},safekey.safe(basic));
@@ -376,6 +388,7 @@ function promiseSaveListings(listings){
                         full['BasicKey'] = BasicKey;
 
                         uplist.CityKey = citykey;
+                        full.CityKey = citykey;
                         basic.CityKey = citykey;
                         dB.ref('/listings/keys/' + ShireKey).update(uplist);
                         dB.ref('/listings/basic/'+BasicKey).update(basic);
@@ -383,7 +396,7 @@ function promiseSaveListings(listings){
                         let keypath = '/listings/keys/' + uplist.ShireKey;
                         let idpath = '/listings/id/' + uplist.Id;
                         let citykeypath = '/listings/location/city/' + uplist.City + '/keys/' + citykey;
-                        let cityidpath = '/listings/location/city/' + uplist.City + '/Id/' + uplist.Id;
+                        let cityidpath = '/listings/location/city/' + uplist.City + '/id/' + uplist.Id;
                         let zippath = '/listings/location/zip/' + uplist.Zip + '/' + uplist.Id;
                         let streetnamepath = '/listings/location/street/name/'+ uplist['StreetName']+'/'+uplist.Id;
                         let streetnumpath = '/listings/location/street/number/' + uplist['StreetNumber']+'/'+uplist.Id;
