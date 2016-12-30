@@ -52,16 +52,16 @@ let oauthData = {
     redirect_uri: '',
     expires_at: '',
     code:''
-}
+};
 let dB = fbinit.database();
 fbinit.database().ref('/sparkauth/oauth').on("value", function(snapshot) {
-    oauthData.client_id= snapshot.val().client_id
-    oauthData.client_secret= snapshot.val().client_secret
-    oauthData.access_token= snapshot.val().access_token
-    oauthData.refresh_token= snapshot.val().refresh_token
-    oauthData.redirect_uri= snapshot.val().redirect_uri
-    oauthData.expires_at= snapshot.val().expires_at?snapshot.val().expires_at:"0"
-    oauthData.code = snapshot.val().code
+    oauthData.client_id= snapshot.val().client_id;
+    oauthData.client_secret= snapshot.val().client_secret;
+    oauthData.access_token= snapshot.val().access_token;
+    oauthData.refresh_token= snapshot.val().refresh_token;
+    oauthData.redirect_uri= snapshot.val().redirect_uri;
+    oauthData.expires_at= snapshot.val().expires_at?snapshot.val().expires_at:"0";
+    oauthData.code = snapshot.val().code;
     console.log("auth updated!"+JSON.stringify(oauthData));
 
 }, function (errorObject) {
@@ -84,7 +84,7 @@ fbinit.database().ref('/listings/id').on("value", function(snapshot) {
 
 function checkStatus(response){
     if (response.statusCode == 401) {
-        console.log('response = 401 ? '+response.statusCode)
+        console.log('response = 401 ? '+response.statusCode);
         // let oauthData = Object.assign({},oauthData)
         // let fBdB = this.fBdB
         return refreshAuth(oauthData);
@@ -92,8 +92,8 @@ function checkStatus(response){
     if (response.statusCode >= 200 && response.statusCode < 300) {
         return response
     } else {
-        let error = new Error(response.statusText)
-        error.response = response
+        let error = new Error(response.statusText);
+        error.response = response;
         console.log('got error while checking status '+error);
     }
 }
@@ -167,15 +167,15 @@ function sizeAndSave(most,full,basic,keypath,idpath,citykey,cityid,zippath,stree
 }
 function promiseSaveListings(listings){
 
-    let updates = {}
-    let obj = []
+    let updates = {};
+    let obj = [];
         let allupdates=[];
         let ShireKey;
         let BasicKey;
         let entries;
         listings.forEach(lsts=>{
         if (!lsts.D) {
-            console.log('no D found in results - inside :'+JSON.stringify(lsts))
+            console.log('no D found in results - inside :'+JSON.stringify(lsts));
             return Promise.resolve(lsts)
         }
         else {
@@ -190,8 +190,8 @@ function promiseSaveListings(listings){
                             let current = snapshot.val();
                             return rp({headers: oauthHeaders(), uri:'https://sparkapi.com/v1/listings/'+current.Id+'?_expand=Photos', json: true})
                                 .then(pb=>{
-                                    let lkey = currentkey;
-                                    let full = Object.assign(current,safekey.safe(pb['D']['Results'][0]['StandardFields']))
+                                     let lkey = currentkey;
+                                    let full = Object.assign(current,safekey.safe(pb['D']['Results'][0]['StandardFields']));
                                     let entry = {};
                                     let most = {
                                         Id: full.Id,
@@ -249,7 +249,7 @@ function promiseSaveListings(listings){
                                         BathsTotal:full.BathsTotal
                                     };
 
-                                    basic = Object.assign({},safekey.safe(basic))
+                                    basic = Object.assign({},safekey.safe(basic));
                                     ShireKey = current.ShireKey;
                                     BasicKey = current.BasicKey;
                                     let citykey = current.CityKey;
@@ -270,7 +270,7 @@ function promiseSaveListings(listings){
                                     entry[zippath]=basic;
                                     entry[streetnamepath]=basic;
                                     entry[streetnumpath]=basic;
-                                    dB.ref('/').update(entry)
+                                    dB.ref('/').update(entry);
                                      sizeAndSave(most,full,basic,keypath,idpath,citykeypath,cityidpath,zippath,streetnamepath,streetnumpath)
                                 })});
 
@@ -299,7 +299,7 @@ function promiseSaveListings(listings){
                             primaryphotos = Object.assign(parr[0], sf['Photos'][0])
                         }
 
-                        let photoentry = Object.assign(parr[0], primaryphotos)
+                        let photoentry = Object.assign(parr[0], primaryphotos);
                         let vids=[];
                         if(sf.VideosCount>0)
                         {
@@ -339,7 +339,7 @@ function promiseSaveListings(listings){
                             StreetName:sf.StreetName,
                             StreetSuffix:sf.StreetSuffix,
 
-                        }
+                        };
                         if(sf.Videos.length>0){
                             uplist['Videos'] = sf.Videos;
                         }
@@ -360,10 +360,10 @@ function promiseSaveListings(listings){
                             ListPrice:sf.ListPrice,
                             BedsTotal:sf.BedsTotal,
                             BathsTotal:sf.BathsTotal
-                        }
-                        uplist = Object.assign({}, safekey.safe(uplist))
-                        basic = Object.assign({},safekey.safe(basic))
-                        let full = Object.assign(uplist, safekey.safe(sf))
+                        };
+                        uplist = Object.assign({}, safekey.safe(uplist));
+                        basic = Object.assign({},safekey.safe(basic));
+                        let full = Object.assign(uplist, safekey.safe(sf));
                         ShireKey = dB.ref('/listings/keys/').push(full).key;
                         BasicKey = dB.ref('/listings/basic/').push(basic).key;
                         let citykey = dB.ref('/listings/location/city/' + uplist.City + '/keys').push(basic).key;
@@ -377,9 +377,9 @@ function promiseSaveListings(listings){
 
                         uplist.CityKey = citykey;
                         basic.CityKey = citykey;
-                        dB.ref('/listings/keys/' + ShireKey).update(uplist)
+                        dB.ref('/listings/keys/' + ShireKey).update(uplist);
                         dB.ref('/listings/basic/'+BasicKey).update(basic);
-                        dB.ref('/listings/location/city/' + uplist.City + '/keys/'+citykey).update(basic)
+                        dB.ref('/listings/location/city/' + uplist.City + '/keys/'+citykey).update(basic);
                         let keypath = '/listings/keys/' + uplist.ShireKey;
                         let idpath = '/listings/id/' + uplist.Id;
                         let citykeypath = '/listings/location/city/' + uplist.City + '/keys/' + citykey;
@@ -391,14 +391,14 @@ function promiseSaveListings(listings){
                         return sizeAndSave(uplist,uplist,basic,keypath,idpath,citykeypath,cityidpath,zippath,streetnamepath,streetnumpath)
 
                     }
-                })
+                });
                 return Promise.all(dopromises).then(idid => {
                 })
             }
         }})
 }
 function getPage(ops){
-    console.log('getting with ops:'+JSON.stringify(ops))
+    console.log('getting with ops:'+JSON.stringify(ops));
     return new Promise(function(resolve, reject) {
         setTimeout(() => resolve(ops), 250000 );})//250  seconds
         .catch((err) => console.log("error: "+JSON.stringify(ops), err));
@@ -407,13 +407,13 @@ function getListings(req,res, filter,addr) {
 
 }
 function makeUrl(args,zipcode=null,proptype=null,base='https://sparkapi.com/v1/listings?',status=null){
-    let argfilter = args['_filter']?args['_filter']:''
-    let andT = args['_filter']?' And ':''
-    let zipfilter = zipcode?argfilter+andT+`" PostalCode Eq '${zipcode}'`:argfilter
-    let andZ = zipcode?andT:''
-    let proptypefilter = proptype?zipfilter+andZ+" PropertyType Eq '"+proptype+"'":zipfilter
-    let andP = zipcode?andT:''
-    let statusFilter = status?proptypefilter+andP+" MlsStatus Eq '"+status+"'":proptypefilter
+    let argfilter = args['_filter']?args['_filter']:'';
+    let andT = args['_filter']?' And ':'';
+    let zipfilter = zipcode?argfilter+andT+`" PostalCode Eq '${zipcode}'`:argfilter;
+    let andZ = zipcode?andT:'';
+    let proptypefilter = proptype?zipfilter+andZ+" PropertyType Eq '"+proptype+"'":zipfilter;
+    let andP = zipcode?andT:'';
+    let statusFilter = status?proptypefilter+andP+" MlsStatus Eq '"+status+"'":proptypefilter;
     // let limit = args['_select']?25:25
     let formatargs = {
         // _pagination:'1',
@@ -422,19 +422,19 @@ function makeUrl(args,zipcode=null,proptype=null,base='https://sparkapi.com/v1/l
         _limit:     50,
         // _page:      1,
         _select:    'Videos,Photos.Uri640,Photos.Uri800,Photos.Uri1024,Photos.Uri1280,Photos.Uri1600,Photos.Uri2048,Photos.UriThumb,Photos.UriLarge,Photos.Uri300,Photos.Caption,PrimaryPhoto,StreetNumber,StreetName,StreetSuffix,PostalCode,ListPrice,City,BedsTotal,BathsTotal,PublicRemarks,PropertyType,MlsStatus,Latitude,ListingId,Longitude,PostalCode,YearBuilt,LivingArea,HighSchool,MiddleOrJuniorSchool,ElementarySchool,SubdivisionName,BuildingAreaTotal,PropertySubType,UnparsedAddress,LotSizeArea,LotSizeAcres,CustomFields',
-    }
+    };
     // formatargs['_page'] = args['_page']?args['_page']:1
     // formatargs['_select'] = select
-    args = Object.assign({},formatargs)
+    args = Object.assign({},formatargs);
     let arr = Object.keys(args).map(key=>{
-        let argEntry = formatargs[key]?formatargs[key]:args[key]
-        let entry = key+"="+argEntry
+        let argEntry = formatargs[key]?formatargs[key]:args[key];
+        let entry = key+"="+argEntry;
         return entry
-    })
+    });
     return base+arr.join('&')
 }
 function promiseTo(doThis) {
-    console.log('promised to do something ...')
+    console.log('promised to do something ...');
     return new Promise(function(resolve, reject) {
         setTimeout(() => resolve(doThis), 1*doThis);})
 }
@@ -443,7 +443,7 @@ function refreshAuth(oa) {
         'X-SparkApi-User-Agent': 'IDX Agent',
         'Content-Type': 'application/json'
     };
-    let authbody = Object.assign(oauthData,{grant_type:'refresh_token'})
+    let authbody = Object.assign(oauthData,{grant_type:'refresh_token'});
     let rauth = {
         url:'https://sparkapi.com/v1/oauth2/grant',
         method:'POST',
@@ -452,10 +452,10 @@ function refreshAuth(oa) {
         json: true
     };
 
-    console.log('refreshing with :'+JSON.stringify(rauth.body))
+    console.log('refreshing with :'+JSON.stringify(rauth.body));
 
         rp(rauth).then(pb=>{
-            console.log('got response ... :'+pb)
+            console.log('got response ... :'+pb);
             saveOauthData(pb);
     })
         .catch(errors.StatusCodeError, function (reason) {
@@ -466,21 +466,21 @@ function refreshAuth(oa) {
 app.get('/remove', function (req, res) {
     dB.ref('/listings').remove().then(e=>{
     res.send('cleared ')})
-})
+});
 app.get('/addr/:addr', function (req, res) {
     fbinit.database().ref('/listings/id').once("value", function(snapshot) {
         idsnap = snapshot;
     let addr = req.params.addr;
 
-    let filter = "PropertyType Eq 'A' And MlsStatus Eq 'Active' And (City Eq '"+addr+"' Or StreetAddress Eq '"+addr+"')"
+    let filter = "PropertyType Eq 'A' And MlsStatus Eq 'Active' And (City Eq '"+addr+"' Or StreetAddress Eq '"+addr+"')";
     console.log(filter);
     let combo = [];
-    let obj = []
+    let obj = [];
     let pageops = [];
     let setargs = {
         _filter: filter
     };
-    let pagearr = []
+    let pagearr = [];
 
     let opsurl = makeUrl(setargs, null, 'A', 'https://sparkapi.com/v1/listings?', 'Active');
     let authops = {
@@ -488,15 +488,15 @@ app.get('/addr/:addr', function (req, res) {
         uri: opsurl + '&_pagination=count&_page=1',
         json: true
     };
-    console.log('about to request...' + JSON.stringify(authops))
+    console.log('about to request...' + JSON.stringify(authops));
     rp(authops)
         .then(pb => {
             // results.concat(pb['D']['Results']);
-            console.log('pagei:' + JSON.stringify(pb['D']['Pagination']))
+            console.log('pagei:' + JSON.stringify(pb['D']['Pagination']));
 
             let pages = pb['D']['Pagination']['TotalPages'];
             let currentpage = pb['D']['Pagination']['CurrentPage'];
-            pagearr.push({headers: oauthHeaders(), uri: opsurl + '&_pagination=1&_page='+pages, json: true})
+            pagearr.push({headers: oauthHeaders(), uri: opsurl + '&_pagination=1&_page='+pages, json: true});
 
                 for (let page = 1; page < pages; page++) {
                     let pageReq = {};
@@ -509,7 +509,7 @@ app.get('/addr/:addr', function (req, res) {
                 console.log('mapping ops :'+JSON.stringify(ops));
 
                 return requestWithPageOps(ops)
-                })
+                });
             Promise.all(promisedPages)
              .then(pb=>{
                  promiseSaveListings(pb)
@@ -522,7 +522,7 @@ app.get('/addr/:addr', function (req, res) {
                     // The server responded with a status codes other than 2xx.
                     // Check
                     if (reason.statusCode == 401) {
-                        console.log(reason)
+                        console.log(reason);
                         refreshAuth(oauthData)
                     }
                 })
@@ -534,14 +534,14 @@ app.get('/addr/:addr', function (req, res) {
                 .catch(e => {
                     // reason.cause is the Error object Request would pass into a callback.
                     console.log('e:' + e)
-                })
+                });
             console.log('going!')
 
         }).catch(errors.StatusCodeError, function (reason) {
         // The server responded with a status codes other than 2xx.
         // Check
         if (reason.statusCode == 401) {
-            console.log(reason)
+            console.log(reason);
             refreshAuth(oauthData)
         }
     })
@@ -556,22 +556,22 @@ app.get('/addr/:addr', function (req, res) {
         })}, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
     });
-})
+});
 app.get('/primary', function (req, res) {
     fbinit.database().ref('/listings/id').once("value", function(snapshot) {
         idsnap = snapshot;
   ls = [];
     let cities = ['Manasquan','Wall','Avon-by-the-sea','Sea Girt','Belmar','Spring Lake','Spring Lake Heights','Brielle','Point Pleasant','Point Pleasant Beach','Bay Head','Bradley Beach','Ocean Grove','Neptune','West Belmar','Asbury Park'];
 cities.forEach(addr=>{
-    let filter = "PropertyType Eq 'A' And MlsStatus Eq 'Active' And (City Eq '"+addr+"' Or StreetAddress Eq '"+addr+"')"
+    let filter = "PropertyType Eq 'A' And MlsStatus Eq 'Active' And (City Eq '"+addr+"' Or StreetAddress Eq '"+addr+"')";
     console.log(filter);
     let combo = [];
-    let obj = []
+    let obj = [];
     let pageops = [];
     let setargs = {
         _filter: filter
     };
-    let pagearr = []
+    let pagearr = [];
 
     let opsurl = makeUrl(setargs, null, 'A', 'https://sparkapi.com/v1/listings?', 'Active');
     let authops = {
@@ -579,15 +579,15 @@ cities.forEach(addr=>{
         uri: opsurl + '&_pagination=count&_page=1',
         json: true
     };
-    console.log('about to request...' + JSON.stringify(authops))
+    console.log('about to request...' + JSON.stringify(authops));
     rp(authops)
         .then(pb => {
             // results.concat(pb['D']['Results']);
-            console.log('pagei:' + JSON.stringify(pb['D']['Pagination']))
+            console.log('pagei:' + JSON.stringify(pb['D']['Pagination']));
 
             let pages = pb['D']['Pagination']['TotalPages'];
             let currentpage = pb['D']['Pagination']['CurrentPage'];
-            pagearr.push({headers: oauthHeaders(), uri: opsurl + '&_pagination=1&_page='+pages, json: true})
+            pagearr.push({headers: oauthHeaders(), uri: opsurl + '&_pagination=1&_page='+pages, json: true});
 
             for (let page = 1; page < pages; page++) {
                 let pageReq = {};
@@ -600,7 +600,7 @@ cities.forEach(addr=>{
                 console.log('mapping ops :'+JSON.stringify(ops));
 
                 return requestWithPageOps(ops)
-            })
+            });
             Promise.all(promisedPages)
                 .then(pb=>{
                     promiseSaveListings(pb)
@@ -610,7 +610,7 @@ cities.forEach(addr=>{
                     // The server responded with a status codes other than 2xx.
                     // Check
                     if (reason.statusCode == 401) {
-                        console.log('refreshing got code: '+reason.statusCode)
+                        console.log('refreshing got code: '+reason.statusCode);
                         refreshAuth(oauthData)
                     }
                 })
@@ -627,7 +627,7 @@ cities.forEach(addr=>{
         // The server responded with a status codes other than 2xx.
         // Check
         if (reason.statusCode == 401) {
-            console.log(reason)
+            console.log(reason);
             refreshAuth(oauthData)
         }
     })
@@ -639,15 +639,15 @@ cities.forEach(addr=>{
         .catch(e => {
             // reason.cause is the Error object Request would pass into a callback.
             console.log('e:' + e)
-        })})
+        })});
     res.render('pages/spark', {results:Object.keys(ls).map(key=>{
         return key = f[key];})
 })}, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
     });
-    })
+    });
 app.get('/callback', function (req, res) {
-    let code = ''
+    let code = '';
     let hascode = false;
     let agentId = '';
     if (req.query['openid.spark.code']) {
@@ -696,13 +696,13 @@ app.get('/callback', function (req, res) {
             },
             json:true
         };
-        console.log('using options :'+JSON.stringify(options))
-        oauthData.client_id= snapshot.val().client_id
-        oauthData.client_secret= snapshot.val().client_secret
-        oauthData.access_token= snapshot.val().access_token
-        oauthData.refresh_token= snapshot.val().refresh_token
-        oauthData.redirect_uri= snapshot.val().redirect_uri
-        oauthData.expires_at= snapshot.val().expires_at?snapshot.val().expires_at:"0"
+        console.log('using options :'+JSON.stringify(options));
+        oauthData.client_id= snapshot.val().client_id;
+        oauthData.client_secret= snapshot.val().client_secret;
+        oauthData.access_token= snapshot.val().access_token;
+        oauthData.refresh_token= snapshot.val().refresh_token;
+        oauthData.redirect_uri= snapshot.val().redirect_uri;
+        oauthData.expires_at= snapshot.val().expires_at?snapshot.val().expires_at:"0";
         oauthData.code = snapshot.val().code
 
     }, function (errorObject) {
@@ -710,7 +710,7 @@ app.get('/callback', function (req, res) {
     }).then(function () {
     rp(options)
         .then(pb=>{
-            saveOauthData(pb)
+            saveOauthData(pb);
             res.render('pages/spark', {results:Object.keys(pb).map(key=> key = pb[key])});
             // res.send('<strong>zip codes</strong><br><a href="/zip/07717"><br/><strong>zip 07717</strong><br><a href="/zip/08736"><strong>zip 08736</strong><br/><br/><strong>Log in</strong> with Spark</a>' +
             //     '<a href="https://sparkplatform.com/oauth2?response_type=code&client_id='+oauthData.client_id+'&redirect_uri='+oauthData.redirect_uri+'">Agent <strong>login</strong></a>');
@@ -720,7 +720,7 @@ app.get('/callback', function (req, res) {
             console.log(err + 'uhoh');
             console.log('request failed', err)})
     });
-})
+});
 
 app.get('/auth', (req, res) => {
     var uri = "https://sparkplatform.com/openid?openid.mode=checkid_setup&openid.return_to="+oauthData.redirect_uri+"&openid.spark.client_id="+oauthData.client_id+"&openid.spark.combined_flow=true";
