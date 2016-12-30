@@ -352,6 +352,9 @@ function promiseSaveListings(listings){
                         }
                         if(sf.Photos.length>0){
                             uplist['PrimaryPhotos']=sf.Photos[0];
+                        }else
+                        {
+                            uplist['PrimaryPhotos']=photoentry;
                         }
                         let basic = {
                             Id: listing.Id,
