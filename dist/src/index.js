@@ -120,7 +120,7 @@ function saveOauthData(od) {
     return dB.ref('/sparkauth/oauth').update(od);
 }
 function handleCallback(req, res) {}
-//https://searchidx.herokuapp.com/callback?openid.assoc_handle=%7BHMAC-SHA1%7D%7B58574516%7D%7B6I%2BC%2Bg%3D%3D%7D&openid.claimed_id=https%3A%2F%2Fsparkplatform.com%2Fopenid%2Fuserid%2Fmo.1524%3Fsession_id%3D6e338a49c2eef5f2d4e36270c0647de5&openid.identity=https%3A%2F%2Fsparkplatform.com%2Fopenid%2Fuserid%2Fmo.1524%3Fsession_id%3D6e338a49c2eef5f2d4e36270c0647de5&openid.mode=id_res&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.ns.spark=http%3A%2F%2Fsparkplatform.com%2Fextensions%2Fspark%2F1.0&openid.ns.sreg=http%3A%2F%2Fopenid.net%2Fextensions%2Fsreg%2F1.1&openid.op_endpoint=https%3A%2F%2Fsparkplatform.com%2Fopenid%3Fsession_id%3D6e338a49c2eef5f2d4e36270c0647de5&openid.response_nonce=2016-12-19T02%3A25%3A26ZV3Hhkt&openid.return_to=https%3A%2F%2Fsearchidx.herokuapp.com%2Fcallback&openid.sig=e582hxh5GzHutv0z%2FMIayGji6cw%3D&openid.signed=assoc_handle%2Cclaimed_id%2Cidentity%2Cmode%2Cns%2Cns.spark%2Cns.sreg%2Cop_endpoint%2Cresponse_nonce%2Creturn_to%2Csigned%2Cspark.code%2Csreg.fullname%2Csreg.nickname&openid.spark.code=6tbc7lcwmiedsbwrlnpokkrdb&openid.sreg.fullname=Paul+Amato&openid.sreg.nickname=20140811174925623895000000
+//https://shireidx.herokuapp.com/callback?openid.assoc_handle=%7BHMAC-SHA1%7D%7B58574516%7D%7B6I%2BC%2Bg%3D%3D%7D&openid.claimed_id=https%3A%2F%2Fsparkplatform.com%2Fopenid%2Fuserid%2Fmo.1524%3Fsession_id%3D6e338a49c2eef5f2d4e36270c0647de5&openid.identity=https%3A%2F%2Fsparkplatform.com%2Fopenid%2Fuserid%2Fmo.1524%3Fsession_id%3D6e338a49c2eef5f2d4e36270c0647de5&openid.mode=id_res&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.ns.spark=http%3A%2F%2Fsparkplatform.com%2Fextensions%2Fspark%2F1.0&openid.ns.sreg=http%3A%2F%2Fopenid.net%2Fextensions%2Fsreg%2F1.1&openid.op_endpoint=https%3A%2F%2Fsparkplatform.com%2Fopenid%3Fsession_id%3D6e338a49c2eef5f2d4e36270c0647de5&openid.response_nonce=2016-12-19T02%3A25%3A26ZV3Hhkt&openid.return_to=https%3A%2F%2Fshireidx.herokuapp.com%2Fcallback&openid.sig=e582hxh5GzHutv0z%2FMIayGji6cw%3D&openid.signed=assoc_handle%2Cclaimed_id%2Cidentity%2Cmode%2Cns%2Cns.spark%2Cns.sreg%2Cop_endpoint%2Cresponse_nonce%2Creturn_to%2Csigned%2Cspark.code%2Csreg.fullname%2Csreg.nickname&openid.spark.code=6tbc7lcwmiedsbwrlnpokkrdb&openid.sreg.fullname=Paul+Amato&openid.sreg.nickname=20140811174925623895000000
 function oauthHeaders() {
     return {
         'X-SparkApi-User-Agent': 'DevApp',
@@ -296,15 +296,15 @@ function promiseSaveListings(listings) {
                             Id: "0",
                             Name: "PlaceHolder",
                             Caption: "PlaceHolder",
-                            UriThumb: "https://searchidx.herokuapp.com/placeholders/shireThumb.png",
-                            Uri300: "https://searchidx.herokuapp.com/placeholders/shire300.png",
-                            Uri640: "https://searchidx.herokuapp.com/placeholders/shire640.png",
-                            Uri800: "https://searchidx.herokuapp.com/placeholders/shire800.png",
-                            Uri1024: "https://searchidx.herokuapp.com/placeholders/shire1024.png",
-                            Uri1280: "https://searchidx.herokuapp.com/placeholders/shire1280.png",
-                            Uri1600: "https://searchidx.herokuapp.com/placeholders/shire1600.png",
-                            Uri2048: "https://searchidx.herokuapp.com/placeholders/shire2048.png",
-                            UriLarge: "https://searchidx.herokuapp.com/placeholders/shire1024.png",
+                            UriThumb: "https://shireidx.herokuapp.com/placeholders/shireThumb.png",
+                            Uri300: "https://shireidx.herokuapp.com/placeholders/shire300.png",
+                            Uri640: "https://shireidx.herokuapp.com/placeholders/shire640.png",
+                            Uri800: "https://shireidx.herokuapp.com/placeholders/shire800.png",
+                            Uri1024: "https://shireidx.herokuapp.com/placeholders/shire1024.png",
+                            Uri1280: "https://shireidx.herokuapp.com/placeholders/shire1280.png",
+                            Uri1600: "https://shireidx.herokuapp.com/placeholders/shire1600.png",
+                            Uri2048: "https://shireidx.herokuapp.com/placeholders/shire2048.png",
+                            UriLarge: "https://shireidx.herokuapp.com/placeholders/shire1024.png",
                             Primary: true
                         }];
                         var sf = Object.assign({}, listing['StandardFields']);
