@@ -4,8 +4,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _firebase = require('firebase');
@@ -228,24 +226,16 @@ var SparkApiAuth = function () {
     }, {
         key: 'checkStatus',
         value: function checkStatus(response) {
-            var _this = this;
-
             if (response.statusCode == 401) {
-                var _ret = function () {
-                    console.log('response = 401 ? ' + response.statusCode);
-                    // let oauthData = Object.assign({},oauthData)
-                    // let fBdB = this.fBdB
-                    var auth = _this;
-                    var rt = void 0;
-                    rt = function rt() {
-                        auth.refreshAuth();
-                    };
-                    return {
-                        v: rt()
-                    };
-                }();
-
-                if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+                console.log('response = 401 ? ' + response.statusCode);
+                // let oauthData = Object.assign({},oauthData)
+                // let fBdB = this.fBdB
+                var _auth = this;
+                var rt = void 0;
+                rt = function rt() {
+                    _auth.refreshAuth();
+                };
+                return rt();
             }
             if (response.statusCode >= 200 && response.statusCode < 300) {
                 return response;
@@ -276,7 +266,7 @@ var SparkApiAuth = function () {
     }, {
         key: 'handleReq',
         value: function handleReq(req, res) {
-            var _this2 = this;
+            var _this = this;
 
             var headers = new Headers({
                 'X-SparkApi-User-Agent': 'Idx Agent',
@@ -297,7 +287,7 @@ var SparkApiAuth = function () {
                 json: true
             });
             (0, _nodeFetch2.default)(options).then(this.checkStatus).then(this.parseJSON).then(function (pb) {
-                _this2.saveTokens(pb.access_token, pb.refresh_token, 86400, agentId, code, res);
+                _this.saveTokens(pb.access_token, pb.refresh_token, 86400, agentId, code, res);
                 res.send('<strong>zip codes</strong><br><a href="/zip/07717"><br/><strong>zip 07717</strong><br><a href="/zip/08736"><strong>zip 08736</strong><br/><br/><strong>Log in</strong> with Spark</a>' + '<a href="https://sparkplatform.com/oauth2?response_type=code&client_id=' + oauthData.client_id + '&redirect_uri=' + oauthData.redirect_uri + '">Agent <strong>login</strong></a>');
             }).catch(function (err) {
                 res.send(err + 'oops');
@@ -308,7 +298,7 @@ var SparkApiAuth = function () {
     }, {
         key: 'handleCallback',
         value: function handleCallback(req, res) {
-            var _this3 = this;
+            var _this2 = this;
 
             var hascode = false;
             var agentId = '';
@@ -350,7 +340,7 @@ var SparkApiAuth = function () {
                 })
             });
             (0, _nodeFetch2.default)(options).then(this.checkStatus).then(this.parseJSON).then(function (pb) {
-                _this3.saveTokens(pb.access_token, pb.refresh_token, 86400, agentId, code, res);
+                _this2.saveTokens(pb.access_token, pb.refresh_token, 86400, agentId, code, res);
                 res.send('<strong>zip codes</strong><br><a href="/zip/07717"><br/><strong>zip 07717</strong><br><a href="/zip/08736"><strong>zip 08736</strong><br/><br/><strong>Log in</strong> with Spark</a>' + '<a href="https://sparkplatform.com/oauth2?response_type=code&client_id=' + oauthData.client_id + '&redirect_uri=' + oauthData.redirect_uri + '">Agent <strong>login</strong></a>');
             }).catch(function (err) {
                 res.send(err + 'oops');
@@ -477,7 +467,7 @@ var SparkApiAuth = function () {
     }, {
         key: 'getListings',
         value: function getListings(req, res, filter) {
-            var _this4 = this;
+            var _this3 = this;
 
             var combo = [];
             var obj = [];
@@ -511,17 +501,17 @@ var SparkApiAuth = function () {
 
                     for (var page = 1; page < pages; page++) {
                         var pageReq = {};
-                        var newops = { headers: _this4.oauthHeaders(), uri: opsurl + '&_pagination=1&_page=' + page, json: true };
+                        var newops = { headers: _this3.oauthHeaders(), uri: opsurl + '&_pagination=1&_page=' + page, json: true };
                         pagearr.push(newops);
                     }
                 } else {
-                    var _newops = { headers: _this4.oauthHeaders(), uri: opsurl + '&_pagination=1&_page=1', json: true };
+                    var _newops = { headers: _this3.oauthHeaders(), uri: opsurl + '&_pagination=1&_page=1', json: true };
                     pagearr.push(_newops);
                 }
                 var promisedPages = pagearr.map(function (ops) {
-                    return _this4.getPage((0, _requestPromise2.default)(ops).then(function (pb) {
+                    return _this3.getPage((0, _requestPromise2.default)(ops).then(function (pb) {
                         console.log('adding to combo' + pb['D']['Pagination']['CurrentPage']);
-                        _this4.promiseSaveListings(pb['D']['Results']);
+                        _this3.promiseSaveListings(pb['D']['Results']);
                     }));
                 });
                 Promise.all(promisedPages).then(function (endres) {
@@ -639,7 +629,7 @@ var SparkApiAuth = function () {
         value: function countPagesAndRequestJson(at, fbd) {
             var args = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
-            var _this5 = this;
+            var _this4 = this;
 
             var zip = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
             var proptype = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
@@ -678,7 +668,7 @@ var SparkApiAuth = function () {
                     var newarg = Object.assign({}, setargs);
                     newarg._page = page;
                     newarg._pagination = 1;
-                    var ops = _this5.setupOptions({
+                    var ops = _this4.setupOptions({
                         at: at,
                         args: newarg,
                         listId: null,

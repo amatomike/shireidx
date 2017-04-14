@@ -559,7 +559,7 @@ app.get('/addr/:addr', function (req, res) {
         console.log("The read failed: " + errorObject.code);
     });
 });
-app.get('/primary', function (req, res) {
+app.get('/primary', function (req, res) { 
     fbinit.database().ref('/listings/id').once("value", function(snapshot) {
         idsnap = snapshot;
   ls = [];

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectTasksOptions">
     <TaskOptions isEnabled="true">
-      <option name="arguments" value="$FilePathRelativeToProjectRoot$ --out-dir dist --source-maps  --presets es2015" />
+      <option name="arguments" value="$FilePathRelativeToProjectRoot$ --out-dir dist --source-maps --presets es2016 --presets react" />
       <option name="checkSyntaxErrors" value="true" />
       <option name="description" />
       <option name="exitCodeBehavior" value="ERROR" />
@@ -18,7 +18,13 @@
       <option name="scopeName" value="Project Files" />
       <option name="trackOnlyRoot" value="false" />
       <option name="workingDir" value="$ContentRoot$" />
-      <envs />
+      <envs>
+        <env name="NVM_DIR" value="/home/mike/.nvm" />
+        <env name="PATH" value="/home/mike/.nvm/versions/node/v7.9.0/bin:/home/mike/bin:/home/mike/.local/bin:/home/mike/bin:/home/mike/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin" />
+        <env name="NVM_NODEJS_ORG_MIRROR" value="https://nodejs.org/dist" />
+        <env name="NVM_BIN" value="/home/mike/.nvm/versions/node/v7.9.0/bin" />
+        <env name="NVM_IOJS_ORG_MIRROR" value="https://iojs.org/dist" />
+      </envs>
     </TaskOptions>
   </component>
 </project>

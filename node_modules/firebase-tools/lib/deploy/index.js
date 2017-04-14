@@ -65,10 +65,7 @@ var deploy = function(targetNames, options) {
   logger.info(chalk.bold(chalk.gray('===') + ' Deploying to \'' + projectId +  '\'...'));
   logger.info();
 
-  var activeTargets = targetNames.filter(function(t) {
-    return options.config.has(t);
-  });
-  utils.logBullet('deploying ' + chalk.bold(activeTargets.join(', ')));
+  utils.logBullet('deploying ' + chalk.bold(targetNames.join(', ')));
 
   return _chain(prepares, context, options, payload).then(function() {
     return _chain(deploys, context, options, payload);
@@ -76,6 +73,11 @@ var deploy = function(targetNames, options) {
     utils.logBullet('starting release process (may take several minutes)...');
     return _chain(releases, context, options, payload);
   }).then(function() {
+    // skip talking to deploy server if only deploying functions
+    if (_.isEqual(targetNames, ['functions'])) {
+      return {body: {}};
+    }
+
     return api.request('POST', '/v1/projects/' + encodeURIComponent(projectId) + '/releases', {
       data: payload,
       auth: true,
