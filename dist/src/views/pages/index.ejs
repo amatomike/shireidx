@@ -2,14 +2,6 @@
 <html>
 <head>
   <% include ../partials/header.ejs %>
-  <SCRIPT LANGUAGE="JavaScript">
-      function addrsearch (form) {
-          var addr = form.SearchFor.value;
-          var goto = JSON.stringify(window.location.protocol+'//'+window.location.hostname+':'+window.location.port+'/addr/'+addr);
-          console.log(goto);
-          window.location.assign(goto);
-      }
-  </SCRIPT>
 </head>
 
 <body style="background-image:testimonialBg.jpg;">
@@ -39,21 +31,9 @@
         <li>You can scale your app, manage it, and deploy over <a href="https://demo.mikeamato.org"></a> from the Dashboard or CLI.</li>
       </ul>
     </div>
-    <form class="addrform" id="addrform">
-      <div class="form-group">
-        <label class="sr-only" for="SearchFor">Search For</label>
-        <div class="input-group">
-          <div class="input-group-addon">Address</div>
-          <input type="text" class="form-control" id="SearchFor" placeholder="Search For">
-          <div class="input-group-addon">Place</div>
-        </div>
-      </div>
-      <button type="submit" class="btn btn-primary" onclick="addrsearch(addrform)">Search Place</button>
-    </form>
     <div class="col-md-6">
       <h3><span class="glyphicon glyphicon-link"></span> Next Steps</h3>
-      <a href="https://sparkapi.com/oauth2?response_type=code&client_id=cfsaxwnjikgfpjfaaakjn85hb&redirect_uri=https://shireidx.herokuapp.com/callback">oauth2</a>
-      <a href="https://sparkplatform.com/openid?openid.mode=checkid_setup&openid.return_to=https://shireidx.herokuapp.com/callback&openid.spark.client_id=cfsaxwnjikgfpjfaaakjn85hb&openid.spark.combined_flow=true">openid</a>;
+      <a href="https://sparkapi.com/oauth2?response_type=code&client_id=cfsaxwnjikgfpjfaaakjn85hb&redirect_uri=https://shireidx.herokuapp.com/callback&state=firebaseuserid">oauth2</a>
       </div>
   </div>
   <!-- row -->
