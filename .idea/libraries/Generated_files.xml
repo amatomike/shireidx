@@ -2,13 +2,8 @@
   <library name="Generated files" type="javaScript">
     <properties>
       <sourceFilesUrls>
-        <item url="file://$PROJECT_DIR$/dist/src/saveflat.js" />
-        <item url="file://$PROJECT_DIR$/dist/src/ListingCard.js" />
-        <item url="file://$PROJECT_DIR$/dist/src/sparkapiauth.js" />
-        <item url="file://$PROJECT_DIR$/dist/src/private/placesconfig.js" />
         <item url="file://$PROJECT_DIR$/dist/src/index.js" />
-        <item url="file://$PROJECT_DIR$/dist/src/ListingSearch.js" />
-        <item url="file://$PROJECT_DIR$/dist/src/direct.js" />
+        <item url="file://$PROJECT_DIR$/dist/src/private/placesconfig.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
@@ -16,10 +11,15 @@
       <root url="file://$PROJECT_DIR$/dist/src/saveflat.js" />
       <root url="file://$PROJECT_DIR$/dist/src/ListingCard.js" />
       <root url="file://$PROJECT_DIR$/dist/src/sparkapiauth.js" />
-      <root url="file://$PROJECT_DIR$/dist/src/private/placesconfig.js" />
-      <root url="file://$PROJECT_DIR$/dist/src/index.js" />
       <root url="file://$PROJECT_DIR$/dist/src/ListingSearch.js" />
       <root url="file://$PROJECT_DIR$/dist/src/direct.js" />
+      <root url="file://$PROJECT_DIR$/dist/src/saveflat.js" />
+      <root url="file://$PROJECT_DIR$/dist/src/ListingCard.js" />
+      <root url="file://$PROJECT_DIR$/dist/src/sparkapiauth.js" />
+      <root url="file://$PROJECT_DIR$/dist/src/ListingSearch.js" />
+      <root url="file://$PROJECT_DIR$/dist/src/direct.js" />
+      <root url="file://$PROJECT_DIR$/dist/src/index.js" />
+      <root url="file://$PROJECT_DIR$/dist/src/private/placesconfig.js" />
     </CLASSES>
     <SOURCES />
   </library>
